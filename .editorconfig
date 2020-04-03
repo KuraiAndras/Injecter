@@ -198,3 +198,6 @@ dotnet_diagnostic.CA1812.severity = warning
 
 # IDE0060: Remove unused parameter
 dotnet_code_quality_unused_parameters = all:warning
+
+# SA1513: Closing brace must be followed by blank line
+dotnet_diagnostic.SA1513.severity = none
