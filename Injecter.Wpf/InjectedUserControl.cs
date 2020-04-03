@@ -1,22 +1,27 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace Injecter.Avalonia
+namespace Injecter.Wpf
 {
 #pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedUserControl : UserControl
     {
-        protected InjectedUserControl() => Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+        protected InjectedUserControl()
+        {
+            Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+
+            Unloaded += UnloadHandler;
+        }
 
         protected IServiceScope Scope { get; }
 
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        protected virtual void UnloadHandler(object o, RoutedEventArgs rea)
         {
-            base.OnDetachedFromVisualTree(e);
-
             Scope?.Dispose();
+
+            Unloaded -= UnloadHandler;
         }
     }
 
@@ -26,9 +31,9 @@ namespace Injecter.Avalonia
 
         protected TViewModel ViewModel { get; }
 
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        protected override void UnloadHandler(object o, RoutedEventArgs rea)
         {
-            base.OnDetachedFromVisualTree(e);
+            base.UnloadHandler(o, rea);
 
             if (ViewModel is IDisposable disposable) disposable.Dispose();
         }
