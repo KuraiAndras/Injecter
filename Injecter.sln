@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Avalonia", "Injecter.Avalonia\Injecter.Avalonia.csproj", "{3EDE5123-5DE8-4761-A29A-42EA2879465C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Injecter.Wpf", "Injecter.Wpf\Injecter.Wpf.csproj", "{67598E4A-7382-4F55-9792-49524891262F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Wpf", "Injecter.Wpf\Injecter.Wpf.csproj", "{67598E4A-7382-4F55-9792-49524891262F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
