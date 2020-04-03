@@ -5,7 +5,7 @@ namespace Injecter
 {
     public static class InjecterExtensions
     {
-        public static IServiceCollection AddInjecter(this IServiceCollection services, Action<InjecterOptions> optionsBuilder)
+        public static IServiceCollection AddInjecter(this IServiceCollection services, Action<InjecterOptions> optionsBuilder = null)
         {
             var options = new InjecterOptions();
 
