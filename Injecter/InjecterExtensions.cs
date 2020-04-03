@@ -16,5 +16,12 @@ namespace Injecter
 
             return services;
         }
+
+        public static IServiceScope InjectIntoType<T>(this IInjecter injecter, object instance)
+        {
+            if (injecter is null) throw new ArgumentNullException(nameof(injecter));
+
+            return injecter.InjectIntoType(typeof(T), instance);
+        }
     }
 }
