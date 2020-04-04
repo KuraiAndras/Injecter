@@ -7,12 +7,11 @@ on:
 
 jobs:
   publish:
-
     runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Publish Injecter to nuget.org
         uses: rohith/publish-nuget@v2
         continue-on-error: true
@@ -36,4 +35,11 @@ jobs:
           PROJECT_FILE_PATH: Injecter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
-      
+
+      - name: Publish Injecter.Xamarin.Forms to nuget.org
+        uses: rohith/publish-nuget@v2
+        continue-on-error: true
+        with:
+          PROJECT_FILE_PATH: Injecter.Xamarin.Forms/Injecter.Xamarin.Forms.csproj
+          TAG_COMMIT: "false"
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
