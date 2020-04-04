@@ -40,7 +40,15 @@ jobs:
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
 
-      - uses: Klemensas/action-autotag@stable
+      - name: Publish Injecter.Unity to openupm
+        uses: Klemensas/action-autotag@stable
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           package_root: "Injecter.Unity/Assets/Injecter.Unity"
+
+      - name: Publish Injecter.Uwp to nuget.org
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: Injecter.Uwp/Injecter.Uwp.csproj
+          TAG_COMMIT: "false"
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
