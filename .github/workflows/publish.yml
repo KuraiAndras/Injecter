@@ -30,7 +30,7 @@ jobs:
       - name: Publish Injecter.Wpf to nuget.org
         uses: rohith/publish-nuget@v2
         with:
-          PROJECT_FILE_PATH: Injceter.Wpf/Injecter.Wpf.csproj
+          PROJECT_FILE_PATH: Injecter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
       
