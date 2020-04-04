@@ -15,6 +15,7 @@ jobs:
       
       - name: Publish Injecter to nuget.org
         uses: rohith/publish-nuget@v2
+        continue-on-error: true
         with:
           PROJECT_FILE_PATH: Injecter/Injecter.csproj
           TAG_COMMIT: "false"
@@ -22,6 +23,7 @@ jobs:
 
       - name: Publish Injecter.Avalonia to nuget.org
         uses: rohith/publish-nuget@v2
+        continue-on-error: true
         with:
           PROJECT_FILE_PATH: Injecter.Avalonia/Injecter.Avalonia.csproj
           TAG_COMMIT: "false"
@@ -29,6 +31,7 @@ jobs:
 
       - name: Publish Injecter.Wpf to nuget.org
         uses: rohith/publish-nuget@v2
+        continue-on-error: true
         with:
           PROJECT_FILE_PATH: Injecter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
