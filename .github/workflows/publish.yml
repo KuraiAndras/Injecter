@@ -16,14 +16,14 @@ jobs:
       - name: Publish Injecter to nuget.org
         uses: rohith/publish-nuget@v2
         with:
-          PROJECT_FILE_PATH: Injceter/Injecter.csproj
+          PROJECT_FILE_PATH: Injecter/Injecter.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
 
       - name: Publish Injecter.Avalonia to nuget.org
         uses: rohith/publish-nuget@v2
         with:
-          PROJECT_FILE_PATH: Injceter.Avalonia/Injecter.Avalonia.csproj
+          PROJECT_FILE_PATH: Injecter.Avalonia/Injecter.Avalonia.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
 
@@ -33,5 +33,4 @@ jobs:
           PROJECT_FILE_PATH: Injceter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}} # nuget.org API key
-      
       
