@@ -165,5 +165,6 @@
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="..\LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
+    <None Include=".nuspec" />
   </ItemGroup>
 </Project>

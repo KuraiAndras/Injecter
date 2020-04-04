@@ -1,0 +1,13 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Injecter.Uwp</id>
+        <version>1.0.0</version>
+        <title>Injecter.Uwp</title>
+        <authors>Kurai András</authors>
+        <owners>Kurai András</owners>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Injecter UWP classes for Injecter</description>
+        <repository type="git" url="https://github.com/KuraiAndras/Injecter.git" branch="master"/>
+    </metadata>
+</package>
