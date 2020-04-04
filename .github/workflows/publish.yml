@@ -43,4 +43,4 @@ jobs:
       - uses: Klemensas/action-autotag@stable
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          package_root: "/Injecter.Unity/Assets/Injecter.Unity/package.json"
+          package_root: "Injecter.Unity/Assets/Injecter.Unity"
