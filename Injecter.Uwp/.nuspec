@@ -6,7 +6,6 @@
         <title>Injecter.Uwp</title>
         <authors>Kurai András</authors>
         <owners>Kurai András</owners>
-        <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Injecter UWP classes for Injecter</description>
         <repository type="git" url="https://github.com/KuraiAndras/Injecter.git" branch="master"/>
     </metadata>
