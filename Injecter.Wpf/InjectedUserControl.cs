@@ -27,15 +27,22 @@ namespace Injecter.Wpf
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
     {
-        protected InjectedUserControl() => ViewModel = Scope.ServiceProvider.GetRequiredService<TViewModel>();
+        protected InjectedUserControl() => Loaded += OnLoaded;
 
-        protected TViewModel ViewModel { get; }
+        [Inject] protected TViewModel ViewModel { get; } = default;
 
         protected override void UnloadHandler(object o, RoutedEventArgs rea)
         {
             base.UnloadHandler(o, rea);
 
             if (ViewModel is IDisposable disposable) disposable.Dispose();
+        }
+
+        protected virtual void OnLoaded(object o, RoutedEventArgs rea)
+        {
+            DataContext = ViewModel;
+
+            Loaded -= OnLoaded;
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type
