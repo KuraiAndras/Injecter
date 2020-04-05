@@ -2,12 +2,21 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Injecter.Uwp</id>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <title>Injecter.Uwp</title>
         <authors>Kurai András</authors>
         <owners>Kurai András</owners>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <license type="file">LICENSE.md</license>
         <description>Injecter UWP classes for Injecter</description>
         <repository type="git" url="https://github.com/KuraiAndras/Injecter.git" branch="master"/>
+        <dependencies>
+            <group>
+                <dependency id="Injecter" version="1.2.0" />
+            </group>
+        </dependencies>
     </metadata>
+    <files>
+        <file src="..\LICENSE.md" target="" />
+    </files>
 </package>
