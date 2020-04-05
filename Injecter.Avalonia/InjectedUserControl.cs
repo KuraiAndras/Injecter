@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -31,6 +32,13 @@ namespace Injecter.Avalonia
             base.OnDetachedFromVisualTree(e);
 
             if (ViewModel is IDisposable disposable) disposable.Dispose();
+        }
+
+        protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToLogicalTree(e);
+
+            DataContext = ViewModel;
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type
