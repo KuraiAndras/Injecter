@@ -9,12 +9,12 @@ namespace Injecter.Unity
 {
     public sealed class SceneInjector : MonoBehaviour, ISceneInjector
     {
-        private readonly SceneInjectorOptions _options = new SceneInjectorOptions();
+        private SceneInjectorOptions _options;
 
         private IServiceProvider _serviceProvider;
         private IInjecter _injecter;
 
-        public void InitializeScene(IServiceProvider serviceProvider, Action<SceneInjectorOptions> optionsBuilder = default)
+        public void InitializeScene(IServiceProvider serviceProvider)
         {
             if (serviceProvider is null) throw new ArgumentNullException(nameof(serviceProvider));
 
@@ -24,12 +24,12 @@ namespace Injecter.Unity
 
             _injecter = _serviceProvider.GetRequiredService<IInjecter>();
 
-            optionsBuilder?.Invoke(_options);
-
             foreach (var rootGameObject in SceneManager.GetActiveScene().GetRootGameObjects())
             {
                 InjectIntoGameObject(rootGameObject);
             }
+
+            _options = _serviceProvider.GetRequiredService<SceneInjectorOptions>();
 
             if (_options.DontDestroyOnLoad) DontDestroyOnLoad(this);
         }
@@ -70,7 +70,7 @@ namespace Injecter.Unity
 
         private void OnDestroy()
         {
-            if (_serviceProvider is ServiceProvider sp) sp.Dispose();
+            if (_serviceProvider is IDisposable disposable) disposable.Dispose();
         }
     }
 }

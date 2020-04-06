@@ -5,7 +5,11 @@ namespace Injecter.Unity
 {
     public interface ISceneInjector
     {
-        void InitializeScene(IServiceProvider serviceProvider, Action<SceneInjectorOptions> optionsBuilder = null);
+        /// <summary>
+        /// Inject into all Game Objects in the current scene and set service provider
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        void InitializeScene(IServiceProvider serviceProvider);
 
         /// <summary>
         /// Sets up usages of the InjectAttribute
