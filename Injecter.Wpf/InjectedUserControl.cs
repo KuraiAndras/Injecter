@@ -12,37 +12,37 @@ namespace Injecter.Wpf
         {
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
-            Unloaded += UnloadHandler;
+            Unloaded += OnUnloadedHandler;
         }
 
         protected IServiceScope Scope { get; }
 
-        protected virtual void UnloadHandler(object o, RoutedEventArgs rea)
+        protected virtual void OnUnloadedHandler(object o, RoutedEventArgs rea)
         {
             Scope?.Dispose();
 
-            Unloaded -= UnloadHandler;
+            Unloaded -= OnUnloadedHandler;
         }
     }
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
     {
-        protected InjectedUserControl() => Loaded += OnLoaded;
+        protected InjectedUserControl() => Loaded += OnLoadedHandler;
 
         [Inject] protected TViewModel ViewModel { get; } = default;
 
-        protected override void UnloadHandler(object o, RoutedEventArgs rea)
+        protected override void OnUnloadedHandler(object o, RoutedEventArgs rea)
         {
-            base.UnloadHandler(o, rea);
+            base.OnUnloadedHandler(o, rea);
 
             if (ViewModel is IDisposable disposable) disposable.Dispose();
         }
 
-        protected virtual void OnLoaded(object o, RoutedEventArgs rea)
+        protected virtual void OnLoadedHandler(object o, RoutedEventArgs rea)
         {
             DataContext = ViewModel;
 
-            Loaded -= OnLoaded;
+            Loaded -= OnLoadedHandler;
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type
