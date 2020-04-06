@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Injecter.Unity.Tests/Scenes/ComplexSceneInjectedProperly.unity
+    guid: 500affd18a1d6de4a9ce1fb5c7c7e235
+  - enabled: 1
+    path: Assets/Injecter.Unity.Tests/Scenes/DisposeIsCalledOnDestroy.unity
+    guid: c9c78af640d9d4248820f48755b0a255
+  - enabled: 1
+    path: Assets/Injecter.Unity.Tests/Scenes/InjectorAwakeCalledFirst.unity
+    guid: 5b131de8acbeb2a4ca21d7e71f20c503
   m_configObjects: {}
