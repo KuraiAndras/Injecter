@@ -38,7 +38,7 @@ namespace Injecter.Uwp
             if (ViewModel is IDisposable disposable) disposable.Dispose();
         }
 
-        protected virtual void OnLoaded(object _, RoutedEventArgs __)
+        protected virtual void OnLoaded(object o, RoutedEventArgs rea)
         {
             DataContext = ViewModel;
 
