@@ -38,6 +38,8 @@ namespace Injecter
             return didInstantiate ? scope : null;
         }
 
+        public IServiceScope InjectIntoType<T>(T instance) => InjectIntoType(typeof(T), instance);
+
         private static bool Inject(object instance, IServiceScope scope, MemberInfo memberInfo)
         {
             object GetService(IServiceScope scopeInternal, Type memberTypeInternal) => scopeInternal.ServiceProvider.GetService(memberTypeInternal);
