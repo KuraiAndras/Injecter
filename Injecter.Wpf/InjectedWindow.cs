@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Injecter.Wpf
 {
 #pragma warning disable SA1402 // File may only contain a single type
-    public abstract class InjectedUserControl : UserControl
+    public abstract class InjectedWindow : Window
     {
-        protected InjectedUserControl()
+        protected InjectedWindow()
         {
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
@@ -25,9 +24,9 @@ namespace Injecter.Wpf
         }
     }
 
-    public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
+    public abstract class InjectedWindow<TViewModel> : InjectedWindow
     {
-        protected InjectedUserControl() => Loaded += OnLoadedHandler;
+        protected InjectedWindow() => Loaded += OnLoadedHandler;
 
         [Inject] protected TViewModel ViewModel { get; } = default;
 
