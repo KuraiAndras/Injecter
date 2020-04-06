@@ -139,11 +139,11 @@ The generic overrides of these classes resolves the generic type parameter and s
 
 | Platform | Provided classes | Package | Project site |
 | --- | --- | --- | --- |
-| Avalonia | InjectedUserControl | [![Nuget](https://img.shields.io/nuget/v/Injecter.Avalonia)](https://www.nuget.org/packages/Injecter.Avalonia/) | [link](https://github.com/KuraiAndras/Injecter) |
+| Avalonia | InjectedUserControl, InjectedWindow | [![Nuget](https://img.shields.io/nuget/v/Injecter.Avalonia)](https://www.nuget.org/packages/Injecter.Avalonia/) | [link](https://github.com/KuraiAndras/Injecter) |
 | Injecter.Unity | InjectedMonoBehavior | [![openupm](https://img.shields.io/npm/v/com.injecter.unity?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.unity/) | [link](https://github.com/KuraiAndras/Injecter) |
 | UnityExtensions.DependencyInjection | SceneInjector, Injector | [![openupm](https://img.shields.io/npm/v/com.unityextensions.dependencyinjection?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.unityextensions.dependencyinjection/) | [link](https://github.com/KuraiAndras/UnityExtensions.DependencyInjection) |
-| UWP | InjectedUserControl, InjectedPage |  [![Nuget](https://img.shields.io/nuget/v/Injecter.Uwp)](https://www.nuget.org/packages/Injecter.Uwp/) | [link](https://github.com/KuraiAndras/Injecter) |
-| WPF | InjectedUserControl | [![Nuget](https://img.shields.io/nuget/v/Injecter.Wpf)](https://www.nuget.org/packages/Injecter.Wpf/) | [link](https://github.com/KuraiAndras/Injecter) |
+| UWP | InjectedPage, InjectedUserControl |  [![Nuget](https://img.shields.io/nuget/v/Injecter.Uwp)](https://www.nuget.org/packages/Injecter.Uwp/) | [link](https://github.com/KuraiAndras/Injecter) |
+| WPF | InjectedUserControl, InjectedWindow | [![Nuget](https://img.shields.io/nuget/v/Injecter.Wpf)](https://www.nuget.org/packages/Injecter.Wpf/) | [link](https://github.com/KuraiAndras/Injecter) |
 | Xamarin.Forms | InjectedPage| [![Nuget](https://img.shields.io/nuget/v/Injecter.Xamarin.Forms)](https://www.nuget.org/packages/Injecter.Xamarin.Forms/) | [link](https://github.com/KuraiAndras/Injecter) |
 
 Other contributions are welcome, if you want this project to extend to some other libraries, feel free to raise an issue, or submit a pull request!
