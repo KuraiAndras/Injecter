@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
-    /// <summary>
-    /// Sets <see cref="CompositionRoot"/>
-    /// Set Script Execution Order to early.
-    /// </summary>
     public abstract class InjectStarter : MonoBehaviour
     {
         protected virtual void Awake()
