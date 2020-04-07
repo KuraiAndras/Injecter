@@ -140,7 +140,7 @@ The generic overrides of these classes resolves the generic type parameter and s
 | Platform | Provided classes | Package | Project site |
 | --- | --- | --- | --- |
 | Avalonia | InjectedUserControl, InjectedWindow | [![Nuget](https://img.shields.io/nuget/v/Injecter.Avalonia)](https://www.nuget.org/packages/Injecter.Avalonia/) | [link](https://github.com/KuraiAndras/Injecter) |
-| Injecter.Unity | InjectedMonoBehavior, SceneInjector, InjectStarter | [![openupm](https://img.shields.io/npm/v/com.injecter.unity?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.unity/) | [link](https://github.com/KuraiAndras/Injecter) |
+| Unity | InjectedMonoBehavior, SceneInjector, InjectStarter | [![openupm](https://img.shields.io/npm/v/com.injecter.unity?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.unity/) | [link](https://github.com/KuraiAndras/Injecter) |
 | UWP | InjectedPage, InjectedUserControl |  [![Nuget](https://img.shields.io/nuget/v/Injecter.Uwp)](https://www.nuget.org/packages/Injecter.Uwp/) | [link](https://github.com/KuraiAndras/Injecter) |
 | WPF | InjectedUserControl, InjectedWindow | [![Nuget](https://img.shields.io/nuget/v/Injecter.Wpf)](https://www.nuget.org/packages/Injecter.Wpf/) | [link](https://github.com/KuraiAndras/Injecter) |
 | Xamarin.Forms | InjectedPage| [![Nuget](https://img.shields.io/nuget/v/Injecter.Xamarin.Forms)](https://www.nuget.org/packages/Injecter.Xamarin.Forms/) | [link](https://github.com/KuraiAndras/Injecter) |
