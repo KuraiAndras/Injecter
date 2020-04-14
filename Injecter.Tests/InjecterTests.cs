@@ -2,6 +2,8 @@
 using Injecter.Tests.Arrangers.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Xunit;
 
 namespace Injecter.Tests
@@ -21,8 +23,8 @@ namespace Injecter.Tests
             // Assert
             Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
 
-            DisposeServiceProvider(serviceProvider);
-            DisposeServiceProvider(scope);
+            DisposeServices(serviceProvider);
+            DisposeServices(scope);
         }
 
         [Fact]
@@ -40,8 +42,70 @@ namespace Injecter.Tests
             // Assert
             Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
 
-            DisposeServiceProvider(serviceProvider);
-            DisposeServiceProvider(scope);
+            DisposeServices(serviceProvider);
+            DisposeServices(scope);
+        }
+
+        [Theory]
+        [InlineData(100)]
+        [InlineData(4000)]
+        public void CachingIsFasterAfterAround3000Iterations(int iterationCount)
+        {
+            // Arrange
+            var stopwatch = Stopwatch.StartNew();
+
+            var (injecter, serviceProvider) = CreateInjecter(
+                services => services.AddSingleton<ISimpleService, SimpleService>());
+
+            RunInjections(injecter, serviceProvider, iterationCount);
+
+            stopwatch.Stop();
+
+            var time1 = stopwatch.ElapsedTicks;
+
+            stopwatch.Restart();
+
+            (injecter, serviceProvider) = CreateInjecter(
+                services => services.AddSingleton<ISimpleService, SimpleService>(),
+                options => options.UseCaching = false);
+
+            RunInjections(injecter, serviceProvider, iterationCount);
+
+            stopwatch.Stop();
+
+            var time2 = stopwatch.ElapsedTicks;
+
+            var condition = time1 < time2;
+            if (iterationCount >= 3000)
+            {
+                Assert.True(condition);
+            }
+            else
+            {
+                Assert.False(condition);
+            }
+
+            static void RunInjections(IInjecter injecter, IServiceProvider serviceProvider, int iterationCount)
+            {
+                var scopesToDispose = new List<IServiceScope>();
+                for (var i = 0; i < iterationCount; i++)
+                {
+                    var target = new SimpleInjectTarget();
+                    var scope = injecter.InjectIntoType(target);
+                    scopesToDispose.Add(scope);
+
+                    Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
+                }
+
+                foreach (var serviceScope in scopesToDispose)
+                {
+                    DisposeServices(serviceScope);
+                }
+
+                DisposeServices(serviceProvider);
+
+                scopesToDispose.Clear();
+            }
         }
 
         [Fact]
@@ -86,12 +150,12 @@ namespace Injecter.Tests
             return (serviceProvider.GetRequiredService<IInjecter>(), serviceProvider);
         }
 
-        private static void DisposeServiceProvider(IServiceProvider serviceProvider)
+        private static void DisposeServices(IServiceProvider serviceProvider)
         {
             if (serviceProvider is IDisposable disposable) disposable.Dispose();
         }
 
-        private static void DisposeServiceProvider(IServiceScope serviceScope)
+        private static void DisposeServices(IServiceScope serviceScope)
         {
             if (serviceScope is IDisposable disposable) disposable.Dispose();
         }
