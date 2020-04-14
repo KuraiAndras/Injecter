@@ -19,30 +19,20 @@ namespace Injecter.Tests
             _ = injecter.InjectIntoType(target);
 
             // Assert
-            Assert.True(target.IsServiceNotNull);
+            Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
         }
 
         [Fact]
         public void AddInjecterThrowsAneWhenServicesNull()
         {
-            try
-            {
-                // Arrange
-                IServiceCollection? services = null;
+            // Arrange
+            IServiceCollection? services = null;
 
-                // Act
-                // ReSharper disable once ExpressionIsAlwaysNull
-                services.AddInjecter();
-            }
-            catch (ArgumentNullException)
-            {
-                // Assert
-                Assert.True(true);
+            // Act
+            // ReSharper disable once ExpressionIsAlwaysNull
+            void Act() => services.AddInjecter();
 
-                return;
-            }
-
-            Assert.False(true);
+            Assert.Throws<ArgumentNullException>(Act);
         }
 
         private static (IInjecter injecter, ServiceProvider serviceProvider) CreateInjecter(Action<IServiceCollection> configureServices, Action<InjecterOptions>? optionsBuilder = default)
