@@ -32,6 +32,7 @@ namespace Injecter.Tests
             // ReSharper disable once ExpressionIsAlwaysNull
             void Act() => services.AddInjecter();
 
+            // Assert
             Assert.Throws<ArgumentNullException>(Act);
         }
 
