@@ -1,6 +1,6 @@
 # Injecter
 
-[![Nuget](https://img.shields.io/nuget/v/Injecter)](https://www.nuget.org/packages/Injecter/)
+[![Nuget](https://img.shields.io/nuget/v/Injecter)](https://www.nuget.org/packages/Injecter/) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=alert_status)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=coverage)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter)
 
 Small library to provide an attribute named Inject, and a service which injects the field, property or method marked with the injected attribute.
 

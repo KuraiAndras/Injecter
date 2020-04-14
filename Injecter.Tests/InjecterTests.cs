@@ -147,7 +147,7 @@ namespace Injecter.Tests
         public void InjecterValidatesArguments()
         {
             // Arrange
-            var (injecter, _) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
+            var (injecter, serviceProvider) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
 
             // Act
             void Act1() => injecter.InjectIntoType(null, null);
@@ -156,6 +156,7 @@ namespace Injecter.Tests
             // Assert
             Assert.Throws<ArgumentNullException>(Act1);
             Assert.Throws<ArgumentNullException>(Act2);
+            DisposeServices(serviceProvider);
         }
 
         [Fact]
@@ -171,6 +172,7 @@ namespace Injecter.Tests
             Assert.NotNull(CompositionRoot.ServiceProvider);
 
             DisposeServices(CompositionRoot.ServiceProvider);
+            DisposeServices(serviceProvider);
             CompositionRoot.ServiceProvider = null;
         }
 
