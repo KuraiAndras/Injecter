@@ -12,14 +12,17 @@ namespace Injecter.Tests
         public void TargetObjectGetsInjection()
         {
             // Arrange
-            var (injecter, _) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
+            var (injecter, serviceProvider) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
 
             // Act
             var target = new SimpleInjectTarget();
-            _ = injecter.InjectIntoType(target);
+            var scope = injecter.InjectIntoType(target);
 
             // Assert
             Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
+
+            DisposeServiceProvider(serviceProvider);
+            DisposeServiceProvider(scope);
         }
 
         [Fact]
@@ -36,6 +39,21 @@ namespace Injecter.Tests
             Assert.Throws<ArgumentNullException>(Act);
         }
 
+        [Fact]
+        public void InjecterValidatesArguments()
+        {
+            // Arrange
+            var (injecter, _) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
+
+            // Act
+            void Act1() => injecter.InjectIntoType(null, null);
+            void Act2() => injecter.InjectIntoType(typeof(object), null);
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(Act1);
+            Assert.Throws<ArgumentNullException>(Act2);
+        }
+
         private static (IInjecter injecter, ServiceProvider serviceProvider) CreateInjecter(Action<IServiceCollection> configureServices, Action<InjecterOptions>? optionsBuilder = default)
         {
             var services = new ServiceCollection();
@@ -47,6 +65,16 @@ namespace Injecter.Tests
             var serviceProvider = services.BuildServiceProvider();
 
             return (serviceProvider.GetRequiredService<IInjecter>(), serviceProvider);
+        }
+
+        private static void DisposeServiceProvider(IServiceProvider serviceProvider)
+        {
+            if (serviceProvider is IDisposable disposable) disposable.Dispose();
+        }
+
+        private static void DisposeServiceProvider(IServiceScope serviceScope)
+        {
+            if (serviceScope is IDisposable disposable) disposable.Dispose();
         }
     }
 }
