@@ -28,6 +28,23 @@ namespace Injecter.Tests
         }
 
         [Fact]
+        public void InheritedClassesReceiveInjection()
+        {
+            // Arrange
+            var (injecter, serviceProvider) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
+
+            // Act
+            var target = new InheritedInjectTarget();
+            var scope = injecter.InjectIntoType(target);
+
+            // Assert
+            Assert.True(target.IsServiceNotNull);
+
+            DisposeServices(serviceProvider);
+            DisposeServices(scope);
+        }
+
+        [Fact]
         public void NotUsingCachingWorks()
         {
             // Arrange
