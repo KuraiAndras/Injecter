@@ -14,6 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Fetch unshallow
+        run: |
+          git fetch --unshallow
+          git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+          git fetch origin
+
       - name: Run Sonar with tests
         uses: Secbyte/dotnet-sonarscanner@v2.2
         with:
