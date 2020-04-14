@@ -26,6 +26,25 @@ namespace Injecter.Tests
         }
 
         [Fact]
+        public void NotUsingCachingWorks()
+        {
+            // Arrange
+            var (injecter, serviceProvider) = CreateInjecter(
+                services => services.AddSingleton<ISimpleService, SimpleService>(),
+                options => options.UseCaching = false);
+
+            // Act
+            var target = new SimpleInjectTarget();
+            var scope = injecter.InjectIntoType(target);
+
+            // Assert
+            Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
+
+            DisposeServiceProvider(serviceProvider);
+            DisposeServiceProvider(scope);
+        }
+
+        [Fact]
         public void AddInjecterThrowsAneWhenServicesNull()
         {
             // Arrange
