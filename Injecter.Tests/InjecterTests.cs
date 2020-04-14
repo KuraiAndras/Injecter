@@ -19,7 +19,7 @@ namespace Injecter.Tests
             _ = injecter.InjectIntoType(target);
 
             // Assert
-            Assert.True(target.IsServiceNotNull);
+            Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
         }
 
         [Fact]
