@@ -74,24 +74,28 @@ namespace Injecter.Tests
             var (injecter, serviceProvider) = CreateInjecter(
                 services => services.AddSingleton<ISimpleService, SimpleService>());
 
+            // Act
             RunInjections(injecter, serviceProvider, iterationCount);
 
             stopwatch.Stop();
 
             var time1 = stopwatch.ElapsedTicks;
 
+            // Arrange
             stopwatch.Restart();
 
             (injecter, serviceProvider) = CreateInjecter(
                 services => services.AddSingleton<ISimpleService, SimpleService>(),
                 options => options.UseCaching = false);
 
+            // Act
             RunInjections(injecter, serviceProvider, iterationCount);
 
             stopwatch.Stop();
 
             var time2 = stopwatch.ElapsedTicks;
 
+            // Assert
             var condition = time1 < time2;
             if (iterationCount >= 3000)
             {
