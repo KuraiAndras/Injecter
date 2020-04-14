@@ -47,4 +47,8 @@
     <ProjectReference Include="..\Injecter\Injecter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="**/**/*.trx"/>
+  </ItemGroup>
+
 </Project>
