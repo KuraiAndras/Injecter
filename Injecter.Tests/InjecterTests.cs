@@ -158,6 +158,22 @@ namespace Injecter.Tests
             Assert.Throws<ArgumentNullException>(Act2);
         }
 
+        [Fact]
+        public void CompositionRootRetainsServiceProvider()
+        {
+            // Arrange
+            var serviceProvider = new ServiceCollection().BuildServiceProvider();
+
+            // Act
+            CompositionRoot.ServiceProvider = serviceProvider;
+
+            // Assert
+            Assert.NotNull(CompositionRoot.ServiceProvider);
+
+            DisposeServices(CompositionRoot.ServiceProvider);
+            CompositionRoot.ServiceProvider = null;
+        }
+
         private static (IInjecter injecter, ServiceProvider serviceProvider) CreateInjecter(Action<IServiceCollection> configureServices, Action<InjecterOptions>? optionsBuilder = default)
         {
             var services = new ServiceCollection();
