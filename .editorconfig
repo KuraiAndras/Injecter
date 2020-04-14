@@ -210,3 +210,6 @@ dotnet_diagnostic.RCS1188.severity = none
 
 # CA1040: Avoid empty interfaces
 dotnet_diagnostic.CA1040.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none

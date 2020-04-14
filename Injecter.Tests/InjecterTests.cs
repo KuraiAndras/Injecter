@@ -22,6 +22,29 @@ namespace Injecter.Tests
             Assert.True(target.IsServiceNotNull);
         }
 
+        [Fact]
+        public void AddInjecterThrowsAneWhenServicesNull()
+        {
+            try
+            {
+                // Arrange
+                IServiceCollection? services = null;
+
+                // Act
+                // ReSharper disable once ExpressionIsAlwaysNull
+                services.AddInjecter();
+            }
+            catch (ArgumentNullException)
+            {
+                // Assert
+                Assert.True(true);
+
+                return;
+            }
+
+            Assert.False(true);
+        }
+
         private static (IInjecter injecter, ServiceProvider serviceProvider) CreateInjecter(Action<IServiceCollection> configureServices, Action<InjecterOptions>? optionsBuilder = default)
         {
             var services = new ServiceCollection();
