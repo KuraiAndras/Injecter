@@ -47,7 +47,7 @@ namespace Injecter.Tests
         }
 
         [Theory]
-        [InlineData(100)]
+        [InlineData(10)]
         [InlineData(4000)]
         public void CachingIsFasterAfterAround3000Iterations(int iterationCount)
         {
