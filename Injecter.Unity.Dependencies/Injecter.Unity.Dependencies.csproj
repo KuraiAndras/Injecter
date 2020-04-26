@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Injecter" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="*.meta" />
+    <None Update="package.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Injecter.Unity.Dependencies.asmdef" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="Remove Dll" AfterTargets="AfterBuild">
+    <Delete Files="$(OutDir)/Injecter.Unity.Dependencies.dll" />
+    <Delete Files="$(OutDir)/Injecter.Unity.Dependencies.pdb" />
+  </Target>
+
+</Project>
