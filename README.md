@@ -149,6 +149,11 @@ Other contributions are welcome, if you want this project to extend to some othe
 
 # Injecter.Unity
 
+Since version 3.0.1 you need to provide the following dlls yourself:
+- Injecter
+- Microsoft.Extensions.DependencyInjection
+- Microsoft.Extensions.DependencyInjection.Abstractions
+
 ## Initialize
 Create a class that inherits from InjectStarter:
 ```c#
