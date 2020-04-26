@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.injecter.unity.dependencies": "file:../..//Injecter.Unity.Dependencies/bin/Debug/net472",
+    "com.injecter.unity.dependencies": "file:../../Injecter.Unity.Dependencies/bin/Debug/net472",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.1.4",
