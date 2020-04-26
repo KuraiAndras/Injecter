@@ -3,7 +3,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Injecter.Unity"
+        "Injecter.Unity",
+        "Injecter.Unity.Dependencies"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
