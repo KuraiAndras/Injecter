@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Tests", "Injecter.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Unity.Dependencies", "Injecter.Unity.Dependencies\Injecter.Unity.Dependencies.csproj", "{D7AAB9B4-0E9B-4000-A093-4CA1F0EB436E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Injecter.FastMediatR", "Injecter.FastMediatR\Injecter.FastMediatR.csproj", "{1ACCF2A1-D7A9-4AA2-B659-169B8191A0DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.FastMediatR", "Injecter.FastMediatR\Injecter.FastMediatR.csproj", "{1ACCF2A1-D7A9-4AA2-B659-169B8191A0DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Injecter.FastMediatR.Tests", "Injecter.FastMediatR.Tests\Injecter.FastMediatR.Tests.csproj", "{686BD317-1BFC-4839-8708-EB8681D6E507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -225,6 +227,26 @@ Global
 		{1ACCF2A1-D7A9-4AA2-B659-169B8191A0DF}.Release|x64.Build.0 = Release|Any CPU
 		{1ACCF2A1-D7A9-4AA2-B659-169B8191A0DF}.Release|x86.ActiveCfg = Release|Any CPU
 		{1ACCF2A1-D7A9-4AA2-B659-169B8191A0DF}.Release|x86.Build.0 = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|ARM.Build.0 = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|x64.Build.0 = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Debug|x86.Build.0 = Debug|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|ARM.ActiveCfg = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|ARM.Build.0 = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|ARM64.Build.0 = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|x64.ActiveCfg = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|x64.Build.0 = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|x86.ActiveCfg = Release|Any CPU
+		{686BD317-1BFC-4839-8708-EB8681D6E507}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
