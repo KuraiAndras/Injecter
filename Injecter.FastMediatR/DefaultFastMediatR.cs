@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Injecter.FastMediatR
 {
@@ -13,7 +14,7 @@ namespace Injecter.FastMediatR
 
         private readonly Type _openHandlerType = typeof(ISyncHandler<,>);
         private readonly Type _openRegularHandlerType = typeof(IRequestHandler<,>);
-        private readonly Dictionary<Type, Delegate> _handlers = new Dictionary<Type, Delegate>();
+        private readonly Dictionary<Type, (object concreteHandler, MethodInfo methodInfo)> _handlers = new Dictionary<Type, (object concreteHandler, MethodInfo methodInfo)>();
 
         public DefaultFastMediatR(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
@@ -38,13 +39,13 @@ namespace Injecter.FastMediatR
             {
                 var regularHandlerType = _openRegularHandlerType.MakeGenericType(requestType, responseType);
 
-                // ReSharper disable once AssignNullToNotNullAttribute
-                handler = Delegate.CreateDelegate(handlerType, _serviceProvider.GetService(regularHandlerType), handlerType.GetMethod(HandleMethodName));
+                handler.methodInfo = handlerType.GetMethod(HandleMethodName, BindingFlags.Instance | BindingFlags.Public);
+                handler.concreteHandler = _serviceProvider.GetService(regularHandlerType);
                 _handlers.Add(handlerType, handler);
             }
 
             // ReSharper disable once PossibleNullReferenceException
-            return (TResponse)handler.DynamicInvoke(request);
+            return (TResponse)handler.methodInfo.Invoke(handler.concreteHandler, new object[] { request });
         }
     }
 #pragma warning restore CA1062 // Validate arguments of public methods
