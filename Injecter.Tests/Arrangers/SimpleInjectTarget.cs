@@ -2,6 +2,7 @@
 
 namespace Injecter.Tests.Arrangers
 {
+#pragma warning disable IDE0051 // Remove unused private members
     public sealed class SimpleInjectTarget
     {
         [Inject] private readonly ISimpleService? _simpleService = default;
@@ -15,4 +16,5 @@ namespace Injecter.Tests.Arrangers
         [Inject]
         private void Construct(ISimpleService simpleService) => _simpleService2 = simpleService;
     }
+#pragma warning restore IDE0051 // Remove unused private members
 }
