@@ -266,7 +266,7 @@ Current options:
 ## Notes
   - To see sample usage check out tests and test scenes
 
-# Injecter.FastMediatR
+# Injecter.FastMediatR [![Nuget](https://img.shields.io/nuget/v/Injecter.FastMediatR)](https://www.nuget.org/packages/Injecter.FastMediatR/)
 
 An IMediatR proxy which helps you use MediatR in performance critical scenarios.
 
