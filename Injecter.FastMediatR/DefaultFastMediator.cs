@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Injecter.FastMediatR
 {
 #pragma warning disable CA1062 // Validate arguments of public methods
-    public sealed class DefaultFastMediatR : IFastMediatR
+    public sealed class DefaultFastMediator : IFastMediator
     {
         private const string HandleMethodName = nameof(ISyncHandler<IRequest, Unit>.HandleSync);
 
@@ -16,7 +16,7 @@ namespace Injecter.FastMediatR
         private readonly Type _openRegularHandlerType = typeof(IRequestHandler<,>);
         private readonly Dictionary<Type, (object concreteHandler, MethodInfo methodInfo)> _handlers = new Dictionary<Type, (object concreteHandler, MethodInfo methodInfo)>();
 
-        public DefaultFastMediatR(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
+        public DefaultFastMediator(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public void Dispose()
         {

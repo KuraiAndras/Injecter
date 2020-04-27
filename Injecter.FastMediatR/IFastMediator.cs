@@ -3,7 +3,7 @@ using System;
 
 namespace Injecter.FastMediatR
 {
-    public interface IFastMediatR : IDisposable
+    public interface IFastMediator : IDisposable
     {
         void SendSync(IRequest request);
 

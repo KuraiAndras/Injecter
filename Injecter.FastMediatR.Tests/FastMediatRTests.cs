@@ -20,7 +20,7 @@ namespace Injecter.FastMediatR.Tests
         public void FastMediatRWorks()
         {
             // Arrange
-            var fastMediator = _serviceProvider.GetRequiredService<IFastMediatR>();
+            var fastMediator = _serviceProvider.GetRequiredService<IFastMediator>();
             var request = new Add { A = 1, B = 1 };
 
             // Act
@@ -34,7 +34,7 @@ namespace Injecter.FastMediatR.Tests
         public void SendNoResponseWorks()
         {
             // Arrange
-            var fastMediator = _serviceProvider.GetRequiredService<IFastMediatR>();
+            var fastMediator = _serviceProvider.GetRequiredService<IFastMediator>();
             var request = new NoResponse();
 
             // Act
@@ -52,7 +52,7 @@ namespace Injecter.FastMediatR.Tests
         public void FastMediatRMightBeFasterThanSyncing(int iterationCount)
         {
             // Arrange
-            var fastMediator = _serviceProvider.GetRequiredService<IFastMediatR>();
+            var fastMediator = _serviceProvider.GetRequiredService<IFastMediator>();
             var mediator = _serviceProvider.GetRequiredService<IMediator>();
             var request = new Add { A = 1, B = 1 };
 

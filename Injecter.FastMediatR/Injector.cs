@@ -6,7 +6,7 @@ namespace Injecter.FastMediatR
     {
         public static IServiceCollection AddFastMediatR(this IServiceCollection services)
         {
-            services.AddTransient<IFastMediatR, DefaultFastMediatR>();
+            services.AddTransient<IFastMediator, DefaultFastMediator>();
 
             return services;
         }
