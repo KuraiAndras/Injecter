@@ -265,3 +265,50 @@ Current options:
 
 ## Notes
   - To see sample usage check out tests and test scenes
+
+# Injecter.FastMediatR
+
+An IMediatR proxy which helps you use MediatR in performance critical scenarios.
+
+Using the IFastMediator interface results in:
+
+- No pipeline behaviors are called.
+- The call is not asynchronous.
+- When repeating a request with an IFastMediator instance the request handlers get cached.
+
+## Usage
+```c#
+// Create a regular request
+public sealed class Add : IRequest<int>
+{
+    public int A { get; set; }
+
+    public int B { get; set; }
+}
+
+// Implement ISyncHandler
+public sealed class AddHandler : ISyncHandler<Add, int>
+{
+    public Task<int> Handle(Add request, CancellationToken cancellationToken) => Task.FromResult(HandleSync(request));
+
+    public int HandleSync(Add request) => request.A + request.B;
+}
+
+// Add MediatR and FastMediatR
+IServiceProvider serviceProvider = new ServiceCollection()
+    .AddFastMediatR()
+    .AddMediatR() //Add assemblies
+    .BuildServiceProvider()
+
+// Use it
+IFastMediator fastMediator = serviceProvider.GetRequiredService<IFastMediator>();
+Add request = new Add { A = 1, B = 1 };
+
+int result = fastMediator.SendSync(request);
+
+Assert.Equal(2, result);
+
+fastMediator.Dispose();
+```
+
+When sending your requests through IMediator everything works the usual way, because ISyncHandler inherits from IRequestHandler.
