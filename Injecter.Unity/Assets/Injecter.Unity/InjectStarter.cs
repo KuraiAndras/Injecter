@@ -18,7 +18,7 @@ namespace Injecter.Unity
                     gameObject.AddComponent<SceneInjector>().InitializeScene(serviceProvider);
                     break;
                 case SceneInjectorOptions.Behavior.CompositionRoot:
-                    CompositionRoot.ServiceProvider = CreateServiceProvider();
+                    CompositionRoot.ServiceProvider = serviceProvider;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(options.InjectionBehavior.ToString());
