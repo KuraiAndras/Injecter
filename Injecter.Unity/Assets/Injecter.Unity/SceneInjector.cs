@@ -31,7 +31,7 @@ namespace Injecter.Unity
 
             _options = _serviceProvider.GetRequiredService<SceneInjectorOptions>();
 
-            if (_options.DontDestroyOnLoad) DontDestroyOnLoad(this);
+            if (_options.DontDestroyOnLoad) DontDestroyOnLoad(gameObject);
         }
 
         public GameObject InjectIntoGameObject(GameObject gameObjectInstance)
