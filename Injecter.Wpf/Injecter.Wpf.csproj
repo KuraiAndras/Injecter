@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
+        <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
+        <UseWPF>true</UseWPF>
         <LangVersion>7.3</LangVersion>
         <IsPackable>true</IsPackable>
         <PackageId>Injecter.Wpf</PackageId>
@@ -37,12 +38,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="PresentationCore" />
-      <Reference Include="PresentationFramework" />
-      <Reference Include="WindowsBase" />
     </ItemGroup>
 
 </Project>
