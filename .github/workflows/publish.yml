@@ -32,6 +32,13 @@ jobs:
           PROJECT_FILE_PATH: Injecter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      
+      - name: Publish Injecter.Hosting.Wpf to nuget.org
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
+          TAG_COMMIT: "false"
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Xamarin.Forms to nuget.org
         uses: rohith/publish-nuget@v2

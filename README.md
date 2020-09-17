@@ -266,7 +266,7 @@ Current options:
 ## Notes
   - To see sample usage check out tests and test scenes
 
-# Injecter.Unity.Hosting [![openupm](https://img.shields.io/npm/v/com.injecter.hosting.unity?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.hosting.unity/)
+# Injecter.Hosting.Unity [![openupm](https://img.shields.io/npm/v/com.injecter.hosting.unity?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.hosting.unity/)
 
 IHostLifeTime implementation for unity. Usage:
 
@@ -274,6 +274,17 @@ IHostLifeTime implementation for unity. Usage:
 IHost host = new HostBuilder()
     .ConfigureServices(/* */)
     .UseUnityLifetime()
+    .Build();
+```
+
+# Injecter.Hosting.Wpf [![Nuget](https://img.shields.io/nuget/v/Injecter.Hosting.Wpf)](https://www.nuget.org/packages/Injecter.Hosting.Wpf/)
+
+IHostLifeTime implementation for unity. Usage:
+
+```csharp
+IHost host = new HostBuilder()
+    .ConfigureServices(/* */)
+    .UseWpfLifetime()
     .Build();
 ```
 
