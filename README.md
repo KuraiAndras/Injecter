@@ -266,7 +266,7 @@ Current options:
 ## Notes
   - To see sample usage check out tests and test scenes
 
-# Injecter.Unity.Hosting [![openupm](https://img.shields.io/npm/v/com.injecter.unity.hosting?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.unity.hosting/)
+# Injecter.Unity.Hosting [![openupm](https://img.shields.io/npm/v/com.injecter.hosting.unity?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.hosting.unity/)
 
 IHostLifeTime implementation for unity. Usage:
 
