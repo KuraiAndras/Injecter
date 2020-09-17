@@ -1,26 +1,42 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Injecter.Wpf
 {
 #pragma warning disable SA1402 // File may only contain a single type
-    public abstract class InjectedWindow : Window
+    public abstract class InjectedWindow : Window, IDisposable
     {
         protected InjectedWindow()
         {
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
-            Unloaded += OnUnloadedHandler;
+            Closing += OnClosing;
         }
 
         protected IServiceScope Scope { get; }
 
-        protected virtual void OnUnloadedHandler(object o, RoutedEventArgs rea)
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (!isDisposing) return;
+
+            Scope?.Dispose();
+
+            Closing -= OnClosing;
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
         {
             Scope?.Dispose();
 
-            Unloaded -= OnUnloadedHandler;
+            Closing -= OnClosing;
         }
     }
 
@@ -30,18 +46,18 @@ namespace Injecter.Wpf
 
         [Inject] protected TViewModel ViewModel { get; } = default;
 
-        protected override void OnUnloadedHandler(object o, RoutedEventArgs rea)
-        {
-            base.OnUnloadedHandler(o, rea);
-
-            if (ViewModel is IDisposable disposable) disposable.Dispose();
-        }
-
         protected virtual void OnLoadedHandler(object o, RoutedEventArgs rea)
         {
             DataContext = ViewModel;
 
             Loaded -= OnLoadedHandler;
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if (isDisposing && ViewModel is IDisposable d) d.Dispose();
+
+            base.Dispose(isDisposing);
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type
