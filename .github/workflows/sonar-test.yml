@@ -19,7 +19,7 @@ jobs:
           git fetch --unshallow
 
       - name: Run Sonar with tests
-        uses: Secbyte/dotnet-sonarscanner@v2.2
+        uses: Secbyte/dotnet-sonarscanner@v2.3
         with:
           buildCommand: |
             dotnet sln Injecter.sln remove Injecter.Uwp/Injecter.Uwp.csproj
