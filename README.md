@@ -266,6 +266,17 @@ Current options:
 ## Notes
   - To see sample usage check out tests and test scenes
 
+# Injecter.Unity.Hosting [![openupm](https://img.shields.io/npm/v/com.injecter.unity.hosting?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.injecter.unity.hosting/)
+
+IHostLifeTime implementation for unity. Usage:
+
+```csharp
+IHost host = new HostBuilder()
+    .ConfigureServices(/* */)
+    .UseUnityLifetime()
+    .Build();
+```
+
 # Injecter.FastMediatR [![Nuget](https://img.shields.io/nuget/v/Injecter.FastMediatR)](https://www.nuget.org/packages/Injecter.FastMediatR/)
 
 An IMediatR proxy which helps you use MediatR in performance critical scenarios.
