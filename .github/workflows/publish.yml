@@ -46,11 +46,11 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           package_root: "Injecter.Unity/Assets/Injecter.Unity"
       
-      - name: Publish Injecter.Unity to openupm
+      - name: Publish Injecter.Hosting.Unity to openupm
         uses: Klemensas/action-autotag@stable
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          package_root: "Injecter.Unity/Assets/Injecter.Unity.Hosting"
+          package_root: "Injecter.Unity/Assets/Injecter.Hosting.Unity"
           tag_prefix: "unity-hosting/"
 
       - name: Publish Injecter.Uwp to nuget.org
