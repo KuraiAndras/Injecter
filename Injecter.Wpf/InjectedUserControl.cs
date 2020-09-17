@@ -6,23 +6,33 @@ using System.Windows.Controls;
 namespace Injecter.Wpf
 {
 #pragma warning disable SA1402 // File may only contain a single type
-    public abstract class InjectedUserControl : UserControl
+    public abstract class InjectedUserControl : UserControl, IDisposable
     {
         protected InjectedUserControl()
         {
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
-            Unloaded += OnUnloadedHandler;
+            Dispatcher.ShutdownStarted += OnControlShutdown;
         }
 
         protected IServiceScope Scope { get; }
 
-        protected virtual void OnUnloadedHandler(object o, RoutedEventArgs rea)
+        public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (!isDisposing) return;
+
             Scope?.Dispose();
 
-            Unloaded -= OnUnloadedHandler;
+            Dispatcher.ShutdownStarted -= OnControlShutdown;
         }
+
+        private void OnControlShutdown(object sender, EventArgs e) => Dispose();
     }
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
@@ -31,11 +41,11 @@ namespace Injecter.Wpf
 
         [Inject] protected TViewModel ViewModel { get; } = default;
 
-        protected override void OnUnloadedHandler(object o, RoutedEventArgs rea)
+        protected override void Dispose(bool isDisposing)
         {
-            base.OnUnloadedHandler(o, rea);
+            if (isDisposing && ViewModel is IDisposable disposable) disposable.Dispose();
 
-            if (ViewModel is IDisposable disposable) disposable.Dispose();
+            base.Dispose(isDisposing);
         }
 
         protected virtual void OnLoadedHandler(object o, RoutedEventArgs rea)

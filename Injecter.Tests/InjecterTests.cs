@@ -150,8 +150,8 @@ namespace Injecter.Tests
             var (injecter, serviceProvider) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
 
             // Act
-            void Act1() => injecter?.InjectIntoType(null, null);
-            void Act2() => injecter?.InjectIntoType(typeof(object), null);
+            void Act1() => injecter.InjectIntoType(null, null);
+            void Act2() => injecter.InjectIntoType(typeof(object), null);
 
             // Assert
             Assert.Throws<ArgumentNullException>(Act1);
