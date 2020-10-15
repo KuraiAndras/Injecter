@@ -8,12 +8,16 @@ namespace Injecter.Wpf
 #pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedUserControl : UserControl, IDisposable
     {
-        protected InjectedUserControl()
+        private Window? _window;
+
+        protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
         {
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
-
-            Dispatcher.ShutdownStarted += OnControlShutdown;
+            Behavior = behavior;
+            Loaded += OnControlLoaded;
         }
+
+        public DisposeBehaviour Behavior { get; }
 
         protected IServiceScope Scope { get; }
 
@@ -28,16 +32,64 @@ namespace Injecter.Wpf
             if (!isDisposing) return;
 
             Scope?.Dispose();
-
-            Dispatcher.ShutdownStarted -= OnControlShutdown;
         }
 
-        private void OnControlShutdown(object sender, EventArgs e) => Dispose();
+#pragma warning disable SA1313 // Parameter names should begin with lower-case letter
+        private void OnControlLoaded(object _, RoutedEventArgs __)
+        {
+            Loaded -= OnControlLoaded;
+
+            switch (Behavior)
+            {
+                case DisposeBehaviour.OnWindowClose:
+
+                    _window = Window.GetWindow(this);
+
+                    _window!.Closed += OnWindowClosed;
+
+                    break;
+                case DisposeBehaviour.OnDispatcherShutdown:
+
+                    Dispatcher.ShutdownStarted += OnControlShutdown;
+
+                    break;
+                case DisposeBehaviour.OnUnloaded:
+
+                    Unloaded += OnControlUnloaded;
+
+                    break;
+                case DisposeBehaviour.Manual: break;
+                default: throw new ArgumentOutOfRangeException(Behavior.ToString(), Behavior, "Dispose behaviour not found");
+            }
+        }
+
+        private void OnWindowClosed(object ___, EventArgs ____)
+        {
+            if (_window is { }) _window.Closed -= OnWindowClosed;
+
+            Dispose();
+        }
+
+        private void OnControlUnloaded(object ___, EventArgs ____)
+        {
+            Unloaded -= OnControlUnloaded;
+
+            Dispose();
+        }
+
+        private void OnControlShutdown(object ___, EventArgs ____)
+        {
+            Dispatcher.ShutdownStarted -= OnControlShutdown;
+
+            Dispose();
+        }
+#pragma warning restore SA1313 // Parameter names should begin with lower-case letter
     }
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
     {
-        protected InjectedUserControl() => Loaded += OnLoadedHandler;
+        protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
+            : base(behavior) => Loaded += OnLoadedHandler;
 
         [Inject] protected TViewModel ViewModel { get; } = default;
 
