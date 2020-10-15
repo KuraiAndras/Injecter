@@ -147,6 +147,35 @@ The generic overrides of these classes resolves the generic type parameter and s
 
 Other contributions are welcome, if you want this project to extend to some other libraries, feel free to raise an issue, or submit a pull request!
 
+# Injecter.WPF
+
+The wpf helper includes different disposing behaviors for user controls.
+
+```csharp
+public enum DisposeBehaviour
+{
+    /// <summary>
+    /// Dispose on application shutdown when <see cref="System.Windows.Threading.Dispatcher"/>> fires the ShutdownStarted event.
+    /// </summary>
+    OnDispatcherShutdown,
+
+    /// <summary>
+    /// Dispose when the window containing the control is closed.
+    /// </summary>
+    OnWindowClose,
+
+    /// <summary>
+    /// Dispose when the control is unloaded. It is useful for ListViewItems and similar.
+    /// </summary>
+    OnUnloaded,
+
+    /// <summary>
+    /// Don't dispose automatically.
+    /// </summary>
+    Manual,
+}
+```
+
 # Injecter.Unity
 
 Since version 3.0.1 you need to provide the following dlls yourself:
