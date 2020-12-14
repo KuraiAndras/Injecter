@@ -31,7 +31,7 @@ namespace Injecter.Wpf
         {
             if (!isDisposing) return;
 
-            Scope?.Dispose();
+            Scope.Dispose();
         }
 
 #pragma warning disable SA1313 // Parameter names should begin with lower-case letter
@@ -91,7 +91,7 @@ namespace Injecter.Wpf
         protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
             : base(behavior) => Loaded += OnLoadedHandler;
 
-        [Inject] protected TViewModel ViewModel { get; } = default;
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected override void Dispose(bool isDisposing)
         {
