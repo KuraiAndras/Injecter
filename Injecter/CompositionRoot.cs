@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Injecter
 {
     public static class CompositionRoot
     {
-        public static IServiceProvider ServiceProvider { get; set; } = default;
+        [MaybeNull] public static IServiceProvider? ServiceProvider { get; set; }
     }
 }
