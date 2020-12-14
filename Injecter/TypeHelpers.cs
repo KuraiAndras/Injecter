@@ -15,9 +15,8 @@ namespace Injecter
             ?? false;
 
         internal static FieldInfo GetAutoPropertyBackingField(this PropertyInfo property) =>
-            property
-                .DeclaringType
-                ?.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+            property.DeclaringType!
+                .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 .Single(f => f.Name.Contains("<" + property.Name + ">"));
 
         internal static IEnumerable<Type> GetAllTypes(this Type type)

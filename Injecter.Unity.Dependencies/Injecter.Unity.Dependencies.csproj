@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
+    <NoWarn>SA0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Injecter" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

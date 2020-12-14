@@ -31,7 +31,7 @@ namespace Injecter.Wpf
         {
             if (!isDisposing) return;
 
-            Scope?.Dispose();
+            Scope.Dispose();
         }
 
 #pragma warning disable SA1313 // Parameter names should begin with lower-case letter
@@ -63,21 +63,21 @@ namespace Injecter.Wpf
             }
         }
 
-        private void OnWindowClosed(object ___, EventArgs ____)
+        private void OnWindowClosed(object? _, EventArgs __)
         {
             if (_window is { }) _window.Closed -= OnWindowClosed;
 
             Dispose();
         }
 
-        private void OnControlUnloaded(object ___, EventArgs ____)
+        private void OnControlUnloaded(object? _, EventArgs __)
         {
             Unloaded -= OnControlUnloaded;
 
             Dispose();
         }
 
-        private void OnControlShutdown(object ___, EventArgs ____)
+        private void OnControlShutdown(object? _, EventArgs __)
         {
             Dispatcher.ShutdownStarted -= OnControlShutdown;
 
@@ -91,7 +91,7 @@ namespace Injecter.Wpf
         protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
             : base(behavior) => Loaded += OnLoadedHandler;
 
-        [Inject] protected TViewModel ViewModel { get; } = default;
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected override void Dispose(bool isDisposing)
         {

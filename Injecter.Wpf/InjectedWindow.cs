@@ -27,14 +27,14 @@ namespace Injecter.Wpf
         {
             if (!isDisposing) return;
 
-            Scope?.Dispose();
+            Scope.Dispose();
 
             Closing -= OnClosing;
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            Scope?.Dispose();
+            Scope.Dispose();
 
             Closing -= OnClosing;
         }
@@ -44,7 +44,7 @@ namespace Injecter.Wpf
     {
         protected InjectedWindow() => Loaded += OnLoadedHandler;
 
-        [Inject] protected TViewModel ViewModel { get; } = default;
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected virtual void OnLoadedHandler(object o, RoutedEventArgs rea)
         {

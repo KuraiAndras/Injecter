@@ -21,66 +21,71 @@ namespace Injecter
             _options = options;
         }
 
-        public IServiceScope InjectIntoType(Type type, object instance)
+        public IServiceScope? InjectIntoType(Type type, object instance, bool createScope = true)
         {
             if (type is null) throw new ArgumentNullException(nameof(type));
             if (instance is null) throw new ArgumentNullException(nameof(instance));
 
             var (fieldInfos, propertyInfos, methodInfos) = GetMembers(type);
 
-            var scope = _serviceProvider.CreateScope();
-            var didInstantiate = false;
+            IServiceScope? serviceScope = createScope ? _serviceProvider.CreateScope() : null;
+            var serviceProvider = createScope switch
+            {
+                true => serviceScope!.ServiceProvider,
+                false => _serviceProvider,
+            };
 
-            fieldInfos.ForEach(f => didInstantiate = Inject(instance, scope, f));
-            propertyInfos.ForEach(p => didInstantiate = Inject(instance, scope, p));
-            methodInfos.ForEach(m => didInstantiate = Inject(instance, scope, m));
+            fieldInfos.ForEach(f => Inject(instance, serviceProvider, f));
+            propertyInfos.ForEach(p => Inject(instance, serviceProvider, p));
+            methodInfos.ForEach(m => Inject(instance, serviceProvider, m));
 
-            return didInstantiate ? scope : null;
+            return serviceScope;
         }
 
-        public IServiceScope InjectIntoType<T>(T instance) => InjectIntoType(typeof(T), instance);
+        public IServiceScope? InjectIntoType<T>(T instance, bool createScope = true)
+            where T : notnull
+            => InjectIntoType(typeof(T), instance, createScope);
 
-        private static bool Inject(object instance, IServiceScope scope, MemberInfo memberInfo)
+        private static void Inject(object instance, IServiceProvider serviceProvider, MemberInfo memberInfo)
         {
-            object GetService(IServiceScope scopeInternal, Type memberTypeInternal) => scopeInternal.ServiceProvider.GetService(memberTypeInternal);
+            static object GetService(IServiceProvider serviceProvider, Type memberTypeInternal) => serviceProvider.GetService(memberTypeInternal);
 
             switch (memberInfo)
             {
                 case FieldInfo field:
-                {
-                    field.SetValue(instance, GetService(scope, field.FieldType));
+                    {
+                        field.SetValue(instance, GetService(serviceProvider, field.FieldType));
 
-                    return true;
-                }
+                        break;
+                    }
                 case PropertyInfo property:
-                {
-                    if (property.CanWrite)
                     {
-                        property.SetValue(instance, GetService(scope, property.PropertyType));
-                        return true;
+                        if (property.CanWrite)
+                        {
+                            property.SetValue(instance, GetService(serviceProvider, property.PropertyType));
+                        }
+
+                        if (!property.IsAutoProperty()) break;
+
+                        property.GetAutoPropertyBackingField().SetValue(instance, GetService(serviceProvider, property.PropertyType));
+
+                        break;
                     }
-
-                    if (!property.IsAutoProperty()) return false;
-
-                    property.GetAutoPropertyBackingField().SetValue(instance, GetService(scope, property.PropertyType));
-
-                    return true;
-                }
                 case MethodInfo method:
-                {
-                    if (method.IsConstructor) return false;
-
-                    var methodParameters = method.GetParameters();
-                    var parameters = new object[methodParameters.Length];
-                    for (var i = 0; i < methodParameters.Length; i++)
                     {
-                        parameters[i] = GetService(scope, methodParameters[i].ParameterType);
+                        if (method.IsConstructor) break;
+
+                        var methodParameters = method.GetParameters();
+                        var parameters = new object[methodParameters.Length];
+                        for (var i = 0; i < methodParameters.Length; i++)
+                        {
+                            parameters[i] = GetService(serviceProvider, methodParameters[i].ParameterType);
+                        }
+
+                        method.Invoke(instance, parameters);
+
+                        break;
                     }
-
-                    method.Invoke(instance, parameters);
-
-                    return true;
-                }
                 default: throw new MemberAccessException($"Unknown member: {memberInfo}");
             }
         }
