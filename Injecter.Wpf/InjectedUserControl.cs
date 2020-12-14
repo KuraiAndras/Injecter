@@ -63,21 +63,21 @@ namespace Injecter.Wpf
             }
         }
 
-        private void OnWindowClosed(object ___, EventArgs ____)
+        private void OnWindowClosed(object? _, EventArgs __)
         {
             if (_window is { }) _window.Closed -= OnWindowClosed;
 
             Dispose();
         }
 
-        private void OnControlUnloaded(object ___, EventArgs ____)
+        private void OnControlUnloaded(object? _, EventArgs __)
         {
             Unloaded -= OnControlUnloaded;
 
             Dispose();
         }
 
-        private void OnControlShutdown(object ___, EventArgs ____)
+        private void OnControlShutdown(object? _, EventArgs __)
         {
             Dispatcher.ShutdownStarted -= OnControlShutdown;
 

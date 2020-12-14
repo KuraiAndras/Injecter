@@ -157,4 +157,7 @@
     <None Include="..\LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
     <None Include=".nuspec" />
   </ItemGroup>
+  <PropertyGroup>
+    <NoWarn>SA0001</NoWarn>
+  </PropertyGroup>
 </Project>
