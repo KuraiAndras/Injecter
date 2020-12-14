@@ -43,6 +43,11 @@ public class MyUserControl : UserControl
 
 ```
 
+Since version 4.0.0 the IInjecter interface can be run without creating a new service scope
+```c#
+IServiceScope? scope = injecter.InjectIntoType<MyUserControl>(control, false);
+```  
+
 Supported injection methods for InjectAttribute: Field, Property, Method. Injection happens in this order. 
 
 To make things easier when working with some actual framework a composition root is provided. This static class holds an instance for IServiceProvider and can be used to use this library easier.
