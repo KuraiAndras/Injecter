@@ -16,32 +16,34 @@ jobs:
 
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
-        with:
-            dotnet-version: '5.0.x'
 
-      - name: Fetch unshallow
+      - name: Asd
         run: |
-          git fetch --unshallow
+          dotnet --info
 
-      - name: Run Sonar with tests
-        uses: Secbyte/dotnet-sonarscanner@v2.3
-        with:
-          buildCommand: |
-            dotnet sln Injecter.sln remove Injecter.Uwp/Injecter.Uwp.csproj
-            dotnet sln Injecter.sln remove Injecter.UwpExample/Injecter.UwpExample.csproj
-            dotnet sln Injecter.sln remove Injecter.Wpf/Injecter.Wpf.csproj
-            dotnet sln Injecter.sln remove Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
-            dotnet sln Injecter.sln remove Injecter.Unity.Dependencies/Injecter.Unity.Dependencies.csproj
-            dotnet build Injecter.sln
-          testCommand: |
-            dotnet test Injecter.sln -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -l:trx && dotnet tool install -g dotnet-reportgenerator-globaltool && export PATH="$PATH:/github/home/.dotnet/tools" && reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:CodeCoverage" "-reporttypes:SonarQube"
-          projectKey: KuraiAndras_Injecter
-          projectName: Injecter
-          sonarOrganisation: kuraiandras
-          beginArguments: >
-            /d:sonar.verbose="true"
-            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
-            /d:sonar.cs.vstest.reportsPaths="**/*.trx"
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Fetch unshallow
+      #   run: |
+      #     git fetch --unshallow
+
+      # - name: Run Sonar with tests
+      #   uses: Secbyte/dotnet-sonarscanner@v2.3
+      #   with:
+      #     buildCommand: |
+      #       dotnet sln Injecter.sln remove Injecter.Uwp/Injecter.Uwp.csproj
+      #       dotnet sln Injecter.sln remove Injecter.UwpExample/Injecter.UwpExample.csproj
+      #       dotnet sln Injecter.sln remove Injecter.Wpf/Injecter.Wpf.csproj
+      #       dotnet sln Injecter.sln remove Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
+      #       dotnet sln Injecter.sln remove Injecter.Unity.Dependencies/Injecter.Unity.Dependencies.csproj
+      #       dotnet build Injecter.sln
+      #     testCommand: |
+      #       dotnet test Injecter.sln -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -l:trx && dotnet tool install -g dotnet-reportgenerator-globaltool && export PATH="$PATH:/github/home/.dotnet/tools" && reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:CodeCoverage" "-reporttypes:SonarQube"
+      #     projectKey: KuraiAndras_Injecter
+      #     projectName: Injecter
+      #     sonarOrganisation: kuraiandras
+      #     beginArguments: >
+      #       /d:sonar.verbose="true"
+      #       /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+      #       /d:sonar.cs.vstest.reportsPaths="**/*.trx"
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
