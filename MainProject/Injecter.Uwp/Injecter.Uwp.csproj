@@ -126,7 +126,10 @@
     <EmbeddedResource Include="Properties\Injecter.Uwp.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Injecter">
+    <PackageReference Include="IndexRange">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
       <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -156,6 +159,12 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="..\LICENSE.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
     <None Include=".nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Injecter\Injecter.csproj">
+      <Project>{e2515d84-5669-48d9-956d-f14e2072cb32}</Project>
+      <Name>Injecter</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <NoWarn>SA0001</NoWarn>
