@@ -66,10 +66,3 @@ jobs:
           PROJECT_FILE_PATH: Injecter.Uwp/Injecter.Uwp.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-      - name: Publish Injecter.FastMediatR to nuget.org
-        uses: rohith/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: Injecter.FastMediatR/Injecter.FastMediatR.csproj
-          TAG_COMMIT: "false"
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
