@@ -14,7 +14,7 @@ namespace Injecter.Hosting.Wpf
     /// </summary>
     public sealed class WpfLifetime : IHostLifetime, IDisposable
     {
-        private readonly ManualResetEvent _shutdownBlock = new ManualResetEvent(false);
+        private readonly ManualResetEvent _shutdownBlock = new(false);
         private CancellationTokenRegistration _applicationStartedRegistration;
         private CancellationTokenRegistration _applicationStoppingRegistration;
 

@@ -21,7 +21,7 @@ namespace Injecter.Hosting.Wpf
             });
 
         /// <summary>
-        /// Listens for Application.Current.Exit <see cref="Application"/> to start the shutdown process.
+        /// Listens for Application.Current.Exit to start the shutdown process.
         /// This will unblock extensions like RunAsync and WaitForShutdownAsync.
         /// </summary>
         /// <param name="hostBuilder">The <see cref="IHostBuilder" /> to configure.</param>
