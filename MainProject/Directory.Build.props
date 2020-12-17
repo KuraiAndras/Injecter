@@ -10,6 +10,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
+    <Editorconfig>..\.editorconfig</Editorconfig>
     <NoWarn>SA0001</NoWarn>
   </PropertyGroup>
 
