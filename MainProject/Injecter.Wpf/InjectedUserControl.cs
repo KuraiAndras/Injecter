@@ -19,7 +19,7 @@ namespace Injecter.Wpf
 
         public DisposeBehaviour Behavior { get; }
 
-        protected IServiceScope Scope { get; }
+        protected IServiceScope? Scope { get; }
 
         public void Dispose()
         {
@@ -31,7 +31,7 @@ namespace Injecter.Wpf
         {
             if (!isDisposing) return;
 
-            Scope.Dispose();
+            Scope?.Dispose();
         }
 
 #pragma warning disable SA1313 // Parameter names should begin with lower-case letter
@@ -92,13 +92,6 @@ namespace Injecter.Wpf
             : base(behavior) => Loaded += OnLoadedHandler;
 
         [Inject] protected TViewModel ViewModel { get; } = default!;
-
-        protected override void Dispose(bool isDisposing)
-        {
-            if (isDisposing && ViewModel is IDisposable disposable) disposable.Dispose();
-
-            base.Dispose(isDisposing);
-        }
 
         protected virtual void OnLoadedHandler(object o, RoutedEventArgs rea)
         {

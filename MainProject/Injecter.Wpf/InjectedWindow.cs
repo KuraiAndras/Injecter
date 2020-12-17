@@ -15,7 +15,7 @@ namespace Injecter.Wpf
             Closing += OnClosing;
         }
 
-        protected IServiceScope Scope { get; }
+        protected IServiceScope? Scope { get; }
 
         public void Dispose()
         {
@@ -27,14 +27,14 @@ namespace Injecter.Wpf
         {
             if (!isDisposing) return;
 
-            Scope.Dispose();
+            Scope?.Dispose();
 
             Closing -= OnClosing;
         }
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            Scope.Dispose();
+            Scope?.Dispose();
 
             Closing -= OnClosing;
         }
@@ -51,13 +51,6 @@ namespace Injecter.Wpf
             DataContext = ViewModel;
 
             Loaded -= OnLoadedHandler;
-        }
-
-        protected override void Dispose(bool isDisposing)
-        {
-            if (isDisposing && ViewModel is IDisposable d) d.Dispose();
-
-            base.Dispose(isDisposing);
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type

@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Injecter.Avalonia
 {
@@ -11,7 +10,7 @@ namespace Injecter.Avalonia
     {
         protected InjectedUserControl() => Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
-        protected IServiceScope Scope { get; }
+        protected IServiceScope? Scope { get; }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
@@ -23,16 +22,7 @@ namespace Injecter.Avalonia
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
     {
-        protected InjectedUserControl() => ViewModel = Scope.ServiceProvider.GetRequiredService<TViewModel>();
-
-        protected TViewModel ViewModel { get; }
-
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnDetachedFromVisualTree(e);
-
-            if (ViewModel is IDisposable disposable) disposable.Dispose();
-        }
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
         {

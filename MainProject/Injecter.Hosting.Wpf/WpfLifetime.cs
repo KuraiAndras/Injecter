@@ -10,7 +10,7 @@ using System.Windows;
 namespace Injecter.Hosting.Wpf
 {
     /// <summary>
-    /// Listens for Unity Application.Current.Exit
+    /// Listens for Unity Application.Current.Exit.
     /// </summary>
     public sealed class WpfLifetime : IHostLifetime, IDisposable
     {
@@ -34,10 +34,10 @@ namespace Injecter.Hosting.Wpf
             IOptions<HostOptions> hostOptions,
             ILoggerFactory loggerFactory)
         {
-            Options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            Options = options.Value ?? throw new ArgumentNullException(nameof(options));
             Environment = environment ?? throw new ArgumentNullException(nameof(environment));
             ApplicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
-            HostOptions = hostOptions?.Value ?? throw new ArgumentNullException(nameof(hostOptions));
+            HostOptions = hostOptions.Value ?? throw new ArgumentNullException(nameof(hostOptions));
             Logger = loggerFactory.CreateLogger("Microsoft.Hosting.Lifetime");
         }
 
@@ -57,11 +57,11 @@ namespace Injecter.Hosting.Wpf
             {
                 _applicationStartedRegistration = ApplicationLifetime
                     .ApplicationStarted
-                    .Register(state => ((WpfLifetime)state).OnApplicationStarted(), this);
+                    .Register(state => ((WpfLifetime)state!).OnApplicationStarted(), this);
 
                 _applicationStoppingRegistration = ApplicationLifetime
                     .ApplicationStopping
-                    .Register(state => ((WpfLifetime)state).OnApplicationStopping(), this);
+                    .Register(state => ((WpfLifetime)state!).OnApplicationStopping(), this);
             }
 
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
@@ -70,31 +70,6 @@ namespace Injecter.Hosting.Wpf
             // Console applications start immediately.
             return Task.CompletedTask;
         }
-
-        private void OnApplicationStarted()
-        {
-            Logger.LogInformation("Wpf application started");
-            Logger.LogInformation("Hosting environment: {EnvName}", Environment.EnvironmentName);
-            Logger.LogInformation("Content root path: {ContentRoot}", Environment.ContentRootPath);
-        }
-
-        private void OnApplicationStopping() => Logger.LogInformation("Unity application is shutting down...");
-
-        private void OnProcessExit(object sender, EventArgs e)
-        {
-            ApplicationLifetime.StopApplication();
-            if (!_shutdownBlock.WaitOne(HostOptions.ShutdownTimeout))
-            {
-                Logger.LogInformation("Waiting for the host to be disposed. Ensure all 'IHost' instances are wrapped in 'using' blocks.");
-            }
-
-            _shutdownBlock.WaitOne();
-            // On Linux if the shutdown is triggered by SIGTERM then that's signaled with the 143 exit code.
-            // Suppress that since we shut down gracefully. https://github.com/aspnet/AspNetCore/issues/6526
-            System.Environment.ExitCode = 0;
-        }
-
-        private void OnWpfExiting(object sender, ExitEventArgs e) => ApplicationLifetime.StopApplication();
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
@@ -108,5 +83,31 @@ namespace Injecter.Hosting.Wpf
             _applicationStartedRegistration.Dispose();
             _applicationStoppingRegistration.Dispose();
         }
+
+        private void OnApplicationStarted()
+        {
+            Logger.LogInformation("Wpf application started");
+            Logger.LogInformation("Hosting environment: {EnvName}", Environment.EnvironmentName);
+            Logger.LogInformation("Content root path: {ContentRoot}", Environment.ContentRootPath);
+        }
+
+        private void OnApplicationStopping() => Logger.LogInformation("Unity application is shutting down...");
+
+        private void OnProcessExit(object? sender, EventArgs e)
+        {
+            ApplicationLifetime.StopApplication();
+            if (!_shutdownBlock.WaitOne(HostOptions.ShutdownTimeout))
+            {
+                Logger.LogInformation("Waiting for the host to be disposed. Ensure all 'IHost' instances are wrapped in 'using' blocks.");
+            }
+
+            _shutdownBlock.WaitOne();
+
+            // On Linux if the shutdown is triggered by SIGTERM then that's signaled with the 143 exit code.
+            // Suppress that since we shut down gracefully. https://github.com/aspnet/AspNetCore/issues/6526
+            System.Environment.ExitCode = 0;
+        }
+
+        private void OnWpfExiting(object? sender, ExitEventArgs e) => ApplicationLifetime.StopApplication();
     }
 }

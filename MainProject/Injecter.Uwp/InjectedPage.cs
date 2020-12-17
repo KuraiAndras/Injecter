@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿#nullable enable
+using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,7 +15,7 @@ namespace Injecter.Uwp
             Unloaded += OnUnloaded;
         }
 
-        protected IServiceScope Scope { get; }
+        protected IServiceScope? Scope { get; }
 
         protected virtual void OnUnloaded(object sender, RoutedEventArgs e)
         {
@@ -29,20 +29,13 @@ namespace Injecter.Uwp
     {
         protected InjectedPage() => Loaded += OnLoaded;
 
-        [Inject] protected TViewModel ViewModel { get; } = default;
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected virtual void OnLoaded(object sender, RoutedEventArgs e)
         {
             DataContext = ViewModel;
 
             Loaded -= OnLoaded;
-        }
-
-        protected override void OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            base.OnUnloaded(sender, e);
-
-            if (ViewModel is IDisposable disposable) disposable.Dispose();
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type

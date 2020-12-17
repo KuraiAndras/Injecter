@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Injecter.Uwp</id>
-        <version>2.0.2</version>
+        <version>5.0.0</version>
         <title>Injecter.Uwp</title>
         <authors>Kurai András</authors>
         <owners>Kurai András</owners>
@@ -17,6 +17,6 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="..\LICENSE.md" target="" />
+        <file src="..\..\LICENSE.md" target="" />
     </files>
 </package>

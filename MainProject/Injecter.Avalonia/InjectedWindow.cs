@@ -10,7 +10,7 @@ namespace Injecter.Avalonia
     {
         protected InjectedWindow() => Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
-        protected IServiceScope Scope { get; }
+        protected IServiceScope? Scope { get; }
 
         protected override void OnClosed(EventArgs e)
         {
@@ -22,20 +22,13 @@ namespace Injecter.Avalonia
 
     public abstract class InjectedWindow<TViewModel> : InjectedWindow
     {
-        [Inject] protected TViewModel ViewModel { get; } = default;
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
         {
             DataContext = ViewModel;
 
             base.OnAttachedToLogicalTree(e);
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            if (ViewModel is IDisposable disposable) disposable.Dispose();
-
-            base.OnClosed(e);
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type

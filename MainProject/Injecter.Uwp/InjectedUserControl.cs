@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿#nullable enable
+using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,7 +15,7 @@ namespace Injecter.Uwp
             Unloaded += UnloadHandler;
         }
 
-        protected IServiceScope Scope { get; }
+        protected IServiceScope? Scope { get; }
 
         protected virtual void UnloadHandler(object o, RoutedEventArgs rea)
         {
@@ -29,14 +29,7 @@ namespace Injecter.Uwp
     {
         protected InjectedUserControl() => Loaded += OnLoaded;
 
-        [Inject] protected TViewModel ViewModel { get; } = default;
-
-        protected override void UnloadHandler(object o, RoutedEventArgs rea)
-        {
-            base.UnloadHandler(o, rea);
-
-            if (ViewModel is IDisposable disposable) disposable.Dispose();
-        }
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected virtual void OnLoaded(object o, RoutedEventArgs rea)
         {
