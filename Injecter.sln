@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
@@ -17,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Hosting.Wpf", "Mai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Tests", "MainProject\Injecter.Tests\Injecter.Tests.csproj", "{C1A3F4C8-813C-4A7B-B1CF-9AA473A7E1B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Injecter.Uwp", "MainProject\Injecter.Uwp\Injecter.Uwp.csproj", "{7ABC2A1E-6606-4F62-A325-C2D70A30F373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Uwp", "MainProject\Injecter.Uwp\Injecter.Uwp.csproj", "{7ABC2A1E-6606-4F62-A325-C2D70A30F373}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Wpf", "MainProject\Injecter.Wpf\Injecter.Wpf.csproj", "{5AAB24AE-CA7C-40D4-A7CE-AA308BB05305}"
 EndProject
@@ -28,6 +29,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnityProject", "UnityProject", "{1269CF99-44E2-43AD-B09C-119AC83970C1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Unity.Dependencies", "UnityProject\Injecter.Unity.Dependencies\Injecter.Unity.Dependencies.csproj", "{949C7767-02E5-454E-AC4D-3146BC27F7AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Build", "Injecter.Build\Injecter.Build.csproj", "{91B0FAF4-2783-420C-BA31-3CC94D1F8140}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,6 +206,24 @@ Global
 		{949C7767-02E5-454E-AC4D-3146BC27F7AE}.Release|x64.Build.0 = Release|Any CPU
 		{949C7767-02E5-454E-AC4D-3146BC27F7AE}.Release|x86.ActiveCfg = Release|Any CPU
 		{949C7767-02E5-454E-AC4D-3146BC27F7AE}.Release|x86.Build.0 = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|ARM.Build.0 = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|x64.Build.0 = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Debug|x86.Build.0 = Debug|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|ARM.ActiveCfg = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|ARM.Build.0 = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|ARM64.Build.0 = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|x64.ActiveCfg = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|x64.Build.0 = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|x86.ActiveCfg = Release|Any CPU
+		{91B0FAF4-2783-420C-BA31-3CC94D1F8140}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

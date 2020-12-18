@@ -18,19 +18,8 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Restore
-        shell: pwsh
-        run: |
-          dotnet restore
-
-      - name: Build
-        shell: pwsh
-        run: |
-          MSBuild /property:Configuration=Release
-
-      - name: Publish Nuget
-        shell: pwsh
+      - name: Publish
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          Get-ChildItem -Filter *.nupkg -Recurse -ErrorAction SilentlyContinue -Force | % { nuget push $_.FullName $env:NUGET_API_KEY -Source https://api.nuget.org/v3/index.json }
+        shell: pwsh
+        run: ./build.ps1 PublishNugetPackages --nuget-api-key $env:NUGET_API_KEY --configuration Release
