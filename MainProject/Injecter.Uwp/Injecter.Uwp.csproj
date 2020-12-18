@@ -1,6 +1,9 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>uap10.0.19041</TargetFrameworks>
+
+    <PackageId>Injecter.Uwp</PackageId>
+    <Description>InjectedUserControl in UWP for Injecter</Description>
   </PropertyGroup>
 
   <ItemGroup>
