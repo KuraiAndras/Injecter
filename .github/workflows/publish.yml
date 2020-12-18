@@ -13,55 +13,42 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Publish Injecter to nuget.org
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           PROJECT_FILE_PATH: Injecter/Injecter.csproj
-          TAG_COMMIT: "false"
+          TAG_COMMIT: "true"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Avalonia to nuget.org
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           PROJECT_FILE_PATH: Injecter.Avalonia/Injecter.Avalonia.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Wpf to nuget.org
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           PROJECT_FILE_PATH: Injecter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
       
       - name: Publish Injecter.Hosting.Wpf to nuget.org
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           PROJECT_FILE_PATH: Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Xamarin.Forms to nuget.org
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           PROJECT_FILE_PATH: Injecter.Xamarin.Forms/Injecter.Xamarin.Forms.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
-      - name: Publish Injecter.Unity to openupm
-        uses: Klemensas/action-autotag@stable
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          package_root: "Injecter.Unity/Assets/Injecter.Unity"
-      
-      - name: Publish Injecter.Hosting.Unity to openupm
-        uses: Klemensas/action-autotag@stable
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          package_root: "Injecter.Unity/Assets/Injecter.Hosting.Unity"
-          tag_prefix: "unity-hosting/"
-
       - name: Publish Injecter.Uwp to nuget.org
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           PROJECT_FILE_PATH: Injecter.Uwp/Injecter.Uwp.csproj
           TAG_COMMIT: "false"

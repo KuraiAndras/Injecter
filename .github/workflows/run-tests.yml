@@ -17,19 +17,22 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
 
-      - name: Remove hard projects
-        run : |
-          dotnet sln Injecter.sln remove Injecter.Uwp/Injecter.Uwp.csproj
-          dotnet sln Injecter.sln remove Injecter.UwpExample/Injecter.UwpExample.csproj
-          dotnet sln Injecter.sln remove Injecter.Wpf/Injecter.Wpf.csproj
-          dotnet sln Injecter.sln remove Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
-          dotnet sln Injecter.sln remove Injecter.Unity.Dependencies/Injecter.Unity.Dependencies.csproj  
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Restore
         run: dotnet restore
+
+      - name: Remove UWP project
+        run: |
+          dotnet sln remove .\MainProject\Injecter.Uwp\Injecter.Uwp.csproj
+
+      - name: Build UWP
+        run: |
+          MSBuild .\MainProject\Injecter.Uwp\Injecter.Uwp.csproj /property:Configuration=Release
 
       - name: Build
         run: dotnet build --configuration Release /WarnAsError
 
       - name: Test
-        run: dotnet test --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover

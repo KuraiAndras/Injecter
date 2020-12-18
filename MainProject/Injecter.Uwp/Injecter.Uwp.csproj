@@ -1,0 +1,10 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <TargetFrameworks>uap10.0.19041</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Injecter\Injecter.csproj" />
+  </ItemGroup>
+
+</Project>
