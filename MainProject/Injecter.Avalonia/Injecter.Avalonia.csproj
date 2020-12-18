@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <IsPackable>true</IsPackable>
+    <PackageId>Injecter.Avalonia</PackageId>
+    <Description>InjectedUserControl in Avalonia for Injecter</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.9.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Injecter\Injecter.csproj" />
+  </ItemGroup>
+
+</Project>

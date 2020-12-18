@@ -1,0 +1,16 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net48;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+
+    <IsPackable>true</IsPackable>
+    <PackageId>Injecter.Wpf</PackageId>
+    <Description>InjectedUserControl in WPF for Injecter</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Injecter\Injecter.csproj" />
+  </ItemGroup>
+
+</Project>
