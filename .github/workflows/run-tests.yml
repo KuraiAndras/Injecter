@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  TestSonar:
+  RunTests:
     runs-on: windows-latest
 
     steps:
