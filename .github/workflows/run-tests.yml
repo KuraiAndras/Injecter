@@ -23,9 +23,9 @@ jobs:
       - name: Restore
         run: dotnet restore
 
-      - name: Remove hard projects
+      - name: Remove UWP project
         run: |
-          dotnet sln Injecter.sln remove Injecter.Uwp/Injecter.Uwp.csproj
+          dotnet sln remove .\MainProject\Injecter.Uwp\Injecter.Uwp.csproj
 
       - name: Build UWP
         run: |
