@@ -5,7 +5,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Injecter.Uwp
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedPage : Page
     {
         protected InjectedPage()
@@ -38,5 +37,4 @@ namespace Injecter.Uwp
             Loaded -= OnLoaded;
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }

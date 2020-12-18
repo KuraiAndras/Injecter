@@ -9,8 +9,7 @@ namespace Injecter
 {
     public sealed class Injecter : IInjecter
     {
-        private readonly ConcurrentDictionary<Type, (FieldInfo[] fieldInfos, PropertyInfo[] propertyInfos, MethodInfo[] methodInfos)> _resolveDictionary =
-            new ConcurrentDictionary<Type, (FieldInfo[], PropertyInfo[], MethodInfo[])>();
+        private readonly ConcurrentDictionary<Type, (FieldInfo[] fieldInfos, PropertyInfo[] propertyInfos, MethodInfo[] methodInfos)> _resolveDictionary = new();
 
         private readonly InjecterOptions _options;
         private readonly IServiceProvider _serviceProvider;
@@ -92,7 +91,7 @@ namespace Injecter
 
         private (FieldInfo[] fieldInfos, PropertyInfo[] propertyInfos, MethodInfo[] methodInfos) GetMembers(Type type)
         {
-            (FieldInfo[] fields, PropertyInfo[] properties, MethodInfo[] methods) GetMembersInternal(IReadOnlyCollection<Type> allTypesInternal)
+            static (FieldInfo[] fields, PropertyInfo[] properties, MethodInfo[] methods) GetMembersInternal(IReadOnlyCollection<Type> allTypesInternal)
             {
                 const BindingFlags instanceBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
