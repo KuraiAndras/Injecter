@@ -17,6 +17,9 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
 
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
       - name: Restore
         run: dotnet restore
 
