@@ -2,6 +2,7 @@
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
@@ -33,14 +34,12 @@ sealed class Build : NukeBuild
     bool UpToDate { get; set; } = false;
 
     Target CheckVersion => _ => _
-        .OnlyWhenStatic(() => ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PublishNuget)) != null)
+        .OnlyWhenStatic(() => ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
         .DependentFor(Restore)
         .Executes(() =>
         {
             var tagRegex = new Regex(@"\d+\.d+\.\d+", RegexOptions.Compiled, TimeSpan.FromMilliseconds(100d));
             var tags = Git("tag").Where(t => tagRegex.IsMatch(t.Text)).Select(t => t.Text).ToArray();
-
-            var version = Props.Value.PropertyGroup.Version;
 
             UpToDate = tags.Contains(Props.Value.PropertyGroup.Version);
         });
@@ -53,21 +52,40 @@ sealed class Build : NukeBuild
                 .SetVerbosity(MSBuildVerbosity.Minimal)));
 
     Target Restore => _ => _
-        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PublishNuget)) != null)
+        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
         .Executes(() => DotNetRestore(s => s.SetProjectFile(Solution)));
 
     Target Compile => _ => _
-        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PublishNuget)) != null)
+        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
         .DependsOn(Restore)
         .Executes(() =>
-            MSBuild(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration.Release)
-                .SetWarningsAsErrors()
-                .SetVerbosity(MSBuildVerbosity.Minimal)));
+        {
+            var uwpProjects = Solution.AllProjects
+                .Where(p => p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase))
+                .ToArray();
+
+            var otherProjects = Solution.AllProjects.Except(uwpProjects).ToArray();
+
+            return Enumerable.Empty<Output>()
+                .Concat(uwpProjects
+                    .Select(p =>
+                        MSBuild(s => s
+                            .SetProjectFile(p)
+                            .SetConfiguration(Configuration.Release)
+                            .SetWarningsAsErrors()
+                            .SetVerbosity(MSBuildVerbosity.Minimal)))
+                    .ToList())
+                .Concat(otherProjects
+                    .Select(p =>
+                        DotNetBuild(s => s
+                            .SetProjectFile(p)
+                            .SetConfiguration(Configuration.Release)
+                            .SetWarningsAsErrors()))
+                    .ToList());
+        });
 
     Target Test => _ => _
-        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PublishNuget)) != null)
+        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
         .DependsOn(Compile)
         .Executes(() =>
             DotNetTest(s => s
@@ -77,9 +95,9 @@ sealed class Build : NukeBuild
                 .SetCollectCoverage(true)
                 .SetCoverletOutputFormat(CoverletOutputFormat.opencover)));
 
-    Target PublishNuget => _ => _
+    Target PushToNuGet => _ => _
         .OnlyWhenDynamic(() => !UpToDate)
-        .DependsOn(Test)
+        .DependsOn(Compile)
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
@@ -95,14 +113,14 @@ sealed class Build : NukeBuild
 
     Target PushNewTag => _ => _
         .OnlyWhenDynamic(() => !UpToDate)
-        .DependsOn(PublishNuget)
+        .DependsOn(PushToNuGet)
         .Executes(() =>
         {
             Git($"git tag {Props.Value.PropertyGroup.Version}");
             Git($"push origin {Props.Value.PropertyGroup.Version}");
         });
 
-    Target PublishNugetPackages => _ => _
+    Target PublishNuGetPackages => _ => _
         .OnlyWhenDynamic(() => !UpToDate)
         .DependsOn(PushNewTag)
         .Executes(() => { });
