@@ -15,41 +15,41 @@ jobs:
       - name: Publish Injecter to nuget.org
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: Injecter/Injecter.csproj
+          PROJECT_FILE_PATH: MainProject/Injecter/Injecter.csproj
           TAG_COMMIT: "true"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Avalonia to nuget.org
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: Injecter.Avalonia/Injecter.Avalonia.csproj
+          PROJECT_FILE_PATH: MainProject/Injecter.Avalonia/Injecter.Avalonia.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Wpf to nuget.org
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: Injecter.Wpf/Injecter.Wpf.csproj
+          PROJECT_FILE_PATH: MainProject/Injecter.Wpf/Injecter.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
       
       - name: Publish Injecter.Hosting.Wpf to nuget.org
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
+          PROJECT_FILE_PATH: MainProject/Injecter.Hosting.Wpf/Injecter.Hosting.Wpf.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Xamarin.Forms to nuget.org
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: Injecter.Xamarin.Forms/Injecter.Xamarin.Forms.csproj
+          PROJECT_FILE_PATH: MainProject/Injecter.Xamarin.Forms/Injecter.Xamarin.Forms.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Injecter.Uwp to nuget.org
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
-          PROJECT_FILE_PATH: Injecter.Uwp/Injecter.Uwp.csproj
+          PROJECT_FILE_PATH: MainProject/Injecter.Uwp/Injecter.Uwp.csproj
           TAG_COMMIT: "false"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
