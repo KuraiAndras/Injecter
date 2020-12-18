@@ -1,10 +1,6 @@
 name: Run Tests
 
 on:
-  push:
-    branches:
-      - master
-      - develop
   pull_request:
 
 jobs:
@@ -20,19 +16,6 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Restore
-        run: dotnet restore
-
-      - name: Remove UWP project
-        run: |
-          dotnet sln remove .\MainProject\Injecter.Uwp\Injecter.Uwp.csproj
-
-      - name: Build UWP
-        run: |
-          MSBuild .\MainProject\Injecter.Uwp\Injecter.Uwp.csproj /property:Configuration=Release
-
-      - name: Build
-        run: dotnet build --configuration Release /WarnAsError
-
       - name: Test
-        run: dotnet test --no-build --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        shell: pwsh
+        run: ./build.ps1 Test --configuration Release
