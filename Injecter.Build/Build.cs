@@ -8,13 +8,9 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Utilities.Collections;
 using System;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.Git.GitTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 [CheckBuildProjectConfigurations]
@@ -96,40 +92,4 @@ sealed class Build : NukeBuild
                         .SetTargetPath(x)
                         .SetSource(NugetApiUrl)
                         .SetApiKey(NugetApiKey))));
-
-    Target PushNewTag => _ => _
-        .DependsOn(PushToNuGet)
-        .Executes(() => Enumerable.Empty<Output>()
-            .Concat(Git($"git tag {Props.Value.PropertyGroup.Version}"))
-            .Concat(Git($"push origin {Props.Value.PropertyGroup.Version}")));
-
-    Target PublishNuGetPackages => _ => _
-        .DependsOn(PushNewTag)
-        .Executes(() => { });
-
-    Lazy<Project> Props { get; } = new(() =>
-    {
-        static Project ReadProject(string s)
-        {
-            using var reader = new FileStream(s, FileMode.Open);
-            var serializer = new XmlSerializer(typeof(Project));
-            return serializer.Deserialize(reader) as Project ?? throw new InvalidOperationException("Could not deserialize Project");
-        }
-
-        var solutionDirectory = Directory.GetCurrentDirectory();
-        var propsPath = Path.Combine(solutionDirectory, "MainProject", "Directory.Build.props");
-        var project = ReadProject(propsPath);
-
-        return project;
-    });
-}
-
-public sealed class Project
-{
-    public PropertyGroup PropertyGroup { get; set; } = new();
-}
-
-public sealed class PropertyGroup
-{
-    public string Version { get; set; } = string.Empty;
 }
