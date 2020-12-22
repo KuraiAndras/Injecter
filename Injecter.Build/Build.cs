@@ -32,17 +32,24 @@ sealed class Build : NukeBuild
     [Solution] readonly Solution Solution;
 
     bool UpToDate { get; set; } = false;
+    bool IsPublish => ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null;
+    bool ShouldCompileAndPush => !(IsPublish && UpToDate);
 
     Target CheckVersion => _ => _
-        .OnlyWhenStatic(() => ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
+        .OnlyWhenStatic(() => IsPublish)
         .DependentFor(Restore)
         .Executes(() =>
         {
             var tagRegex = new Regex(@"\d+\.\d+\.\d+", RegexOptions.Compiled, TimeSpan.FromMilliseconds(100d));
 
-            var tags = Git("tag").Where(t => tagRegex.IsMatch(t.Text)).Select(t => t.Text).ToArray();
+            var gitOutput = Git("tag");
+            var tags = gitOutput.Where(t => tagRegex.IsMatch(t.Text)).Select(t => t.Text).ToArray();
 
             UpToDate = tags.Contains(Props.Value.PropertyGroup.Version);
+            return Enumerable.Empty<Output>()
+                .Concat(gitOutput)
+                .Concat(new Output { Text = $"Up To Date: {UpToDate}", Type = OutputType.Std })
+                .Concat(new Output { Text = $"IsPublish: {IsPublish}", Type = OutputType.Std });
         });
 
     Target Clean => _ => _
@@ -53,11 +60,10 @@ sealed class Build : NukeBuild
                 .SetVerbosity(MSBuildVerbosity.Minimal)));
 
     Target Restore => _ => _
-        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
         .Executes(() => DotNetRestore(s => s.SetProjectFile(Solution)));
 
     Target Compile => _ => _
-        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
+        .OnlyWhenDynamic(() => ShouldCompileAndPush)
         .DependsOn(Restore)
         .Executes(() =>
         {
@@ -86,7 +92,6 @@ sealed class Build : NukeBuild
         });
 
     Target Test => _ => _
-        .OnlyWhenDynamic(() => !UpToDate || ExecutingTargets.SingleOrDefault(t => t.Name == nameof(PushToNuGet)) != null)
         .DependsOn(Compile)
         .Executes(() =>
             DotNetTest(s => s
@@ -97,7 +102,7 @@ sealed class Build : NukeBuild
                 .SetCoverletOutputFormat(CoverletOutputFormat.opencover)));
 
     Target PushToNuGet => _ => _
-        .OnlyWhenDynamic(() => !UpToDate)
+        .OnlyWhenDynamic(() => ShouldCompileAndPush)
         .DependsOn(Compile)
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
@@ -113,14 +118,14 @@ sealed class Build : NukeBuild
                         .SetApiKey(NugetApiKey))));
 
     Target PushNewTag => _ => _
-        .OnlyWhenDynamic(() => !UpToDate)
+        .OnlyWhenDynamic(() => ShouldCompileAndPush)
         .DependsOn(PushToNuGet)
         .Executes(() => Enumerable.Empty<Output>()
             .Concat(Git($"git tag {Props.Value.PropertyGroup.Version}"))
             .Concat(Git($"push origin {Props.Value.PropertyGroup.Version}")));
 
     Target PublishNuGetPackages => _ => _
-        .OnlyWhenDynamic(() => !UpToDate)
+        .OnlyWhenDynamic(() => ShouldCompileAndPush)
         .DependsOn(PushNewTag)
         .Executes(() => { });
 
