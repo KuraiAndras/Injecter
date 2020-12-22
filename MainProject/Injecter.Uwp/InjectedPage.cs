@@ -9,7 +9,7 @@ namespace Injecter.Uwp
     {
         protected InjectedPage()
         {
-            Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+            Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
             Unloaded += OnUnloaded;
         }

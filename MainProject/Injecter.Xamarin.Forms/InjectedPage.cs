@@ -3,10 +3,9 @@ using Xamarin.Forms;
 
 namespace Injecter.Xamarin.Forms
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedPage : Page
     {
-        protected InjectedPage() => Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+        protected InjectedPage() => Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
         protected IServiceScope? Scope { get; }
 
@@ -29,5 +28,4 @@ namespace Injecter.Xamarin.Forms
             base.OnAppearing();
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }

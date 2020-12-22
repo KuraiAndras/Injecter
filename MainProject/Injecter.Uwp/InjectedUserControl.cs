@@ -5,12 +5,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Injecter.Uwp
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedUserControl : UserControl
     {
         protected InjectedUserControl()
         {
-            Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+            Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
             Unloaded += UnloadHandler;
         }
@@ -38,5 +37,4 @@ namespace Injecter.Uwp
             Loaded -= OnLoaded;
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }

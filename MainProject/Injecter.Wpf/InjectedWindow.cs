@@ -5,12 +5,11 @@ using System.Windows;
 
 namespace Injecter.Wpf
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedWindow : Window, IDisposable
     {
         protected InjectedWindow()
         {
-            Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+            Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
             Closing += OnClosing;
         }
@@ -53,5 +52,4 @@ namespace Injecter.Wpf
             Loaded -= OnLoadedHandler;
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }
