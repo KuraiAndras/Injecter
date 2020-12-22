@@ -5,10 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Injecter.Avalonia
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedUserControl : UserControl
     {
-        protected InjectedUserControl() => Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+        protected InjectedUserControl() => Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
         protected IServiceScope? Scope { get; }
 
@@ -31,5 +30,4 @@ namespace Injecter.Avalonia
             DataContext = ViewModel;
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }

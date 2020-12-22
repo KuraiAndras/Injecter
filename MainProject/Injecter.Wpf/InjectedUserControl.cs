@@ -5,14 +5,13 @@ using System.Windows.Controls;
 
 namespace Injecter.Wpf
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedUserControl : UserControl, IDisposable
     {
         private Window? _window;
 
         protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
         {
-            Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+            Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
             Behavior = behavior;
             Loaded += OnControlLoaded;
         }
@@ -34,7 +33,6 @@ namespace Injecter.Wpf
             Scope?.Dispose();
         }
 
-#pragma warning disable SA1313 // Parameter names should begin with lower-case letter
         private void OnControlLoaded(object _, RoutedEventArgs __)
         {
             Loaded -= OnControlLoaded;
@@ -65,7 +63,11 @@ namespace Injecter.Wpf
 
         private void OnWindowClosed(object? _, EventArgs __)
         {
-            if (_window is { }) _window.Closed -= OnWindowClosed;
+            if (_window is not null)
+            {
+                _window.Closed -= OnWindowClosed;
+                _window = null;
+            }
 
             Dispose();
         }
@@ -83,7 +85,6 @@ namespace Injecter.Wpf
 
             Dispose();
         }
-#pragma warning restore SA1313 // Parameter names should begin with lower-case letter
     }
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
@@ -100,5 +101,4 @@ namespace Injecter.Wpf
             Loaded -= OnLoadedHandler;
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }

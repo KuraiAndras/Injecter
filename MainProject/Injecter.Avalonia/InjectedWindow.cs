@@ -5,10 +5,9 @@ using System;
 
 namespace Injecter.Avalonia
 {
-#pragma warning disable SA1402 // File may only contain a single type
     public abstract class InjectedWindow : Window
     {
-        protected InjectedWindow() => Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+        protected InjectedWindow() => Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
 
         protected IServiceScope? Scope { get; }
 
@@ -31,5 +30,4 @@ namespace Injecter.Avalonia
             base.OnAttachedToLogicalTree(e);
         }
     }
-#pragma warning restore SA1402 // File may only contain a single type
 }
