@@ -38,7 +38,8 @@ sealed class Build : NukeBuild
         .DependentFor(Restore)
         .Executes(() =>
         {
-            var tagRegex = new Regex(@"\d+\.d+\.\d+", RegexOptions.Compiled, TimeSpan.FromMilliseconds(100d));
+            var tagRegex = new Regex(@"\d+\.\d+\.\d+", RegexOptions.Compiled, TimeSpan.FromMilliseconds(100d));
+
             var tags = Git("tag").Where(t => tagRegex.IsMatch(t.Text)).Select(t => t.Text).ToArray();
 
             UpToDate = tags.Contains(Props.Value.PropertyGroup.Version);
@@ -114,11 +115,9 @@ sealed class Build : NukeBuild
     Target PushNewTag => _ => _
         .OnlyWhenDynamic(() => !UpToDate)
         .DependsOn(PushToNuGet)
-        .Executes(() =>
-        {
-            Git($"git tag {Props.Value.PropertyGroup.Version}");
-            Git($"push origin {Props.Value.PropertyGroup.Version}");
-        });
+        .Executes(() => Enumerable.Empty<Output>()
+            .Concat(Git($"git tag {Props.Value.PropertyGroup.Version}"))
+            .Concat(Git($"push origin {Props.Value.PropertyGroup.Version}")));
 
     Target PublishNuGetPackages => _ => _
         .OnlyWhenDynamic(() => !UpToDate)
