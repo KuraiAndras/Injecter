@@ -2,6 +2,7 @@
 using Injecter.Hosting.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SampleLogic;
 using System.Windows;
 
 namespace WpfSample
