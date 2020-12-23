@@ -27,14 +27,6 @@ sealed class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
 
-    Target Clean => _ => _
-        .DependentFor(Restore)
-        .Executes(() =>
-            MSBuild(s => s
-                .SetProjectFile(Solution)
-                .SetTargets("clean")
-                .SetVerbosity(MSBuildVerbosity.Minimal)));
-
     Target Restore => _ => _
         .Executes(() => DotNetRestore(s => s.SetProjectFile(Solution)));
 
@@ -85,7 +77,7 @@ sealed class Build : NukeBuild
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
-            Directory.EnumerateFiles(Solution.Directory!, "*.nupkg")
+            Directory.EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
                 .Where(n => !n.EndsWith("symbols.nupkg"))
                 .Select(x =>
                     DotNetNuGetPush(s => s
