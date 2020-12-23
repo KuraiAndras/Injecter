@@ -6,12 +6,15 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
+using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Utilities.Collections;
 using System;
 using System.IO;
 using System.Linq;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
+using static Nuke.Common.Tools.NuGet.NuGetTasks;
+using static System.IO.Directory;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
@@ -28,7 +31,8 @@ sealed class Build : NukeBuild
     [Solution] readonly Solution Solution;
 
     Target Restore => _ => _
-        .Executes(() => DotNetRestore(s => s.SetProjectFile(Solution)));
+        .Executes(() =>
+            NuGetRestore(s => s.SetTargetPath(Solution.Path)));
 
     Target Compile => _ => _
         .DependsOn(Restore)
@@ -62,18 +66,22 @@ sealed class Build : NukeBuild
 
             return Enumerable.Empty<Output>()
                 .Concat(buildUwp)
-                .Concat(buildOthers);
+                .Concat(buildOthers)
+                .ToArray();
         });
 
     Target Test => _ => _
         .DependsOn(Compile)
         .Executes(() =>
-            DotNetTest(s => s
-                .SetProjectFile(Solution)
-                .SetNoBuild(true)
-                .SetConfiguration(Configuration.Release)
-                .SetCollectCoverage(true)
-                .SetCoverletOutputFormat(CoverletOutputFormat.opencover)));
+            EnumerateFiles(Solution.Directory!, "*Tests.csproj", SearchOption.AllDirectories)
+                .Select(t =>
+                    DotNetTest(s => s
+                        .SetProjectFile(t)
+                        .SetNoBuild(true)
+                        .SetConfiguration(Configuration.Release)
+                        .SetCollectCoverage(true)
+                        .SetCoverletOutputFormat(CoverletOutputFormat.opencover)))
+                .ToArray());
 
     Target PushToNuGet => _ => _
         .DependsOn(Compile)
@@ -81,12 +89,12 @@ sealed class Build : NukeBuild
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
-            Directory.EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
+            EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
                 .Where(n => !n.EndsWith("symbols.nupkg"))
                 .Select(x =>
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource(NugetApiUrl)
                         .SetApiKey(NugetApiKey)))
-                .ToList());
+                .ToArray());
 }
