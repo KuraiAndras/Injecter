@@ -34,7 +34,11 @@ sealed class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            var uwpProjects = Solution.AllProjects
+            var projectsToBuild = Solution.AllProjects
+                .Where(p => !p.Path.ToString().Contains("Samples"))
+                .ToArray();
+
+            var uwpProjects = projectsToBuild
                 .Where(p => p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase))
                 .ToArray();
 
@@ -47,7 +51,7 @@ sealed class Build : NukeBuild
                         .SetVerbosity(MSBuildVerbosity.Minimal)))
                 .ToList();
 
-            var buildOthers = Solution.AllProjects
+            var buildOthers = projectsToBuild
                 .Except(uwpProjects)
                 .Select(p =>
                     DotNetBuild(s => s
