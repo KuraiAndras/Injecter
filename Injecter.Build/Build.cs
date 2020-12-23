@@ -8,8 +8,8 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Utilities.Collections;
 using System;
+using System.IO;
 using System.Linq;
-using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
@@ -26,13 +26,6 @@ sealed class Build : NukeBuild
     [Parameter] readonly string NugetApiKey = string.Empty;
 
     [Solution] readonly Solution Solution;
-
-    Target Clean => _ => _
-        .DependentFor(Restore)
-        .Executes(() =>
-            MSBuild(s => s
-                .SetTargets("clean")
-                .SetVerbosity(MSBuildVerbosity.Minimal)));
 
     Target Restore => _ => _
         .Executes(() => DotNetRestore(s => s.SetProjectFile(Solution)));
@@ -84,12 +77,12 @@ sealed class Build : NukeBuild
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(() =>
-            GlobFiles(Solution.Directory, "*.nupkg")
-                .NotEmpty()
-                .Where(x => !x.EndsWith("symbols.nupkg"))
-                .ForEach(x =>
+            Directory.EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
+                .Where(n => !n.EndsWith("symbols.nupkg"))
+                .Select(x =>
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource(NugetApiUrl)
-                        .SetApiKey(NugetApiKey))));
+                        .SetApiKey(NugetApiKey)))
+                .ToList());
 }

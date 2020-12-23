@@ -5,7 +5,10 @@ namespace Injecter.Xamarin.Forms
 {
     public abstract class InjectedPage : Page
     {
-        protected InjectedPage() => Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+        protected InjectedPage() =>
+            Scope = CompositionRoot.ServiceProvider is not null
+                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this)
+                : null;
 
         protected IServiceScope? Scope { get; }
 

@@ -7,7 +7,10 @@ namespace Injecter.Avalonia
 {
     public abstract class InjectedWindow : Window
     {
-        protected InjectedWindow() => Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+        protected InjectedWindow() =>
+            Scope = CompositionRoot.ServiceProvider is not null
+                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this)
+                : null;
 
         protected IServiceScope? Scope { get; }
 
