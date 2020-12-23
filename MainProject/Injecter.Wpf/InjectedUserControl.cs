@@ -11,7 +11,9 @@ namespace Injecter.Wpf
 
         protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
         {
-            Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this);
+            Scope = CompositionRoot.ServiceProvider is not null
+                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this)
+                : null;
             Behavior = behavior;
             Loaded += OnControlLoaded;
         }
