@@ -1,12 +1,17 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using Injecter.Uwp;
+using Microsoft.UI.Xaml;
 
 namespace UwpSample
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage
     {
         public MainPage() => InitializeComponent();
 
-        private void myButton_Click(object sender, RoutedEventArgs e) => MyButton.Content = "Clicked";
+        private void OnClickButton(object sender, RoutedEventArgs e) => ButtonText.Text = "Clicked";
+    }
+
+    public sealed class asd : InjectedPage
+    {
+
     }
 }
