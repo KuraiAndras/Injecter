@@ -3,7 +3,9 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
 
-    <Version>5.0.4</Version>
+    <Version>5.0.5</Version>
+    <AssemblyVersion>5.0.5</AssemblyVersion>
+		<FileVersion>5.0.5</FileVersion>
     <Authors>Kurai András</Authors>
 
     <IsPackable>true</IsPackable>
