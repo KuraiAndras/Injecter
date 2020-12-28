@@ -2,14 +2,18 @@
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
+    
+    <CurrentVersion>5.0.6</CurrentVersion>
 
-    <Version>5.0.4</Version>
+    <Version>$(CurrentVersion)</Version>
+    <PakcageVersion>$(CurrentVersion)</PakcageVersion>
+
     <Authors>Kurai András</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <IsPackable>true</IsPackable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <Editorconfig>..\.editorconfig</Editorconfig>
     <NoWarn>SA0001;CS1685</NoWarn>
