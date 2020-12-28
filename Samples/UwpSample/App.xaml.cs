@@ -1,4 +1,8 @@
-﻿using System;
+﻿#nullable enable
+using Injecter;
+using Microsoft.Extensions.Hosting;
+using SampleLogic;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -10,14 +14,22 @@ namespace UwpSample
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App
+    public sealed partial class App
     {
+        private readonly IHost _host;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            _host = new HostBuilder().ConfigureServices(s => s.AddSharedLogic()).Build();
+
+            CompositionRoot.ServiceProvider = _host.Services;
+
+            _host.Start();
+
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -67,7 +79,7 @@ namespace UwpSample
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        static void OnNavigationFailed(object sender, NavigationFailedEventArgs e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        private static void OnNavigationFailed(object sender, NavigationFailedEventArgs e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
@@ -76,10 +88,14 @@ namespace UwpSample
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private static void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+
             //TODO: Save application state and stop any background activity
+
+            _host.StopAsync().GetAwaiter().GetResult();
+
             deferral.Complete();
         }
     }

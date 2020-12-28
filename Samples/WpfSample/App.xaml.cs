@@ -1,6 +1,5 @@
 ﻿using Injecter;
 using Injecter.Hosting.Wpf;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SampleLogic;
 using System.Windows;
@@ -15,11 +14,7 @@ namespace WpfSample
         {
             _host = new HostBuilder()
                 .UseWpfLifetime()
-                .ConfigureServices(s =>
-                {
-                    s.AddInjecter();
-                    s.AddSingleton<ICounter, Counter>();
-                })
+                .ConfigureServices(s => s.AddSharedLogic())
                 .Build();
 
             CompositionRoot.ServiceProvider = _host.Services;
