@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="023a40f6-1fcf-42ec-9181-1d514c54b582"
+    Name="b0643d94-dc68-466c-8feb-862976eaba96"
     Publisher="CN=kandr"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="023a40f6-1fcf-42ec-9181-1d514c54b582" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="b0643d94-dc68-466c-8feb-862976eaba96" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>UwpSample</DisplayName>
@@ -20,7 +20,7 @@
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17134.0" MaxVersionTested="10.0.17134.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Resources>

@@ -6,15 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <StackPanel
-        Orientation="Horizontal"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-        <Button
-            Click="OnClickButton">
-            <TextBlock
-                x:Name="ButtonText"
-                Text="Click me" />
-        </Button>
-    </StackPanel>
+
+    <Grid>
+
+    </Grid>
 </Page>
