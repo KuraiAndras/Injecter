@@ -6,11 +6,12 @@ on:
       - "feature/add-docfx-with-gh-pages"
 
 jobs:
-  Publish_To_Github_Pages:
+  Deploy:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
 
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
@@ -22,9 +23,10 @@ jobs:
         shell: pwsh
         run: ./build.ps1 BuildDocs
 
-      - uses: maxheld83/ghpages@v0.3.0
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2.2.0
+        with:
+          target_branch: gh-pages
+          build_dir: Documentation/_site
         env:
-          BUILD_DIR: Documentation/_site
-          GH_PAT: ${{ secrets.GH_PAT }}
-
-      
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
