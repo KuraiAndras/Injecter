@@ -1,0 +1,30 @@
+name: Publish To GitHub Pages
+
+on:
+  push:
+    branches:
+      - "feature/add-docfx-with-gh-pages"
+
+jobs:
+  Publish To Github Pages:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.7.2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build DocFX
+        shell: pwsh
+        run: ./build.ps1 BuildDocs
+
+      - uses: maxheld83/ghpages@v0.3.0
+        env:
+          BUILD_DIR: Documentation/_site
+          GH_PAT: ${{ secrets.GH_PAT }}
+
+      
