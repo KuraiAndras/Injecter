@@ -4,12 +4,11 @@
       "src": [
         {
           "files": [
-            "MainProject/**.cs",
+            "MainProject/**Injecter**.dll",
             "UnityProject/**/Assets/**.cs"
           ],
           "exclude": [
             "**/obj/**",
-            "**/bin/**",
             "**/**Tests**/**"
           ],
           "src": "../"

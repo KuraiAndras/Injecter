@@ -3,6 +3,7 @@ using Nuke.Common.CI;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Coverlet;
+using Nuke.Common.Tools.DocFX;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using static Nuke.Common.Tools.DocFX.DocFXTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
@@ -19,6 +21,8 @@ using static System.IO.Directory;
 sealed class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Test);
+
+    const string DocFxJsonPath = "Documentation/docfx.json";
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -92,6 +96,16 @@ sealed class Build : NukeBuild
                         .SetSource(NugetApiUrl)
                         .SetApiKey(NugetApiKey)))
                 .ToImmutableArray());
+
+    Target BuildDocs => _ => _
+        .DependsOn(BuildPackages)
+        .Executes(() =>
+            DocFX($"build {DocFxJsonPath}"));
+
+    Target ServeDocs => _ => _
+        .DependsOn(BuildPackages)
+        .Executes(() =>
+            DocFX($"{DocFxJsonPath} --serve"));
 
     static ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
     {
