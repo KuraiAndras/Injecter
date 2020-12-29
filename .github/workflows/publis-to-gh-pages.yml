@@ -6,7 +6,7 @@ on:
       - "feature/add-docfx-with-gh-pages"
 
 jobs:
-  Publish To Github Pages:
+  Publish_To_Github_Pages:
     runs-on: windows-latest
 
     steps:
