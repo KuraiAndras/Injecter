@@ -1,6 +1,5 @@
 {
     "name": "Injecter.Unity.Tests",
-    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",

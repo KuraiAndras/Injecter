@@ -16,11 +16,7 @@ namespace Injecter.Unity
 
         public void InitializeScene(IServiceProvider serviceProvider)
         {
-            if (serviceProvider is null) throw new ArgumentNullException(nameof(serviceProvider));
-
-            if (_serviceProvider is ServiceProvider sp) sp.Dispose();
-
-            _serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
             _injecter = _serviceProvider.GetRequiredService<IInjecter>();
 
