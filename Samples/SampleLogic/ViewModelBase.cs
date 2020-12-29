@@ -1,21 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WpfSample
+namespace SampleLogic
 {
-    public sealed class Counter : ViewModelBase, ICounter
-    {
-        private int _count;
-
-        public int Count
-        {
-            get => _count;
-            private set => SetAndNotifyProperty(ref _count, value);
-        }
-
-        public void Increment() => Count++;
-    }
-
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;

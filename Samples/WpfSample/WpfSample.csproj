@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MainProject\Injecter.Hosting.Wpf\Injecter.Hosting.Wpf.csproj" />
     <ProjectReference Include="..\..\MainProject\Injecter.Wpf\Injecter.Wpf.csproj" />
+    <ProjectReference Include="..\SampleLogic\SampleLogic.csproj" />
   </ItemGroup>
 
 </Project>
