@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,32 +6,30 @@ using UnityEngine.SceneManagement;
 
 namespace Injecter.Unity
 {
-    public sealed class SceneInjector : MonoBehaviour, ISceneInjector
+    public sealed class SceneInjector : ISceneInjector
     {
-        private SceneInjectorOptions _options;
+        private readonly SceneInjectorOptions _options;
+        private readonly IInjecter _injecter;
 
-        private IServiceProvider _serviceProvider;
-        private IInjecter _injecter;
-
-        public void InitializeScene(IServiceProvider serviceProvider)
+        public SceneInjector(SceneInjectorOptions options, IInjecter injecter)
         {
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _options = options;
+            _injecter = injecter;
+        }
 
-            _injecter = _serviceProvider.GetRequiredService<IInjecter>();
-
+        public void InitializeScene(InjectStarter injectStarter)
+        {
             foreach (var rootGameObject in SceneManager.GetActiveScene().GetRootGameObjects())
             {
                 InjectIntoGameObject(rootGameObject);
             }
 
-            _options = _serviceProvider.GetRequiredService<SceneInjectorOptions>();
-
-            if (_options.DontDestroyOnLoad) DontDestroyOnLoad(gameObject);
+            if (_options.DontDestroyOnLoad) UnityEngine.Object.DontDestroyOnLoad(injectStarter);
         }
 
         public GameObject InjectIntoGameObject(GameObject gameObjectInstance)
         {
-            if (gameObjectInstance is null) throw new ArgumentNullException(nameof(gameObjectInstance));
+            if (gameObjectInstance == null) throw new ArgumentNullException(nameof(gameObjectInstance));
 
             var componentsToInject = gameObjectInstance
                 .GetComponentsInChildren(typeof(MonoBehaviour), true)
@@ -62,11 +59,6 @@ namespace Injecter.Unity
             }
 
             return gameObjectInstance;
-        }
-
-        private void OnDestroy()
-        {
-            if (_serviceProvider is IDisposable disposable) disposable.Dispose();
         }
     }
 }

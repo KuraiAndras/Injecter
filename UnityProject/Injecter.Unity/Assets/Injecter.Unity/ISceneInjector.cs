@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Injecter.Unity
 {
@@ -8,8 +7,8 @@ namespace Injecter.Unity
         /// <summary>
         /// Inject into all Game Objects in the current scene and set service provider
         /// </summary>
-        /// <param name="serviceProvider"></param>
-        void InitializeScene(IServiceProvider serviceProvider);
+        /// <param name="injectStarter">The inject Starter instance</param>
+        void InitializeScene(InjectStarter injectStarter);
 
         /// <summary>
         /// Sets up usages of the InjectAttribute

@@ -1,6 +1,5 @@
 {
     "name": "Injecter.Hosting.Unity",
-    "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

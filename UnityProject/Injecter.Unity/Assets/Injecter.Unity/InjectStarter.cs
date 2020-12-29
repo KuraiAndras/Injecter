@@ -15,7 +15,7 @@ namespace Injecter.Unity
             switch (options.InjectionBehavior)
             {
                 case SceneInjectorOptions.Behavior.Factory:
-                    gameObject.AddComponent<SceneInjector>().InitializeScene(serviceProvider);
+                    serviceProvider.GetRequiredService<ISceneInjector>().InitializeScene(this);
                     break;
                 case SceneInjectorOptions.Behavior.CompositionRoot:
                     CompositionRoot.ServiceProvider = serviceProvider;
