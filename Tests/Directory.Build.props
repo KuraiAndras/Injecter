@@ -1,0 +1,13 @@
+<Project>
+    <PropertyGroup>
+        <LangVersion>9.0</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <Editorconfig>..\.editorconfig</Editorconfig>
+        <NoWarn>SA0001;CS1685</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Roslynator.Analyzers" Version="3.0.0" PrivateAssets="all" />
+    </ItemGroup>
+</Project>
