@@ -97,15 +97,17 @@ sealed class Build : NukeBuild
                         .SetApiKey(NugetApiKey)))
                 .ToImmutableArray());
 
-    Target BuildDocs => _ => _
+    Target CreateMetadata => _ => _
         .DependsOn(BuildPackages)
-        .Executes(() =>
-            DocFX($"build {DocFxJsonPath}"));
+        .Executes(() => DocFX($"metadata {DocFxJsonPath}"));
+
+    Target BuildDocs => _ => _
+        .DependsOn(CreateMetadata)
+        .Executes(() => DocFX($"build {DocFxJsonPath}"));
 
     Target ServeDocs => _ => _
         .DependsOn(BuildPackages)
-        .Executes(() =>
-            DocFX($"{DocFxJsonPath} --serve"));
+        .Executes(() => DocFX($"{DocFxJsonPath} --serve"));
 
     static ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
     {
