@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using UnityEngine;
 
 namespace Injecter.Hosting.Unity
 {
     public static class UnityHostBuilderExtensions
     {
         /// <summary>
-        /// Listens for Unity.Application.quit <see cref="Application"/> to start the shutdown process.
+        /// Listens for Unity.Application.quit <see cref="UnityEngine.Application"/> to start the shutdown process.
         /// This will unblock extensions like RunAsync and WaitForShutdownAsync.
         /// </summary>
         /// <param name="hostBuilder">The <see cref="IHostBuilder" /> to configure.</param>
@@ -22,7 +21,7 @@ namespace Injecter.Hosting.Unity
             });
 
         /// <summary>
-        /// Listens for Unity.Application.quit <see cref="Application"/> to start the shutdown process.
+        /// Listens for Unity.Application.quit <see cref="UnityEngine.Application"/> to start the shutdown process.
         /// This will unblock extensions like RunAsync and WaitForShutdownAsync.
         /// </summary>
         /// <param name="hostBuilder">The <see cref="IHostBuilder" /> to configure.</param>
