@@ -14,7 +14,8 @@
         "nunit.framework.dll",
         "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "Microsoft.Extensions.DependencyInjection.dll",
-        "Injecter.dll"
+        "Injecter.dll",
+        "Microsoft.Bcl.AsyncInterfaces.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

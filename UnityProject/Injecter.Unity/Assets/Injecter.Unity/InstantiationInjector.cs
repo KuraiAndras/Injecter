@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Object = UnityEngine.Object;
 
 namespace Injecter.Unity
 {
@@ -18,7 +17,7 @@ namespace Injecter.Unity
             sceneInjectorOptions?.Invoke(options);
 
             services.AddSingleton<IGameObjectFactory, DefaultGameObjectFactory>();
-            services.AddSingleton<ISceneInjector, SceneInjector>(_ => Object.FindObjectOfType<SceneInjector>());
+            services.AddSingleton<ISceneInjector, SceneInjector>();
             services.AddSingleton<SceneInjectorOptions>();
 
             services.AddInjecter(injecterOptionsBuilder);
