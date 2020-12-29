@@ -4,8 +4,15 @@
       "src": [
         {
           "files": [
-            "src/**.csproj"
-          ]
+            "MainProject/**.cs",
+            "UnityProject/**/Assets/**.cs"
+          ],
+          "exclude": [
+            "**/obj/**",
+            "**/bin/**",
+            "**/**Tests**/**"
+          ],
+          "src": "../"
         }
       ],
       "dest": "api",
