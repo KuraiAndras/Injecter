@@ -3,7 +3,7 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     
-    <CurrentVersion>5.0.7</CurrentVersion>
+    <CurrentVersion>5.0.8</CurrentVersion>
 
     <Version>$(CurrentVersion)</Version>
     <PakcageVersion>$(CurrentVersion)</PakcageVersion>
