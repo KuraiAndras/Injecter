@@ -1,5 +1,5 @@
 ﻿using Injecter;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using SampleLogic;
 using System;
 using Windows.ApplicationModel;
@@ -15,19 +15,15 @@ namespace UwpSample
     /// </summary>
     public sealed partial class App
     {
-        private readonly IHost _host;
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
-            _host = new HostBuilder().ConfigureServices(s => s.AddSharedLogic()).Build();
-
-            CompositionRoot.ServiceProvider = _host.Services;
-
-            _host.Start();
+            CompositionRoot.ServiceProvider = new ServiceCollection()
+                .AddSharedLogic()
+                .BuildServiceProvider();
 
             InitializeComponent();
             Suspending += OnSuspending;
@@ -87,13 +83,11 @@ namespace UwpSample
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private static void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
             //TODO: Save application state and stop any background activity
-
-            _host.StopAsync().GetAwaiter().GetResult();
 
             deferral.Complete();
         }
