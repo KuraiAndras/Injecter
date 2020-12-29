@@ -1,5 +1,4 @@
-﻿#nullable enable
-using Injecter;
+﻿using Injecter;
 using Microsoft.Extensions.Hosting;
 using SampleLogic;
 using System;
