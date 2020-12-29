@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WpfSample
+namespace SampleLogic
 {
     public interface ICounter : INotifyPropertyChanged
     {
