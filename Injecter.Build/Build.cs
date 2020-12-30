@@ -98,7 +98,6 @@ sealed class Build : NukeBuild
                 .ToImmutableArray());
 
     Target CreateMetadata => _ => _
-        .DependsOn(BuildPackages)
         .Executes(() => DocFX($"metadata {DocFxJsonPath}"));
 
     Target BuildDocs => _ => _
@@ -106,7 +105,6 @@ sealed class Build : NukeBuild
         .Executes(() => DocFX($"build {DocFxJsonPath}"));
 
     Target ServeDocs => _ => _
-        .DependsOn(BuildPackages)
         .Executes(() => DocFX($"{DocFxJsonPath} --serve"));
 
     static ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)

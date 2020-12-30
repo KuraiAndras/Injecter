@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "MainProject/**Injecter**.dll",
+            "MainProject/**.cs",
             "UnityProject/**/Assets/**.cs"
           ],
           "exclude": [
