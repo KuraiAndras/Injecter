@@ -350,3 +350,6 @@ MigrationBackup/
 
 # Coverage
 coverage.opencover.xml
+
+# DocFX topic cache
+.vscode/docfx-assistant/topic-cache.json
