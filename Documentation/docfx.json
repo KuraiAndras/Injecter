@@ -8,6 +8,7 @@
             "UnityProject/**/Assets/**.cs"
           ],
           "exclude": [
+            "**/bin/**",
             "**/obj/**",
             "**/**Tests**/**"
           ],
