@@ -2,8 +2,8 @@
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    
-    <CurrentVersion>5.0.8</CurrentVersion>
+
+    <CurrentVersion>5.0.9</CurrentVersion>
 
     <Version>$(CurrentVersion)</Version>
     <PakcageVersion>$(CurrentVersion)</PakcageVersion>
@@ -12,6 +12,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
     <IsPackable>true</IsPackable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
@@ -19,8 +23,12 @@
     <NoWarn>SA0001;CS1685</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="IndexRange" Version="1.0.0" PrivateAssets="all"/>
+    <PackageReference Include="IndexRange" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="IsExternalInit" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
   </ItemGroup>
@@ -30,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
