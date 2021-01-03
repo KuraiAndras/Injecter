@@ -3,7 +3,7 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
 
-    <CurrentVersion>5.0.9-pre5</CurrentVersion>
+    <CurrentVersion>5.0.9-pre6</CurrentVersion>
 
     <Version>$(CurrentVersion)</Version>
     <PakcageVersion>$(CurrentVersion)</PakcageVersion>
@@ -14,7 +14,7 @@
 
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EmbedAllSources>true</EmbedAllSources>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <IsPackable>true</IsPackable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
