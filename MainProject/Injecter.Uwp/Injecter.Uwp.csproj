@@ -122,6 +122,9 @@
   <PropertyGroup>
     <PackageOutputPath>$(Outputpath)</PackageOutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <IncludeSymbols>false</IncludeSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="InjectedPage.cs" />
     <Compile Include="InjectedUserControl.cs" />
