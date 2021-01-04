@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace Injecter.Xamarin.Forms
 {
-    public abstract class InjectedPage : Page
+    public abstract class InjectedContentPage : ContentPage
     {
-        protected InjectedPage(DisposeBehaviour behaviour = DisposeBehaviour.OnNoParent)
+        protected InjectedContentPage(DisposeBehaviour behaviour = DisposeBehaviour.OnNoParent)
         {
             Behaviour = behaviour;
             Scope = CompositionRoot.ServiceProvider is not null
@@ -27,9 +27,9 @@ namespace Injecter.Xamarin.Forms
         }
     }
 
-    public abstract class InjectedPage<TViewModel> : InjectedPage
+    public abstract class InjectedContentPage<TViewModel> : InjectedContentPage
     {
-        protected InjectedPage(DisposeBehaviour behaviour = DisposeBehaviour.OnNoParent)
+        protected InjectedContentPage(DisposeBehaviour behaviour = DisposeBehaviour.OnNoParent)
             : base(behaviour)
             => BindingContext = ViewModel;
 
