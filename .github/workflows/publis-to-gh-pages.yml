@@ -3,7 +3,7 @@ name: Publish To GitHub Pages
 on:
   push:
     branches:
-      - "feature/add-docfx-with-gh-pages"
+      - "master"
 
 jobs:
   Deploy:
