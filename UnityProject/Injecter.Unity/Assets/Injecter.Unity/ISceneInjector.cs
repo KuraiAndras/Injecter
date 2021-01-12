@@ -13,6 +13,8 @@ namespace Injecter.Unity
         /// <summary>
         /// Sets up usages of the InjectAttribute
         /// </summary>
+        /// <exception cref="System.ArgumentNullException"/>
+        /// <exception cref="ComponentMissingException"/>
         /// <param name="gameObjectInstance">GameObject instance to inject into</param>
         /// <returns>Original instance</returns>
         GameObject InjectIntoGameObject(GameObject gameObjectInstance);
