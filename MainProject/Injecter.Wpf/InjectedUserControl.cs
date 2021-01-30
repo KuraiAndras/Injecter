@@ -9,10 +9,10 @@ namespace Injecter.Wpf
     {
         private Window? _window;
 
-        protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
+        protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown, bool createScope = true)
         {
             Scope = CompositionRoot.ServiceProvider is not null
-                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this)
+                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this, createScope)
                 : null;
             Behavior = behavior;
             Loaded += OnControlLoaded;
@@ -91,8 +91,8 @@ namespace Injecter.Wpf
 
     public abstract class InjectedUserControl<TViewModel> : InjectedUserControl
     {
-        protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown)
-            : base(behavior) => Loaded += OnLoadedHandler;
+        protected InjectedUserControl(DisposeBehaviour behavior = DisposeBehaviour.OnDispatcherShutdown, bool createScope = true)
+            : base(behavior, createScope) => Loaded += OnLoadedHandler;
 
         [Inject] protected TViewModel ViewModel { get; } = default!;
 

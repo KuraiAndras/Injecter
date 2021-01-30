@@ -7,10 +7,10 @@ namespace Injecter.Wpf
 {
     public abstract class InjectedWindow : Window, IDisposable
     {
-        protected InjectedWindow()
+        protected InjectedWindow(bool createScope = true)
         {
             Scope = CompositionRoot.ServiceProvider is not null
-                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this)
+                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this, createScope)
                 : null;
 
             Closing += OnClosing;
@@ -43,7 +43,7 @@ namespace Injecter.Wpf
 
     public abstract class InjectedWindow<TViewModel> : InjectedWindow
     {
-        protected InjectedWindow() => Loaded += OnLoadedHandler;
+        protected InjectedWindow(bool createScope = true) : base(createScope) => Loaded += OnLoadedHandler;
 
         [Inject] protected TViewModel ViewModel { get; } = default!;
 
