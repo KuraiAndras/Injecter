@@ -8,9 +8,9 @@ namespace WpfSample
 {
     public partial class App : Application
     {
-        private IHost? _host;
+        private readonly IHost _host;
 
-        private void Initialize(object sender, StartupEventArgs e)
+        public App()
         {
             _host = new HostBuilder()
                 .UseWpfLifetime()
@@ -20,8 +20,10 @@ namespace WpfSample
             CompositionRoot.ServiceProvider = _host.Services;
 
             _host.Start();
+
+            Exit += OnExit;
         }
 
-        private void App_OnExit(object sender, ExitEventArgs e) => _host?.Dispose();
+        private void OnExit(object _, ExitEventArgs __) => _host.Dispose();
     }
 }

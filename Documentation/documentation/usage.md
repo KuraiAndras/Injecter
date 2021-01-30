@@ -2,14 +2,12 @@
 
 ```c#
 //Setup
-
 IServiceCollection services = ;// Get your IServiceCollection
 
 // Add injecter
 services.AddInjecter(options => options.UseCaching = true)
 
 // Usage
-
 IInjecter injecter = ;// Get a hold of an IInjecter instance
 MyUserControl contol = ;// Get some class you want to inject into
 
