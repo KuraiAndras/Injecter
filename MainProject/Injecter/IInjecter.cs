@@ -13,8 +13,7 @@ namespace Injecter
         /// <param name="instance">The instance which receives injection.</param>
         /// <param name="createScope">When true, creates a new scope for the instance.</param>
         /// <returns><see cref="IServiceScope"/> that gets created during injection, if any.</returns>
-        [return: MaybeNull]
-        IServiceScope? InjectIntoType(Type type, object instance, bool createScope = true);
+        [return: MaybeNull] IServiceScope? InjectIntoType(Type type, object instance, bool createScope = true);
 
         /// <summary>
         /// <seealso cref="InjectIntoType"/>
@@ -23,8 +22,6 @@ namespace Injecter
         /// <param name="instance">The instance which receives injection.</param>
         /// <param name="createScope">When true, creates a new scope for the instance.</param>
         /// <returns><see cref="IServiceScope"/> that gets created during injection, if any.</returns>
-        [return: MaybeNull]
-        IServiceScope? InjectIntoType<T>(T instance, bool createScope = true)
-            where T : notnull;
+        [return: MaybeNull] IServiceScope? InjectIntoType<T>(T instance, bool createScope = true) where T : notnull;
     }
 }
