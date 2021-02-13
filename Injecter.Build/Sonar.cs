@@ -15,6 +15,7 @@ sealed partial class Build
         .Requires(() => SonarToken)
         .Requires(() => SonarHostUrl)
         .Executes(() => SonarScannerBegin(s => s
+            .SetFramework("net5.0")
             .SetProjectKey(SonarProjectKey)
             .SetLogin(SonarToken)
             .SetServer(SonarHostUrl)
