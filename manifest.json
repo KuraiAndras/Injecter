@@ -1,0 +1,764 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/Injecter/Injecter/Documentation",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Avalonia.InjectedUserControl-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Avalonia.InjectedUserControl-1.html",
+          "hash": "oMznd+r6fXj+im72homyYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Avalonia.InjectedUserControl.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Avalonia.InjectedUserControl.html",
+          "hash": "5tHAhZJFaUlE4D9qbg+4qw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Avalonia.InjectedWindow-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Avalonia.InjectedWindow-1.html",
+          "hash": "GKWSQkgJu4moHTZ9tpp5FQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Avalonia.InjectedWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Avalonia.InjectedWindow.html",
+          "hash": "oXRpSiXNb87JZ3AZainYNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Avalonia.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Avalonia.html",
+          "hash": "Qocb7+IIOqqTjp4oM4rq0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.CompositionRoot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.CompositionRoot.html",
+          "hash": "O9jlBe6LuragOpjy3QPT6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Unity.UnityHostBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Unity.UnityHostBuilderExtensions.html",
+          "hash": "mFPUofdS1KfLB5ARcjwOPQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Unity.UnityLifeTimeOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Unity.UnityLifeTimeOptions.html",
+          "hash": "mq9vCLRR1RUlbxL7dbfYmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Unity.UnityLifetime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Unity.UnityLifetime.html",
+          "hash": "6KZqVxjAWkqthk8iy7ibYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Unity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Unity.html",
+          "hash": "Rz/WH/pMEZVgM40C4zEPZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Wpf.WpfHostBuilderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Wpf.WpfHostBuilderExtensions.html",
+          "hash": "7BHRVB+yOrKIEhSCl++b0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Wpf.WpfLifeTimeOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Wpf.WpfLifeTimeOptions.html",
+          "hash": "Uul9ZGNzRzMY6sw8UOvEZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Wpf.WpfLifetime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Wpf.WpfLifetime.html",
+          "hash": "FHTsfkDiWvJePfjAyca77g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Hosting.Wpf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Hosting.Wpf.html",
+          "hash": "s/Yfu3Y58rzw/2i/214T6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.IInjecter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.IInjecter.html",
+          "hash": "acxvAW/8B4moK3wm4qb6zQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.InjectAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.InjectAttribute.html",
+          "hash": "OrU2u9OzuzNW/S/lliXUEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Injecter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Injecter.html",
+          "hash": "GGsM9Wjuyn5wp5OaW4kg1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.InjecterExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.InjecterExtensions.html",
+          "hash": "mqkx5i1cbjgVbxC0CArZ0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.InjecterOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.InjecterOptions.html",
+          "hash": "LCdI0ra1G8MjF367TonZYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.ComponentMissingException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.ComponentMissingException.html",
+          "hash": "PdJTlFNzNVKdKWztDv1owQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.DefaultGameObjectFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.DefaultGameObjectFactory.html",
+          "hash": "zmuSZNIEjIjVxeIJroGV3Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.IGameObjectFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.IGameObjectFactory.html",
+          "hash": "h1QNaKsPwWU28YkUei1FGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.ISceneInjector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.ISceneInjector.html",
+          "hash": "iPotR2Lg7G9jo32eBryBQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.InjectStarter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.InjectStarter.html",
+          "hash": "xFgApXjPmi4NQOnjMZ5deQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.InjectedMonoBehavior-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.InjectedMonoBehavior-1.html",
+          "hash": "caZiGjO/tRys8f75e8HW/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.InjectedMonoBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.InjectedMonoBehavior.html",
+          "hash": "tHVOeoYSfY5NZGkZbxu3hA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.InstantiationInjector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.InstantiationInjector.html",
+          "hash": "9LanGJb2dRrmzpGZsr7H7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.SceneInjector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.SceneInjector.html",
+          "hash": "Fgs/gMXX9uNachlH5kCVHg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.SceneInjectorOptions.Behavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.SceneInjectorOptions.Behavior.html",
+          "hash": "6SpZfoWFZGXOkYu9LeVKIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.SceneInjectorOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.SceneInjectorOptions.html",
+          "hash": "Q4/wnQrOFKrc5BmoDepnyg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Unity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Unity.html",
+          "hash": "pGs2rC/cSD2eybvbHJLyDQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Uwp.InjectedPage-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Uwp.InjectedPage-1.html",
+          "hash": "0yHnTpUfgTeVe7DyRbg3Yw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Uwp.InjectedPage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Uwp.InjectedPage.html",
+          "hash": "8Uaut3RyO6GkZhSF998joA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Uwp.InjectedUserControl-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Uwp.InjectedUserControl-1.html",
+          "hash": "ygbh27ulljol3dxIabxCbQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Uwp.InjectedUserControl.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Uwp.InjectedUserControl.html",
+          "hash": "L8g0VdCBJCPy2Tkzzq3E/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Uwp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Uwp.html",
+          "hash": "nVvNOlH23K6CtfPL54IP0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.DisposeBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.DisposeBehaviour.html",
+          "hash": "AbzmssfQ+0Xi0r2cgYKtTw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.InjectedUserControl-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.InjectedUserControl-1.html",
+          "hash": "TilPOR1b50052cycLVCfWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.InjectedUserControl.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.InjectedUserControl.html",
+          "hash": "MtcnhHSSVzSYHzA2APJsdQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.InjectedWindow-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.InjectedWindow-1.html",
+          "hash": "JWJ30SZpCuXbegjtD2FvjA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.InjectedWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.InjectedWindow.html",
+          "hash": "kGrWuwCutDDW8RKhUcNf2w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.XamlInjecter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.XamlInjecter.html",
+          "hash": "bqK8JHfs+cDdwUqJdFWtjA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Wpf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Wpf.html",
+          "hash": "gVy/n5kuXSlMcJtekP13Yg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Xamarin.Forms.InjectedPage-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Xamarin.Forms.InjectedPage-1.html",
+          "hash": "IJ2SSU2pcca2zgdAQ3uU7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Xamarin.Forms.InjectedPage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Xamarin.Forms.InjectedPage.html",
+          "hash": "uUYZWbMkfBaLamRYz1OfsA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.Xamarin.Forms.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.Xamarin.Forms.html",
+          "hash": "py9OQxpDLfWiHYuh0FhGlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Injecter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Injecter.html",
+          "hash": "Abin8XTKSC9PEtKKDkTfrA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "kKfm9ado9nL/3tuYCsTSKQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "yWcCU0mb3Jbj7XRh0q2/Tw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/injecter.hosting.unity.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/injecter.hosting.unity.html",
+          "hash": "rrka29N0RO00CnYaZMVuCg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/injecter.hosting.wpf.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/injecter.hosting.wpf.html",
+          "hash": "b5p6b2jtBfIAmMnyY+3yUg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/injecter.unity.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/injecter.unity.html",
+          "hash": "7CqNzosZz2N08pwUa6Jvqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/injecter.wpf.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/injecter.wpf.html",
+          "hash": "ZA1dBaAk5qLbahdzJmk1BQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "documentation/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/toc.html",
+          "hash": "FcR3ElVMILVFJHHZUkMj0w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "documentation/usage.md",
+      "output": {
+        ".html": {
+          "relative_path": "documentation/usage.html",
+          "hash": "j3NLyOpbKyQDgz+6j+8wMA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "vjLmTGOJqZNXSaQLnKSDyw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "samples/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "samples/intro.html",
+          "hash": "+Y/ihjsChdGn7l9zcesDYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "samples/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "samples/toc.html",
+          "hash": "5HsPD2MbWdy946EjZulwsg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "m3C3tB+O7utc7rGGWrNynA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 8,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 47,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
