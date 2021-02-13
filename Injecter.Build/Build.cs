@@ -9,16 +9,13 @@ using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
 using System;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
-using static Nuke.Common.Tools.DocFX.DocFXTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
-using static System.IO.Directory;
 
 [ShutdownDotNetAfterServerBuild]
-sealed class Build : NukeBuild
+sealed partial class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Test);
 
@@ -81,31 +78,6 @@ sealed class Build : NukeBuild
                     .SetCollectCoverage(true)
                     .SetCoverletOutputFormat(CoverletOutputFormat.opencover)))
             .ToImmutableArray());
-
-    Target PushToNuGet => _ => _
-        .DependsOn(BuildPackages)
-        .Requires(() => NugetApiUrl)
-        .Requires(() => NugetApiKey)
-        .Requires(() => Configuration.Equals(Configuration.Release))
-        .Executes(() =>
-            EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
-                .Where(n => !n.EndsWith("symbols.nupkg"))
-                .SelectMany(x =>
-                    DotNetNuGetPush(s => s
-                        .SetTargetPath(x)
-                        .SetSource(NugetApiUrl)
-                        .SetApiKey(NugetApiKey)))
-                .ToImmutableArray());
-
-    Target CreateMetadata => _ => _
-        .Executes(() => DocFX($"metadata {DocFxJsonPath}"));
-
-    Target BuildDocs => _ => _
-        .DependsOn(CreateMetadata)
-        .Executes(() => DocFX($"build {DocFxJsonPath}"));
-
-    Target ServeDocs => _ => _
-        .Executes(() => DocFX($"{DocFxJsonPath} --serve"));
 
     static ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
     {
