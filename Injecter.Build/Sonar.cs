@@ -1,4 +1,5 @@
 ﻿using Nuke.Common;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.SonarScanner;
 using static Nuke.Common.Tools.SonarScanner.SonarScannerTasks;
 
@@ -8,18 +9,21 @@ sealed partial class Build
     [Parameter] readonly string SonarProjectKey = string.Empty;
     [Parameter] readonly string SonarToken = string.Empty;
     [Parameter] readonly string SonarHostUrl = string.Empty;
+    [Parameter] readonly string SonarOrganization = string.Empty;
 
     Target SonarBegin => _ => _
         .Before(Restore)
         .Requires(() => SonarProjectKey)
         .Requires(() => SonarToken)
         .Requires(() => SonarHostUrl)
+        .Requires(() => SonarOrganization)
         .Executes(() => SonarScannerBegin(s => s
             .SetFramework("net5.0")
             .SetProjectKey(SonarProjectKey)
             .SetLogin(SonarToken)
             .SetServer(SonarHostUrl)
-            .SetOpenCoverPaths("**/*.opencover.xml")));
+            .SetOpenCoverPaths("**/*.opencover.xml")
+            .SetProcessArgumentConfigurator(a => a.Add($"o:\"{SonarOrganization}\""))));
 
     Target SonarEnd => _ => _
         .DependsOn(SonarBegin)
