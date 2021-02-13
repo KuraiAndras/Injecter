@@ -28,7 +28,9 @@ sealed partial class Build
     Target SonarEnd => _ => _
         .DependsOn(SonarBegin)
         .DependsOn(Test)
-        .Executes(() => SonarScannerEnd(s => s.SetLogin(SonarToken)));
+        .Executes(() => SonarScannerEnd(s => s
+            .SetFramework("net5.0")
+            .SetLogin(SonarToken)));
 
     Target RunSonar => _ => _
         .DependsOn(SonarEnd)
