@@ -90,7 +90,8 @@ sealed partial class Build : NukeBuild
                     .SetProjectFile(p)
                     .SetConfiguration(Configuration.Release)
                     .SetWarningsAsErrors()
-                    .SetVerbosity(MSBuildVerbosity.Minimal)));
+                    .SetVerbosity(MSBuildVerbosity.Minimal)
+                    .SetProcessArgumentConfigurator(a => a.Add("/p:DeterministicSourcePaths=false"))));
 
         var buildOthers = projects
             .Except(uwpProjects)
@@ -98,7 +99,8 @@ sealed partial class Build : NukeBuild
                 DotNetBuild(s => s
                     .SetProjectFile(p)
                     .SetConfiguration(Configuration.Release)
-                    .SetWarningsAsErrors()));
+                    .SetWarningsAsErrors()
+                    .SetProcessArgumentConfigurator(a => a.Add("/p:DeterministicSourcePaths=false"))));
 
         return Enumerable.Empty<Output>()
             .Concat(buildOthers)
