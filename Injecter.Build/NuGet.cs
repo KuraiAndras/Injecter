@@ -8,11 +8,15 @@ using static System.IO.Directory;
 
 sealed partial class Build
 {
+    [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json";
+    [Parameter] readonly string NugetApiKey = string.Empty;
+
     Target PushToNuGet => _ => _
         .DependsOn(BuildPackages)
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
+        .Requires(() => DeterministicSourcePaths)
         .Executes(() =>
             EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
                 .Where(n => !n.EndsWith("symbols.nupkg"))

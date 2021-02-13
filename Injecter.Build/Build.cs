@@ -23,8 +23,7 @@ sealed partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json";
-    [Parameter] readonly string NugetApiKey = string.Empty;
+    [Parameter] readonly bool DeterministicSourcePaths = false;
 
     [Solution] readonly Solution Solution;
 
@@ -78,7 +77,7 @@ sealed partial class Build : NukeBuild
                     .SetCoverletOutputFormat(CoverletOutputFormat.opencover)))
             .ToImmutableArray());
 
-    static ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
+    ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
     {
         var uwpProjects = projects
             .Where(p => p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase))
@@ -100,7 +99,7 @@ sealed partial class Build : NukeBuild
                     .SetProjectFile(p)
                     .SetConfiguration(Configuration.Release)
                     .SetWarningsAsErrors()
-                    .SetProcessArgumentConfigurator(a => a.Add("/p:DeterministicSourcePaths=false"))));
+                    .SetProcessArgumentConfigurator(a => a.Add($"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}"))));
 
         return Enumerable.Empty<Output>()
             .Concat(buildOthers)

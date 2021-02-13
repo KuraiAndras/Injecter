@@ -22,8 +22,8 @@ sealed partial class Build
             .SetProjectKey(SonarProjectKey)
             .SetLogin(SonarToken)
             .SetServer(SonarHostUrl)
-            .SetOpenCoverPaths("**/*.opencover.xml")
-            .SetProcessArgumentConfigurator(a => a.Add($"/o:\"{SonarOrganization}\""))));
+            .SetProcessArgumentConfigurator(a => a.Add($"/o:\"{SonarOrganization}\""))
+            .SetOpenCoverPaths("**/*.opencover.xml")));
 
     Target SonarEnd => _ => _
         .DependsOn(SonarBegin)
