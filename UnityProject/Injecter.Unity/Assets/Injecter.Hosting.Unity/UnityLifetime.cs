@@ -5,9 +5,12 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
+
+#if UNITY_EDITOR
+using UnityEditor
+#endif
 
 namespace Injecter.Hosting.Unity
 {
