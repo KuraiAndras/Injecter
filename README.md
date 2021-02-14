@@ -1,4 +1,4 @@
-# Injecter
+# Injecter [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=bugs)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=coverage)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter) [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=KuraiAndras_Injecter&metric=sqale_index)](https://sonarcloud.io/dashboard?id=KuraiAndras_Injecter)
 
 A small library to make using Dependency Injection easier with .Net Client framework.
 
