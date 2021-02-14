@@ -1,24 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IsPackable>false</IsPackable>
+
+    <ParallelizeTestCollections>false</ParallelizeTestCollections>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="3.0.2" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.analyzers" Version="0.10.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" PrivateAssets="all" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" PrivateAssets="all" />
+    <PackageReference Include="Xunit.StaFact" Version="1.0.37" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MainProject\Injecter\Injecter.csproj" />
+    <ProjectReference Include="..\..\MainProject\Injecter.Wpf\Injecter.Wpf.csproj" />
+    <ProjectReference Include="..\..\Samples\WpfSample\WpfSample.csproj" />
   </ItemGroup>
 
 </Project>

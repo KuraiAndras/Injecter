@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace WpfSample
 {
-    public partial class App : Application
+    public partial class App
     {
         private readonly IHost _host;
 

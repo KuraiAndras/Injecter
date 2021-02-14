@@ -45,10 +45,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpSample", "Samples\UwpSam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CD454132-FFCD-4613-A7E2-67CD082CF990}"
 	ProjectSection(SolutionItems) = preProject
+		Tests\.editorconfig = Tests\.editorconfig
 		Tests\Directory.Build.props = Tests\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Tests", "Tests\Injecter.Tests\Injecter.Tests.csproj", "{744B4B66-3E0C-4AF1-8D11-92E5D73CEA00}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Wpf.Tests", "Tests\Injecter.Wpf.Tests\Injecter.Wpf.Tests.csproj", "{702E43BB-448D-44F6-B174-DAF017949136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -308,6 +311,26 @@ Global
 		{744B4B66-3E0C-4AF1-8D11-92E5D73CEA00}.Release|x64.Build.0 = Release|Any CPU
 		{744B4B66-3E0C-4AF1-8D11-92E5D73CEA00}.Release|x86.ActiveCfg = Release|Any CPU
 		{744B4B66-3E0C-4AF1-8D11-92E5D73CEA00}.Release|x86.Build.0 = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|ARM.Build.0 = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|x64.Build.0 = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Debug|x86.Build.0 = Debug|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|ARM.ActiveCfg = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|ARM.Build.0 = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|ARM64.Build.0 = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|x64.ActiveCfg = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|x64.Build.0 = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|x86.ActiveCfg = Release|Any CPU
+		{702E43BB-448D-44F6-B174-DAF017949136}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -324,6 +347,7 @@ Global
 		{402AFD59-AA28-407E-9226-9FDFC2FA747C} = {603E04CF-A4E2-4C2A-A32E-292C7937950E}
 		{EEAA3226-F66A-4483-ADFA-641993CFE6B4} = {0CC35E76-EE92-4F84-890B-6B23C510A314}
 		{744B4B66-3E0C-4AF1-8D11-92E5D73CEA00} = {CD454132-FFCD-4613-A7E2-67CD082CF990}
+		{702E43BB-448D-44F6-B174-DAF017949136} = {CD454132-FFCD-4613-A7E2-67CD082CF990}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F7ABD13-07BD-408C-8057-92D72C037CBA}
