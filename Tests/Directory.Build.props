@@ -1,13 +1,14 @@
 <Project>
-    <PropertyGroup>
-        <LangVersion>9.0</LangVersion>
-        <Nullable>enable</Nullable>
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
 
-        <Editorconfig>..\.editorconfig</Editorconfig>
-        <NoWarn>SA0001;CS1685</NoWarn>
-    </PropertyGroup>
+    <Editorconfig>..\.editorconfig</Editorconfig>
+    <NoWarn>SA0001;CS1685</NoWarn>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Roslynator.Analyzers" Version="3.0.0" PrivateAssets="all" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="3.1.0" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.18.0.27296" PrivateAssets="all" />
+  </ItemGroup>
 </Project>
