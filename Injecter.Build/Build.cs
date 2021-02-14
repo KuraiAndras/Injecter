@@ -23,7 +23,7 @@ sealed partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter] readonly bool DeterministicSourcePaths = false;
+    [Parameter] readonly bool DeterministicSourcePaths;
 
     [Solution] readonly Solution Solution;
 
