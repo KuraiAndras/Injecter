@@ -1,6 +1,10 @@
 name: Run Tests
 
 on:
+  push:
+    branches:
+      - master
+      - develop
   pull_request:
 
 jobs:
@@ -10,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v1.7.2
@@ -17,6 +23,14 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.2
 
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
       - name: Test
         shell: pwsh
-        run: ./build.ps1 Test --configuration Release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+        run: ./build.ps1 RunSonar --configuration Release --sonar-host-url "https://sonarcloud.io" --sonar-project-key "KuraiAndras_Injecter" --sonar-token "${{ secrets.SONAR_TOKEN }}" --sonar-organization "kuraiandras"

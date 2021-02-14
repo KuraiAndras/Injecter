@@ -23,4 +23,4 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         shell: pwsh
-        run: ./build.ps1 PushToNuGet --nuget-api-key $env:NUGET_API_KEY --configuration Release
+        run: ./build.ps1 PushToNuGet --nuget-api-key $env:NUGET_API_KEY --configuration Release --deterministic-source-paths "true"

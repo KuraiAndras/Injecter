@@ -17,12 +17,8 @@
     <PackageReference Include="coverlet.collector" Version="1.3.0" PrivateAssets="all" />
   </ItemGroup>
 
-    <ItemGroup>
-    <None Remove="**/**/*.trx" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\MainProject\Injecter\Injecter.csproj" />
   </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\MainProject\Injecter\Injecter.csproj" />
-    </ItemGroup>
 
 </Project>
