@@ -32,7 +32,9 @@ namespace Injecter.Wpf
 
             if (CompositionRoot.ServiceProvider is null) return;
 
-            var scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d);
+            CompositionRoot.ServiceProvider
+                .GetRequiredService<IInjecter>()
+                .InjectIntoType(d.GetType(), d);
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 
@@ -49,13 +51,14 @@ namespace Injecter.Wpf
 
                             var window = Window.GetWindow(d);
 
-                            void OnWindowClosed(object _, EventArgs __)
+                            void OnWindowClosed(object? _, EventArgs __)
                             {
                                 window.Closed -= OnWindowClosed;
                                 window = null;
 
-                                scope!.Dispose();
-                                scope = null;
+                                CompositionRoot.ServiceProvider
+                                    .GetRequiredService<IScopeStore>()
+                                    .DisposeScope(d);
 
                                 if (d is IDisposable disposable) disposable.Dispose();
                                 d = null!;
@@ -70,12 +73,13 @@ namespace Injecter.Wpf
                     }
                 case DisposeBehaviour.OnDispatcherShutdown:
                     {
-                        void OnControlShutdown(object sender, EventArgs eventArgs)
+                        void OnControlShutdown(object? sender, EventArgs __)
                         {
                             Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
 
-                            scope!.Dispose();
-                            scope = null;
+                            CompositionRoot.ServiceProvider
+                                .GetRequiredService<IScopeStore>()
+                                .DisposeScope(d);
 
                             if (d is IDisposable disposable) disposable.Dispose();
                             d = null!;
@@ -89,13 +93,14 @@ namespace Injecter.Wpf
                     {
                         if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
 
-                        void OnControlUnloaded(object sender, RoutedEventArgs routedEventArgs)
+                        void OnControlUnloaded(object? _, RoutedEventArgs __)
                         {
                             f.Unloaded -= OnControlUnloaded;
                             f = null!;
 
-                            scope!.Dispose();
-                            scope = null;
+                            CompositionRoot.ServiceProvider
+                                .GetRequiredService<IScopeStore>()
+                                .DisposeScope(d);
 
                             if (d is IDisposable disposable) disposable.Dispose();
                             d = null!;
