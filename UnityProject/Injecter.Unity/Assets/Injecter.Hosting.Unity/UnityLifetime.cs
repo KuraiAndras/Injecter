@@ -9,7 +9,7 @@ using UnityEngine;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 #if UNITY_EDITOR
-using UnityEditor
+using UnityEditor;
 #endif
 
 namespace Injecter.Hosting.Unity
