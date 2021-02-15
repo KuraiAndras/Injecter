@@ -36,16 +36,16 @@ namespace Injecter.Wpf
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 
+            if (d is not FrameworkElement owner) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
+
             switch (behavior)
             {
                 case DisposeBehaviour.OnWindowClose:
                     {
-                        if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
-
                         void OnLoaded(object sender, EventArgs eventArgs)
                         {
-                            f.Loaded -= OnLoaded;
-                            f = null!;
+                            owner.Loaded -= OnLoaded;
+                            owner = null!;
 
                             var window = Window.GetWindow(d);
 
@@ -54,13 +54,13 @@ namespace Injecter.Wpf
                                 window.Closed -= OnWindowClosed;
                                 window = null;
 
-                                CleanUp(ref d);
+                                CleanUp(ref owner);
                             }
 
                             window!.Closed += OnWindowClosed;
                         }
 
-                        f.Loaded += OnLoaded;
+                        owner.Loaded += OnLoaded;
 
                         break;
                     }
@@ -70,7 +70,7 @@ namespace Injecter.Wpf
                         {
                             Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
 
-                            CleanUp(ref d);
+                            CleanUp(ref owner);
                         }
 
                         Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
@@ -79,17 +79,15 @@ namespace Injecter.Wpf
                     }
                 case DisposeBehaviour.OnUnloaded:
                     {
-                        if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
-
                         void OnControlUnloaded(object? _, RoutedEventArgs __)
                         {
-                            f.Unloaded -= OnControlUnloaded;
-                            f = null!;
+                            owner.Unloaded -= OnControlUnloaded;
+                            owner = null!;
 
-                            CleanUp(ref d);
+                            CleanUp(ref owner);
                         }
 
-                        f.Unloaded += OnControlUnloaded;
+                        owner.Unloaded += OnControlUnloaded;
 
                         break;
                     }
@@ -98,7 +96,7 @@ namespace Injecter.Wpf
             }
         }
 
-        private static void CleanUp(ref DependencyObject owner)
+        public static void CleanUp(ref FrameworkElement owner)
         {
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IScopeStore>()
