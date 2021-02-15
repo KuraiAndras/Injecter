@@ -1,16 +1,18 @@
-﻿using Injecter.Uwp;
+﻿using Injecter;
 using SampleLogic;
 using Windows.UI.Xaml;
 
 namespace UwpSample
 {
-    public abstract class HelloControlBase : InjectedUserControl<ICounter>
-    {
-    }
-
     public sealed partial class HelloControl
     {
-        public HelloControl() => InitializeComponent();
+        [Inject] public ICounter ViewModel { get; } = default!;
+
+        public HelloControl()
+        {
+            InitializeComponent();
+            DataContext = ViewModel;
+        }
 
         private void OnIncrementClicked(object _, RoutedEventArgs __) => ViewModel.Increment();
     }
