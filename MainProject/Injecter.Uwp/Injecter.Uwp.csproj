@@ -126,6 +126,7 @@
     <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DisposeBehaviour.cs" />
     <Compile Include="InjectedPage.cs" />
     <Compile Include="InjectedUserControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
