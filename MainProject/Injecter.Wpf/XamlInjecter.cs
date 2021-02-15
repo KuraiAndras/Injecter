@@ -16,8 +16,6 @@ namespace Injecter.Wpf
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
 
-            if (CompositionRoot.ServiceProvider is null) return;
-
             CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d, false);
         }
 
@@ -30,55 +28,47 @@ namespace Injecter.Wpf
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
 
-            if (CompositionRoot.ServiceProvider is null) return;
-
-            var scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d);
+            CompositionRoot.ServiceProvider
+                .GetRequiredService<IInjecter>()
+                .InjectIntoType(d.GetType(), d);
 
             var behavior = (DisposeBehaviour?)e.NewValue;
+
+            var owner = (FrameworkElement)d;
 
             switch (behavior)
             {
                 case DisposeBehaviour.OnWindowClose:
                     {
-                        if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
-
                         void OnLoaded(object sender, EventArgs eventArgs)
                         {
-                            f.Loaded -= OnLoaded;
-                            f = null!;
+                            owner.Loaded -= OnLoaded;
+                            owner = null!;
 
                             var window = Window.GetWindow(d);
 
-                            void OnWindowClosed(object _, EventArgs __)
+                            void OnWindowClosed(object? _, EventArgs __)
                             {
                                 window.Closed -= OnWindowClosed;
                                 window = null;
 
-                                scope!.Dispose();
-                                scope = null;
-
-                                if (d is IDisposable disposable) disposable.Dispose();
-                                d = null!;
+                                CleanUp(ref owner);
                             }
 
                             window!.Closed += OnWindowClosed;
                         }
 
-                        f.Loaded += OnLoaded;
+                        owner.Loaded += OnLoaded;
 
                         break;
                     }
                 case DisposeBehaviour.OnDispatcherShutdown:
                     {
-                        void OnControlShutdown(object sender, EventArgs eventArgs)
+                        void OnControlShutdown(object? sender, EventArgs __)
                         {
                             Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
 
-                            scope!.Dispose();
-                            scope = null;
-
-                            if (d is IDisposable disposable) disposable.Dispose();
-                            d = null!;
+                            CleanUp(ref owner);
                         }
 
                         Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
@@ -87,27 +77,31 @@ namespace Injecter.Wpf
                     }
                 case DisposeBehaviour.OnUnloaded:
                     {
-                        if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
-
-                        void OnControlUnloaded(object sender, RoutedEventArgs routedEventArgs)
+                        void OnControlUnloaded(object? _, RoutedEventArgs __)
                         {
-                            f.Unloaded -= OnControlUnloaded;
-                            f = null!;
+                            owner.Unloaded -= OnControlUnloaded;
+                            owner = null!;
 
-                            scope!.Dispose();
-                            scope = null;
-
-                            if (d is IDisposable disposable) disposable.Dispose();
-                            d = null!;
+                            CleanUp(ref owner);
                         }
 
-                        f.Unloaded += OnControlUnloaded;
+                        owner.Unloaded += OnControlUnloaded;
 
                         break;
                     }
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }
+        }
+
+        public static void CleanUp(ref FrameworkElement owner)
+        {
+            CompositionRoot.ServiceProvider
+                .GetRequiredService<IScopeStore>()
+                .DisposeScope(owner);
+
+            if (owner is IDisposable disposable) disposable.Dispose();
+            owner = null!;
         }
     }
 }

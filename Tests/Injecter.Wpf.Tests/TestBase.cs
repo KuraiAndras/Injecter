@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SampleLogic;
 using System;
 
@@ -11,6 +11,10 @@ namespace Injecter.Wpf.Tests
                 .AddSharedLogic()
                 .BuildServiceProvider();
 
-        public void Dispose() => ((IDisposable)CompositionRoot.ServiceProvider!).Dispose();
+        public void Dispose()
+        {
+            ((IDisposable)CompositionRoot.ServiceProvider!).Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }

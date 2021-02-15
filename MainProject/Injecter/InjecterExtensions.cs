@@ -15,6 +15,7 @@ namespace Injecter
 
             services.AddSingleton(options);
             services.AddSingleton<IInjecter, Injecter>();
+            services.AddSingleton<IScopeStore, ScopeStore>();
 
             return services;
         }
