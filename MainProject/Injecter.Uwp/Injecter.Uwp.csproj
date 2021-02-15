@@ -127,8 +127,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DisposeBehaviour.cs" />
-    <Compile Include="InjectedPage.cs" />
-    <Compile Include="InjectedUserControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlInjecter.cs" />
     <EmbeddedResource Include="Properties\Injecter.Uwp.rd.xml" />
