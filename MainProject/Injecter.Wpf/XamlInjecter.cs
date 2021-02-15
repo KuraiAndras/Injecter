@@ -15,7 +15,6 @@ namespace Injecter.Wpf
         private static void DoInjection(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
-            if (CompositionRoot.ServiceProvider is null) return;
 
             CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d, false);
         }
@@ -28,7 +27,6 @@ namespace Injecter.Wpf
         private static void DoInjectionScoped(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
-            if (CompositionRoot.ServiceProvider is null) return;
 
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IInjecter>()
@@ -36,7 +34,7 @@ namespace Injecter.Wpf
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 
-            if (d is not FrameworkElement owner) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
+            var owner = (FrameworkElement)d;
 
             switch (behavior)
             {
