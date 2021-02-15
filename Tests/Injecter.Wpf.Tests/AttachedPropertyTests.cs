@@ -22,9 +22,15 @@ namespace Injecter.Wpf.Tests
         [WpfFact]
         public void UsingAttachedPropertiesInjectsScoped()
         {
-            // Arrange, Act
+            // Arrange
             var control = new ScopedHelloControl();
             var controlAsDo = (FrameworkElement)control;
+
+            // Act, Assert
+            CompositionRoot.ServiceProvider!
+                .GetRequiredService<IScopeStore>()
+                .GetScope(control)
+                .Should().NotBeNull();
 
             XamlInjecter.CleanUp(ref controlAsDo);
 
