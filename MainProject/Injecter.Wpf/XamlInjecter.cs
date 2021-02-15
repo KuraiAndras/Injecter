@@ -15,7 +15,6 @@ namespace Injecter.Wpf
         private static void DoInjection(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
-
             if (CompositionRoot.ServiceProvider is null) return;
 
             CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d, false);
@@ -29,7 +28,6 @@ namespace Injecter.Wpf
         private static void DoInjectionScoped(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
-
             if (CompositionRoot.ServiceProvider is null) return;
 
             CompositionRoot.ServiceProvider
@@ -56,12 +54,7 @@ namespace Injecter.Wpf
                                 window.Closed -= OnWindowClosed;
                                 window = null;
 
-                                CompositionRoot.ServiceProvider
-                                    .GetRequiredService<IScopeStore>()
-                                    .DisposeScope(d);
-
-                                if (d is IDisposable disposable) disposable.Dispose();
-                                d = null!;
+                                CleanUp(ref d);
                             }
 
                             window!.Closed += OnWindowClosed;
@@ -77,12 +70,7 @@ namespace Injecter.Wpf
                         {
                             Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
 
-                            CompositionRoot.ServiceProvider
-                                .GetRequiredService<IScopeStore>()
-                                .DisposeScope(d);
-
-                            if (d is IDisposable disposable) disposable.Dispose();
-                            d = null!;
+                            CleanUp(ref d);
                         }
 
                         Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
@@ -98,12 +86,7 @@ namespace Injecter.Wpf
                             f.Unloaded -= OnControlUnloaded;
                             f = null!;
 
-                            CompositionRoot.ServiceProvider
-                                .GetRequiredService<IScopeStore>()
-                                .DisposeScope(d);
-
-                            if (d is IDisposable disposable) disposable.Dispose();
-                            d = null!;
+                            CleanUp(ref d);
                         }
 
                         f.Unloaded += OnControlUnloaded;
@@ -113,6 +96,16 @@ namespace Injecter.Wpf
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }
+        }
+
+        private static void CleanUp(ref DependencyObject owner)
+        {
+            CompositionRoot.ServiceProvider
+                .GetRequiredService<IScopeStore>()
+                .DisposeScope(owner);
+
+            if (owner is IDisposable disposable) disposable.Dispose();
+            owner = null!;
         }
     }
 }
