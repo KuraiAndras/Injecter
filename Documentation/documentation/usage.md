@@ -96,15 +96,16 @@ Preferably you want to inject into instances before you start using them. For th
 
 ## Default services
 
-| Service Type | Implementation Type | Lifetime |
-|---|---|---|
-| InjecterOptions | InjecterOptions | Singleton |
-| IInjecter | Injecter | Singleton |
+| Service Type    | Implementation Type | Lifetime  |
+|-----------------|---------------------|-----------|
+| InjecterOptions | InjecterOptions     | Singleton |
+| IInjecter       | Injecter            | Singleton |
+| IScopeStore     | ScopeStore          | Singleton |
 
 ## Options
 
 Options can be changed during runtime through .
 
-| Name | Description | Default value |
-|---|---|---|
-| UseCaching | During injection cache the fields, properties, methods needing injection | True |
+| Name       | Description                                                              | Default value |
+|------------|--------------------------------------------------------------------------|---------------|
+| UseCaching | During injection cache the fields, properties, methods needing injection | True          |

@@ -3,7 +3,7 @@
 IHostLifeTime implementation for WPF. Usage:
 
 ```csharp
-IHost host = new HostBuilder()
+IHost host = Host.CreateDefaultBuilder()
     .ConfigureServices(/* */)
     .UseWpfLifetime()
     .Build();
