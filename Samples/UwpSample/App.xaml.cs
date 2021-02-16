@@ -26,6 +26,7 @@ namespace UwpSample
                 .BuildServiceProvider();
 
             InitializeComponent();
+
             Suspending += OnSuspending;
         }
 
@@ -36,6 +37,8 @@ namespace UwpSample
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Window.Current.Closed += (_, _) => ((IDisposable)CompositionRoot.ServiceProvider!).Dispose();
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (Window.Current.Content is not Frame rootFrame)
@@ -47,7 +50,7 @@ namespace UwpSample
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: Load state from previously suspended application
+                    // Load state from previously suspended application
                 }
 
                 // Place the frame in the current Window
@@ -87,7 +90,7 @@ namespace UwpSample
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
-            //TODO: Save application state and stop any background activity
+            // Save application state and stop any background activity
 
             deferral.Complete();
         }

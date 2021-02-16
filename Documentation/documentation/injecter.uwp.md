@@ -1,12 +1,12 @@
-# Injecter.WPF [![Nuget](https://img.shields.io/nuget/v/Injecter.Wpf)](https://www.nuget.org/packages/Injecter.Wpf/)
+# Injecter.UWP [![Nuget](https://img.shields.io/nuget/v/Injecter.Uwp)](https://www.nuget.org/packages/Injecter.Uwp/)
 
-The WPF version of the library has helper classes that make it integrate into WPF seamlessly, offering multiple ways to consume the underlying library.
+The UWP version of the library has helper classes that make it integrate into UWP seamlessly, offering multiple ways to consume the underlying library.
 
 ## Getting Started
 
 In order to start using Injecter, you will need to set up you own DI container. You can use any container that is compatible with the Microsoft.Extensions.DependencyInjection.Abstractions package. In our example we will use the Microsoft.Extensions.DependencyInjection package.
 
-1. Create a new WPF application (.NET Framework, .NET Core and .NET 5+ are all supported)
+1. Create a new UWP application
 
 2. Add the NuGet package Microsoft.Extensions.DependencyInjection
 
@@ -15,26 +15,25 @@ In order to start using Injecter, you will need to set up you own DI container. 
 4. Modify your App.xaml.cs to create the DI container at startup
 
 ```csharp
-public partial class App : Application
+public sealed partial class App : Application
 {
-    private readonly ServiceProvider _serviceProvider;
-
     public App()
     {
-        // Create the DI container
-        _serviceProvider = new ServiceCollection()
-            .AddInjecter() // Register Injecter
-            .AddSingleton<ICounter, Counter>() // Add your own services
+        CompositionRoot.ServiceProvider = new ServiceCollection()
+            .AddSharedLogic()
             .BuildServiceProvider();
 
-        // Set the ServiceProvider on the CompositionRoot
-        CompositionRoot.ServiceProvider = _serviceProvider;
-
-        // Dispose container when the application exits
-        Exit += OnExit;
+        InitializeComponent();
+        // ...
     }
 
-    private void OnExit(object o, ExitEventArgs args) => _serviceProvider.Dispose();
+    protected override void OnLaunched(LaunchActivatedEventArgs e)
+    {
+        Window.Current.Closed += (_, _) => ((IDisposable)CompositionRoot.ServiceProvider!).Dispose();
+        // ..
+    }
+
+    // ...
 }
 ```
 
@@ -42,32 +41,34 @@ public partial class App : Application
 
 6. Inject via Attached Property
 
+## Inject via Attached Property
+
 You can inject into any framework element you create using the a set of provided Attached Properties. In XAML apply the XamlInjecter.Inject attached property to initialize the injection (The value of the property (True or False) does not matter):
 
 ```xml
 <UserControl
-    x:Class="WpfSample.HelloControl"
-    ...
-    xmlns:wpf="clr-namespace:Injecter.Wpf;assembly=Injecter.Wpf"
+    x:Class="UwpSample.HelloControl"
     ...
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DataContext="{d:DesignInstance sampleLogic:ICounter}"
+    xmlns:uwp="using:Injecter.Uwp"
+    mc:Ignorable="d"
     ...
-    wpf:XamlInjecter.Inject="True">
+    d:DataContext="{d:DesignInstance sampleLogic:ICounter}"
+    uwp:XamlInjecter.Inject="True">
 ```
 
 You can also create a new IServiceScope when injecting into the Framework Element. When doing this you must define a DisposeBehavior to use:
 
 ```xml
 <UserControl
-    x:Class="WpfSample.HelloControl"
-    ...
-    xmlns:wpf="clr-namespace:Injecter.Wpf;assembly=Injecter.Wpf"
+    x:Class="UwpSample.HelloControl"
     ...
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DataContext="{d:DesignInstance sampleLogic:ICounter}"
+    xmlns:uwp="using:Injecter.Uwp"
+    mc:Ignorable="d"
     ...
-    wpf:XamlInjecter.InjectScoped="OnWindowClose">
+    d:DataContext="{d:DesignInstance sampleLogic:ICounter}"
+    uwp:XamlInjecter.InjectScoped="OnUnloaded">
 
 ```
 
@@ -76,18 +77,14 @@ After this any marked injection target in the class will be injected
 ```csharp
 public partial class HelloControl
 {
-    [Inject] private ICounter ViewModel { get; } = default!;
+    [Inject] public ICounter ViewModel { get; } = default!;
 
-    public HelloControl() => InitializeComponent();
-
-    protected override void OnInitialized(EventArgs e)
+    public HelloControl()
     {
-        base.OnInitialized(e);
-
+        InitializeComponent();
         DataContext = ViewModel;
     }
-
-    // ...
+    // ..
 }
 ```
 
