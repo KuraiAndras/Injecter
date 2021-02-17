@@ -52,7 +52,6 @@ namespace Injecter.Uwp
                         void OnLoaded(object _, RoutedEventArgs __)
                         {
                             owner.Loaded -= OnLoaded;
-                            owner = null!;
 
                             var window = Window.Current;
 
@@ -76,7 +75,6 @@ namespace Injecter.Uwp
                         void OnControlUnloaded(object _, RoutedEventArgs __)
                         {
                             owner.Unloaded -= OnControlUnloaded;
-                            owner = null!;
 
                             CleanUp(ref owner);
                         }

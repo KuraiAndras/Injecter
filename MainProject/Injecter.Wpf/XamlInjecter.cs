@@ -80,7 +80,6 @@ namespace Injecter.Wpf
                         void OnControlUnloaded(object? _, RoutedEventArgs __)
                         {
                             owner.Unloaded -= OnControlUnloaded;
-                            owner = null!;
 
                             CleanUp(ref owner);
                         }

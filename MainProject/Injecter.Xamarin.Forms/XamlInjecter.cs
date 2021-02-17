@@ -58,10 +58,8 @@ namespace Injecter.Xamarin.Forms
                                 void OnControlDisappearing(object _, EventArgs __)
                                 {
                                     page.Disappearing -= OnControlDisappearing;
-                                    page = null!;
 
-                                    // ReSharper disable once SuspiciousTypeConversion.Global
-                                    if (page is IDisposable d) d.Dispose();
+                                    Cleanup(ref page);
                                 }
 
                                 page.Disappearing += OnControlDisappearing;
@@ -72,10 +70,8 @@ namespace Injecter.Xamarin.Forms
                                 void OnControlDisappearing(object _, EventArgs __)
                                 {
                                     cell.Disappearing -= OnControlDisappearing;
-                                    cell = null!;
 
-                                    // ReSharper disable once SuspiciousTypeConversion.Global
-                                    if (cell is IDisposable d) d.Dispose();
+                                    Cleanup(ref cell);
                                 }
 
                                 cell.Disappearing += OnControlDisappearing;
@@ -86,10 +82,8 @@ namespace Injecter.Xamarin.Forms
                                 void OnControlDisappearing(object _, EventArgs __)
                                 {
                                     baseShellItem.Disappearing -= OnControlDisappearing;
-                                    baseShellItem = null!;
 
-                                    // ReSharper disable once SuspiciousTypeConversion.Global
-                                    if (baseShellItem is IDisposable d) d.Dispose();
+                                    Cleanup(ref baseShellItem);
                                 }
 
                                 baseShellItem.Disappearing += OnControlDisappearing;
@@ -102,6 +96,14 @@ namespace Injecter.Xamarin.Forms
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }
+        }
+
+        private static void Cleanup<T>(ref T item)
+        {
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (item is IDisposable d) d.Dispose();
+
+            item = default!;
         }
     }
 }
