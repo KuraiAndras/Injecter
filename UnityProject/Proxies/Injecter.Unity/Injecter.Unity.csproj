@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\..\MainProject\Injecter\Injecter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Unity.Analyzers" Version="1.10.0" />
+  </ItemGroup>
+
 </Project>
