@@ -11,14 +11,17 @@
 
         protected override void OnStart()
         {
+            // Start
         }
 
         protected override void OnSleep()
         {
+            // Sleep
         }
 
         protected override void OnResume()
         {
+            // Resume
         }
     }
 }
