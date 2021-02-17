@@ -66,7 +66,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSample.UWP", "Sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSample.Android", "Samples\XamarinSample\XamarinSample.Android\XamarinSample.Android.csproj", "{9FA1A8F8-D2D9-4C46-84F5-6CA33697B846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSample", "Samples\XamarinSample\XamarinSample\XamarinSample.csproj", "{70581949-DD5B-4D55-8D0B-F444E16CB871}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinSample", "Samples\XamarinSample\XamarinSample\XamarinSample.csproj", "{70581949-DD5B-4D55-8D0B-F444E16CB871}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinSample", "XamarinSample", "{B70A83F3-3F9E-473E-8022-3B741B4137F5}"
 EndProject
