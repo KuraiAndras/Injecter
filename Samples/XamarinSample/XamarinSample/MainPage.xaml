@@ -1,24 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinSample.MainPage">
-
-    <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
-        <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
-        <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
-        <Label FontSize="16" Padding="30,24,30,0">
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Learn more at "/>
-                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
-    </StackLayout>
-
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sampleLogic="clr-namespace:SampleLogic;assembly=SampleLogic"
+    xmlns:forms="clr-namespace:Injecter.Xamarin.Forms;assembly=Injecter.Xamarin.Forms"
+    mc:Ignorable="d"
+    x:Class="XamarinSample.MainPage"
+    x:DataType="sampleLogic:ICounter"
+    forms:XamlInjecter.Inject="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Column="0"
+            Grid.Row="0"
+            Text="Count:"
+            HorizontalTextAlignment="End"
+            VerticalTextAlignment="End" />
+        <Label
+            Grid.Column="1"
+            Grid.Row="0"
+            Text="{Binding Count}"
+            Margin="10,0,0,0"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="End"
+            d:Text="100" />
+        <Button
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Clicked="OnIncrementClicked"
+            Margin="0,10,0,0"
+            VerticalOptions="Start"
+            Text="Increment">
+        </Button>
+    </Grid>
 </ContentPage>
