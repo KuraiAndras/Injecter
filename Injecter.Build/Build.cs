@@ -79,31 +79,35 @@ sealed partial class Build : NukeBuild
 
     ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
     {
+        var deterministicSourcePaths = $"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}";
+
         var uwpProjects = projects
-            .Where(p => p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase))
+            .Where(p =>
+                p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase)
+                || p.Name.Contains("Droid", StringComparison.InvariantCultureIgnoreCase))
             .ToImmutableArray();
 
-        var buildUwp = uwpProjects
+        var msbuildProjects = uwpProjects
             .SelectMany(p =>
                 MSBuild(s => s
                     .SetProjectFile(p)
                     .SetConfiguration(Configuration.Release)
                     .SetWarningsAsErrors()
                     .SetVerbosity(MSBuildVerbosity.Minimal)
-                    .SetProcessArgumentConfigurator(a => a.Add("/p:DeterministicSourcePaths=false"))));
+                    .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths))));
 
-        var buildOthers = projects
+        var dotnetProjects = projects
             .Except(uwpProjects)
             .SelectMany(p =>
                 DotNetBuild(s => s
                     .SetProjectFile(p)
                     .SetConfiguration(Configuration.Release)
                     .SetWarningsAsErrors()
-                    .SetProcessArgumentConfigurator(a => a.Add($"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}"))));
+                    .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths))));
 
         return Enumerable.Empty<Output>()
-            .Concat(buildOthers)
-            .Concat(buildUwp)
+            .Concat(dotnetProjects)
+            .Concat(msbuildProjects)
             .ToImmutableArray();
     }
 }

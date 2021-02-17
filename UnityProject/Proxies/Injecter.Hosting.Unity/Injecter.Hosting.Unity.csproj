@@ -15,4 +15,8 @@
     <Content Include="../../Injecter.Unity/Assets/Injecter.Hosting.Unity/*.asmdef" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Unity.Analyzers" Version="1.10.0" />
+  </ItemGroup>
+
 </Project>
