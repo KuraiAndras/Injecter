@@ -16,7 +16,7 @@ namespace Injecter.Tests
 
             // Act
             var target = new SimpleInjectTarget();
-            var scope = injecter.InjectIntoType(target);
+            var scope = injecter.InjectIntoType(target, false);
 
             // Assert
             Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
@@ -33,7 +33,7 @@ namespace Injecter.Tests
 
             // Act
             var target = new InheritedInjectTarget();
-            var scope = injecter.InjectIntoType(target);
+            var scope = injecter.InjectIntoType(target, false);
 
             // Assert
             Assert.True(target.IsServiceNotNull);
@@ -52,7 +52,7 @@ namespace Injecter.Tests
 
             // Act
             var target = new SimpleInjectTarget();
-            var scope = injecter.InjectIntoType(target);
+            var scope = injecter.InjectIntoType(target, false);
 
             // Assert
             Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
@@ -82,8 +82,8 @@ namespace Injecter.Tests
             var (injecter, serviceProvider) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
 
             // Act
-            void Act1() => injecter.InjectIntoType(null!, null!);
-            void Act2() => injecter.InjectIntoType(typeof(object), null!);
+            void Act1() => injecter.InjectIntoType(null!, null!, false);
+            void Act2() => injecter.InjectIntoType(typeof(object), null!, false);
 
             // Assert
             Assert.Throws<ArgumentNullException>(Act1);
