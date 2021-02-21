@@ -17,17 +17,17 @@ namespace Injecter.Unity
             _injecter = injecter;
         }
 
-        public void InitializeScene(InjectStarter injectStarter)
+        public void InitializeScene(InjectStarter injectStarter, bool createScopes)
         {
             foreach (var rootGameObject in SceneManager.GetActiveScene().GetRootGameObjects())
             {
-                InjectIntoGameObject(rootGameObject);
+                InjectIntoGameObject(rootGameObject, createScopes);
             }
 
             if (_options.DontDestroyOnLoad) UnityEngine.Object.DontDestroyOnLoad(injectStarter);
         }
 
-        public GameObject InjectIntoGameObject(GameObject gameObjectInstance)
+        public GameObject InjectIntoGameObject(GameObject gameObjectInstance, bool createScopes)
         {
             if (gameObjectInstance == null) throw new ArgumentNullException(nameof(gameObjectInstance));
 
@@ -43,7 +43,7 @@ namespace Injecter.Unity
 
             foreach (var (type, instance, componentGameObject) in componentsToInject)
             {
-                var instanceScope = _injecter.InjectIntoType(type, instance);
+                var instanceScope = _injecter.InjectIntoType(type, instance, createScopes);
 
                 if (instanceScope is null) continue;
 

@@ -10,5 +10,6 @@
 
         public bool DontDestroyOnLoad { get; set; } = true;
         public Behavior InjectionBehavior { get; set; } = Behavior.Factory;
+        public bool CreateScopes { get; set; } = false;
     }
 }

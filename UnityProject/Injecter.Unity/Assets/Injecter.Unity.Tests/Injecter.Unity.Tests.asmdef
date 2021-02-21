@@ -3,8 +3,7 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Injecter.Unity",
-        "Injecter.Unity.Dependencies"
+        "Injecter.Unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -21,6 +20,5 @@
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],
-    "versionDefines": [],
-    "noEngineReferences": false
+    "versionDefines": []
 }

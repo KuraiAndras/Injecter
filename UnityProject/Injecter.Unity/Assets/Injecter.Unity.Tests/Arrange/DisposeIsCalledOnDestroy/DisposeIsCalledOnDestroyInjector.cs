@@ -11,7 +11,7 @@ namespace Injecter.Unity.Tests.Arrange.DisposeIsCalledOnDestroy
         {
             var services = new ServiceCollection();
 
-            services.AddSceneInjector();
+            services.AddSceneInjector(sceneInjectorOptions: o => o.CreateScopes = true);
 
             services.AddSingleton<IListenToDispose, ListenToDispose>(_ => FindObjectOfType<ListenToDispose>());
             services.AddTransient<ITestDisposable, TestDisposable>();

@@ -8,19 +8,19 @@ namespace Injecter.Unity
 
         public DefaultGameObjectFactory(ISceneInjector sceneInjector) => _sceneInjector = sceneInjector;
 
-        public GameObject Instantiate(GameObject original) =>
-            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original));
+        public GameObject Instantiate(GameObject original, bool createScopes) =>
+            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original), createScopes);
 
-        public GameObject Instantiate(GameObject original, Transform parent) =>
-            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, parent));
+        public GameObject Instantiate(GameObject original, Transform parent, bool createScopes) =>
+            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, parent), createScopes);
 
-        public GameObject Instantiate(GameObject original, Transform parent, bool instantiateInWorldSpace) =>
-            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, parent, instantiateInWorldSpace));
+        public GameObject Instantiate(GameObject original, Transform parent, bool instantiateInWorldSpace, bool createScopes) =>
+            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, parent, instantiateInWorldSpace), createScopes);
 
-        public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation) =>
-            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, position, rotation));
+        public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation, bool createScopes) =>
+            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, position, rotation), createScopes);
 
-        public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation, Transform parent) =>
-            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, position, rotation, parent));
+        public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation, Transform parent, bool createScopes) =>
+            _sceneInjector.InjectIntoGameObject(Object.Instantiate(original, position, rotation, parent), createScopes);
     }
 }

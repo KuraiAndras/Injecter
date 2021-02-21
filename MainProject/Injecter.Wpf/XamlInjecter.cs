@@ -30,7 +30,7 @@ namespace Injecter.Wpf
 
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IInjecter>()
-                .InjectIntoType(d.GetType(), d);
+                .InjectIntoType(d.GetType(), d, true);
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 

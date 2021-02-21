@@ -43,7 +43,7 @@ namespace Injecter.Xamarin.Forms
 
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IInjecter>()
-                .InjectIntoType(bindable.GetType(), bindable);
+                .InjectIntoType(bindable.GetType(), bindable, true);
 
             var behavior = (DisposeBehaviour?)newvalue;
 

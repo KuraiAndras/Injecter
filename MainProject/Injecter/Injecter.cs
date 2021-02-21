@@ -22,7 +22,7 @@ namespace Injecter
             _scopeStore = scopeStore;
         }
 
-        public IServiceScope? InjectIntoType(Type type, object instance, bool createScope = true)
+        public IServiceScope? InjectIntoType(Type type, object instance, bool createScope)
         {
             if (type is null) throw new ArgumentNullException(nameof(type));
             if (instance is null) throw new ArgumentNullException(nameof(instance));
@@ -43,7 +43,7 @@ namespace Injecter
             return serviceScope;
         }
 
-        public IServiceScope? InjectIntoType<T>(T instance, bool createScope = true)
+        public IServiceScope? InjectIntoType<T>(T instance, bool createScope)
             where T : notnull
             => InjectIntoType(typeof(T), instance, createScope);
 
