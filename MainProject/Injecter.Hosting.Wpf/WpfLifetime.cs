@@ -10,7 +10,7 @@ using System.Windows;
 namespace Injecter.Hosting.Wpf
 {
     /// <summary>
-    /// Listens for Unity Application.Current.Exit.
+    /// Listens for WPF Application.Current.Exit.
     /// </summary>
     public sealed class WpfLifetime : IHostLifetime, IDisposable
     {
@@ -91,7 +91,7 @@ namespace Injecter.Hosting.Wpf
             Logger.LogInformation("Content root path: {ContentRoot}", Environment.ContentRootPath);
         }
 
-        private void OnApplicationStopping() => Logger.LogInformation("Unity application is shutting down...");
+        private void OnApplicationStopping() => Logger.LogInformation("WPF application is shutting down...");
 
         private void OnProcessExit(object? sender, EventArgs e)
         {
