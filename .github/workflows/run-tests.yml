@@ -27,7 +27,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 15
+          java-version: 17
 
       - name: Test
         shell: pwsh
