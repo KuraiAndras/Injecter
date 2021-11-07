@@ -27,6 +27,6 @@ jobs:
       - name: Run Nukeeper
         shell: pwsh
         env:
-          NUKEEPER_GH_TOKEN: ${{secrets.NUKEEPER_GH_TOKEN}}
+          NUKEEPER_TOKEN: ${{secrets.NUKEEPER_TOKEN}}
         run: |
           ./build.ps1 UpdatePackages --nukeeper-token $env:NUKEEPER_TOKEN
