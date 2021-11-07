@@ -24,7 +24,7 @@ sealed partial class Build
             + "--targetBranch develop "
             + "--maxpackageupdates 100 "
             + "--consolidate "
-            + "--exclude Microsoft.Extensions.DependencyInjection.Abstractions "
-            + "--exclude Unity3D.SDK "
-            + "--exclude Xamarin.Forms"));
+            + @"--exclude (Microsoft\.Extensions\.DependencyInjection\.Abstractions)|(Unity3D\.SDK)|(Xamarin\.Forms) "
+            + "--exclude  "
+            + "--exclude "));
 }
