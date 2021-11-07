@@ -55,6 +55,9 @@
         "NugetApiUrl": {
           "type": "string"
         },
+        "NukeeperToken": {
+          "type": "string"
+        },
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
@@ -89,7 +92,8 @@
               "ServeDocs",
               "SonarBegin",
               "SonarEnd",
-              "Test"
+              "Test",
+              "UpdatePackages"
             ]
           }
         },
@@ -124,7 +128,8 @@
               "ServeDocs",
               "SonarBegin",
               "SonarEnd",
-              "Test"
+              "Test",
+              "UpdatePackages"
             ]
           }
         },
