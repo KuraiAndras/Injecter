@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Unity.Analyzers" Version="1.10.0" />
+    <PackageReference Update="Microsoft.Unity.Analyzers" Version="1.11.1" />
   </ItemGroup>
 
 </Project>

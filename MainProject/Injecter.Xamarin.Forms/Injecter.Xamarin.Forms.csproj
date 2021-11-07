@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Injecter\Injecter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="IsExternalInit" Version="1.0.1" />
+  </ItemGroup>
+
 </Project>
