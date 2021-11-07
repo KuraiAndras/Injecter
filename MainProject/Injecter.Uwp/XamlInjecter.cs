@@ -48,41 +48,45 @@ namespace Injecter.Uwp
             switch (behavior)
             {
                 case DisposeBehaviour.OnWindowClose:
+                {
+                    void OnLoaded(object _, RoutedEventArgs __)
                     {
-                        void OnLoaded(object _, RoutedEventArgs __)
+                        owner.Loaded -= OnLoaded;
+
+                        var window = Window.Current;
+
+                        void OnWindowClosed(object ___, CoreWindowEventArgs ____)
                         {
-                            owner.Loaded -= OnLoaded;
+                            // ReSharper disable once AccessToModifiedClosure
+                            window.Closed -= OnWindowClosed;
+                            window = null;
 
-                            var window = Window.Current;
-
-                            void OnWindowClosed(object ___, CoreWindowEventArgs ____)
-                            {
-                                window.Closed -= OnWindowClosed;
-                                window = null;
-
-                                CleanUp(ref owner);
-                            }
-
-                            window!.Closed += OnWindowClosed;
-                        }
-
-                        owner.Loaded += OnLoaded;
-
-                        break;
-                    }
-                case DisposeBehaviour.OnUnloaded:
-                    {
-                        void OnControlUnloaded(object _, RoutedEventArgs __)
-                        {
-                            owner.Unloaded -= OnControlUnloaded;
-
+                            // ReSharper disable once AccessToModifiedClosure
                             CleanUp(ref owner);
                         }
 
-                        owner.Unloaded += OnControlUnloaded;
-
-                        break;
+                        window!.Closed += OnWindowClosed;
                     }
+
+                    owner.Loaded += OnLoaded;
+
+                    break;
+                }
+                case DisposeBehaviour.OnUnloaded:
+                {
+                    // ReSharper disable AccessToModifiedClosure
+                    void OnControlUnloaded(object _, RoutedEventArgs __)
+                    {
+                        owner.Unloaded -= OnControlUnloaded;
+
+                        CleanUp(ref owner);
+                    }
+                    // ReSharper enable AccessToModifiedClosure
+
+                    owner.Unloaded += OnControlUnloaded;
+
+                    break;
+                }
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }

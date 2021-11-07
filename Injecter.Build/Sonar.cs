@@ -33,6 +33,7 @@ sealed partial class Build
             .SetFramework("net5.0")
             .SetLogin(SonarToken)));
 
+    // ReSharper disable once UnusedMember.Local
     Target RunSonar => _ => _
         .DependsOn(SonarEnd)
         .Executes(() => { });

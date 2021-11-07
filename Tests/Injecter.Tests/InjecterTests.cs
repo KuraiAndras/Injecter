@@ -19,7 +19,7 @@ namespace Injecter.Tests
             var scope = injecter.InjectIntoType(target, false);
 
             // Assert
-            Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
+            Assert.True(target.IsServiceNotNull && target.SimpleService is not null);
 
             DisposeServices(serviceProvider);
             DisposeServices(scope);
@@ -55,7 +55,7 @@ namespace Injecter.Tests
             var scope = injecter.InjectIntoType(target, false);
 
             // Assert
-            Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
+            Assert.True(target.IsServiceNotNull && target.SimpleService is not null);
 
             DisposeServices(serviceProvider);
             DisposeServices(scope);
@@ -119,7 +119,7 @@ namespace Injecter.Tests
             var scope = injecter.InjectIntoType(target, false);
 
             // Assert
-            Assert.True(target.IsServiceNotNull && !(target.SimpleService is null));
+            Assert.True(target.IsServiceNotNull && target.SimpleService is not null);
             Assert.Null(scope);
 
             DisposeServices(serviceProvider);

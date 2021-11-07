@@ -39,55 +39,57 @@ namespace Injecter.Wpf
             switch (behavior)
             {
                 case DisposeBehaviour.OnWindowClose:
+                {
+                    // ReSharper disable AccessToModifiedClosure
+                    void OnLoaded(object sender, EventArgs eventArgs)
                     {
-                        void OnLoaded(object sender, EventArgs eventArgs)
+                        owner.Loaded -= OnLoaded;
+                        owner = null!;
+
+                        var window = Window.GetWindow(d);
+
+                        void OnWindowClosed(object? _, EventArgs __)
                         {
-                            owner.Loaded -= OnLoaded;
-                            owner = null!;
+                            window.Closed -= OnWindowClosed;
+                            window = null;
 
-                            var window = Window.GetWindow(d);
-
-                            void OnWindowClosed(object? _, EventArgs __)
-                            {
-                                window.Closed -= OnWindowClosed;
-                                window = null;
-
-                                CleanUp(ref owner);
-                            }
-
-                            window!.Closed += OnWindowClosed;
+                            CleanUp(ref owner);
                         }
 
-                        owner.Loaded += OnLoaded;
-
-                        break;
+                        window!.Closed += OnWindowClosed;
                     }
+                    // ReSharper enable AccessToModifiedClosure
+
+                    owner.Loaded += OnLoaded;
+
+                    break;
+                }
                 case DisposeBehaviour.OnDispatcherShutdown:
+                {
+                    void OnControlShutdown(object? sender, EventArgs __)
                     {
-                        void OnControlShutdown(object? sender, EventArgs __)
-                        {
-                            Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
+                        Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
 
-                            CleanUp(ref owner);
-                        }
-
-                        Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
-
-                        break;
+                        CleanUp(ref owner);
                     }
+
+                    Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
+
+                    break;
+                }
                 case DisposeBehaviour.OnUnloaded:
+                {
+                    void OnControlUnloaded(object? _, RoutedEventArgs __)
                     {
-                        void OnControlUnloaded(object? _, RoutedEventArgs __)
-                        {
-                            owner.Unloaded -= OnControlUnloaded;
+                        owner.Unloaded -= OnControlUnloaded;
 
-                            CleanUp(ref owner);
-                        }
-
-                        owner.Unloaded += OnControlUnloaded;
-
-                        break;
+                        CleanUp(ref owner);
                     }
+
+                    owner.Unloaded += OnControlUnloaded;
+
+                    break;
+                }
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }

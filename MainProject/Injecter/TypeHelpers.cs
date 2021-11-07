@@ -46,7 +46,7 @@ namespace Injecter
 
         private static IEnumerable<Type> GetParentTypes(this Type type)
         {
-            if (type == null || type.BaseType() == null || type == typeof(object) || type.BaseType() == typeof(object))
+            if (type == typeof(object) || type.BaseType() == typeof(object))
             {
                 yield break;
             }

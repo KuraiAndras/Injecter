@@ -55,6 +55,7 @@ sealed partial class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() => BuildWithAppropriateToolChain(TestProjects.Value));
 
+    // ReSharper disable once UnusedMember.Local
     Target BuildSamples => _ => _
         .DependsOn(Restore)
         .DependentFor(Test)
@@ -71,9 +72,9 @@ sealed partial class Build : NukeBuild
             .SelectMany(p =>
                 DotNetTest(s => s
                     .SetProjectFile(p)
-                    .SetNoBuild(true)
+                    .EnableNoBuild()
                     .SetConfiguration(Configuration.Release)
-                    .SetCollectCoverage(true)
+                    .EnableCollectCoverage()
                     .SetCoverletOutputFormat(CoverletOutputFormat.opencover)))
             .ToImmutableArray());
 
