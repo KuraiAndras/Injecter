@@ -64,7 +64,6 @@ namespace Injecter.Xamarin.Forms
                             }
                             // ReSharper enable AccessToModifiedClosure
 
-
                             page.Disappearing += OnControlDisappearing;
                             break;
                         }
