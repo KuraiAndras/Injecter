@@ -81,9 +81,7 @@
             "type": "string",
             "enum": [
               "BuildDocs",
-              "BuildPackages",
-              "BuildSamples",
-              "BuildTests",
+              "Compile",
               "CreateMetadata",
               "PushToNuGet",
               "Restore",
@@ -118,9 +116,7 @@
             "type": "string",
             "enum": [
               "BuildDocs",
-              "BuildPackages",
-              "BuildSamples",
-              "BuildTests",
+              "Compile",
               "CreateMetadata",
               "PushToNuGet",
               "Restore",

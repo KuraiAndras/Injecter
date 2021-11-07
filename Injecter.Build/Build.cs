@@ -33,41 +33,26 @@ sealed partial class Build : NukeBuild
             .Where(p => p.Name.EndsWith(".Tests"))
             .ToImmutableArray());
 
-    Lazy<ImmutableArray<Project>> SampleProjects => new(() =>
-        Solution
-            .AllProjects
-            .Where(p => p.Path.ToString().Contains("Samples"))
-            .Except(TestProjects.Value)
-            .ToImmutableArray());
-
-    Lazy<ImmutableArray<Project>> PackageProjects => new(() =>
-        Solution
-            .AllProjects
-            .Except(TestProjects.Value)
-            .Except(SampleProjects.Value)
-            .ToImmutableArray());
-
     Target Restore => _ => _
         .Executes(() =>
             NuGetRestore(s => s.SetTargetPath(Solution.Path)));
 
-    Target BuildTests => _ => _
+    Target Compile => _ => _
         .DependsOn(Restore)
-        .Executes(() => BuildWithAppropriateToolChain(TestProjects.Value));
+        .Executes(() =>
+        {
+            var deterministicSourcePaths = $"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}";
 
-    // ReSharper disable once UnusedMember.Local
-    Target BuildSamples => _ => _
-        .DependsOn(Restore)
-        .DependentFor(Test)
-        .Executes(() => BuildWithAppropriateToolChain(SampleProjects.Value));
-
-    Target BuildPackages => _ => _
-        .DependsOn(Restore)
-        .DependentFor(Test)
-        .Executes(() => BuildWithAppropriateToolChain(PackageProjects.Value));
+            MSBuild(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration.Release)
+                .SetWarningsAsErrors()
+                .SetVerbosity(MSBuildVerbosity.Minimal)
+                .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths)));
+        });
 
     Target Test => _ => _
-        .DependsOn(BuildTests)
+        .DependsOn(Compile)
         .Executes(() => TestProjects.Value
             .SelectMany(p =>
                 DotNetTest(s => s
@@ -77,38 +62,4 @@ sealed partial class Build : NukeBuild
                     .EnableCollectCoverage()
                     .SetCoverletOutputFormat(CoverletOutputFormat.opencover)))
             .ToImmutableArray());
-
-    ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
-    {
-        var deterministicSourcePaths = $"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}";
-
-        var uwpProjects = projects
-            .Where(p =>
-                p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase)
-                || p.Name.Contains("Droid", StringComparison.InvariantCultureIgnoreCase))
-            .ToImmutableArray();
-
-        var msbuildProjects = uwpProjects
-            .SelectMany(p =>
-                MSBuild(s => s
-                    .SetProjectFile(p)
-                    .SetConfiguration(Configuration.Release)
-                    .SetWarningsAsErrors()
-                    .SetVerbosity(MSBuildVerbosity.Minimal)
-                    .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths))));
-
-        var dotnetProjects = projects
-            .Except(uwpProjects)
-            .SelectMany(p =>
-                DotNetBuild(s => s
-                    .SetProjectFile(p)
-                    .SetConfiguration(Configuration.Release)
-                    .SetWarningsAsErrors()
-                    .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths))));
-
-        return Enumerable.Empty<Output>()
-            .Concat(dotnetProjects)
-            .Concat(msbuildProjects)
-            .ToImmutableArray();
-    }
 }

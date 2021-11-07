@@ -13,7 +13,7 @@ sealed partial class Build
 
     // ReSharper disable once UnusedMember.Local
     Target PushToNuGet => _ => _
-        .DependsOn(BuildPackages)
+        .DependsOn(Compile)
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
