@@ -81,7 +81,7 @@ namespace Injecter.Uwp
 
                         CleanUp(ref owner);
                     }
-                    // ReSharper enable AccessToModifiedClosure
+                    // ReSharper restore AccessToModifiedClosure
 
                     owner.Unloaded += OnControlUnloaded;
 

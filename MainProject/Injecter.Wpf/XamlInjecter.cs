@@ -36,11 +36,11 @@ namespace Injecter.Wpf
 
             var owner = (FrameworkElement)d;
 
+            // ReSharper disable AccessToModifiedClosure
             switch (behavior)
             {
                 case DisposeBehaviour.OnWindowClose:
                 {
-                    // ReSharper disable AccessToModifiedClosure
                     void OnLoaded(object sender, EventArgs eventArgs)
                     {
                         owner.Loaded -= OnLoaded;
@@ -58,7 +58,6 @@ namespace Injecter.Wpf
 
                         window!.Closed += OnWindowClosed;
                     }
-                    // ReSharper enable AccessToModifiedClosure
 
                     owner.Loaded += OnLoaded;
 
@@ -93,6 +92,7 @@ namespace Injecter.Wpf
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }
+            // ReSharper restore AccessToModifiedClosure
         }
 
         public static void CleanUp(ref FrameworkElement owner)

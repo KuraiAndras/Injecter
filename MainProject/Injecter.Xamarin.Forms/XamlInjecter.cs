@@ -51,18 +51,17 @@ namespace Injecter.Xamarin.Forms
             {
                 case DisposeBehaviour.OnDisappearing:
 
+                    // ReSharper disable AccessToModifiedClosure
                     switch (bindable)
                     {
                         case Page page:
                         {
-                            // ReSharper disable AccessToModifiedClosure
                             void OnControlDisappearing(object _, EventArgs __)
                             {
                                 page.Disappearing -= OnControlDisappearing;
 
                                 Cleanup(ref page);
                             }
-                            // ReSharper enable AccessToModifiedClosure
 
                             page.Disappearing += OnControlDisappearing;
                             break;
@@ -93,6 +92,7 @@ namespace Injecter.Xamarin.Forms
                         }
                         default: throw new InvalidOperationException($"Bindable does not have event OnDisappearing. Type: {bindable.GetType().FullName}");
                     }
+                    // ReSharper restore AccessToModifiedClosure
 
                     break;
                 case DisposeBehaviour.Manual: break;
