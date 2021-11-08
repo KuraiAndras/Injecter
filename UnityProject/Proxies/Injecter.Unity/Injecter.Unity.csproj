@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Unity3D.SDK" Version="2019.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,10 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\MainProject\Injecter\Injecter.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.Unity.Analyzers" Version="1.11.1" />
   </ItemGroup>
 
 </Project>
