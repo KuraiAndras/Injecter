@@ -27,4 +27,3 @@ jobs:
           ./build.ps1 PushToNuGet `
           --nuget-api-key $env:NUGET_API_KEY `
           --configuration Release `
-          --deterministic-source-paths "true"
