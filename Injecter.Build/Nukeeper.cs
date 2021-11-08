@@ -14,7 +14,7 @@ sealed partial class Build
     readonly Tool Nukeeper = default!;
 
     // ReSharper disable once UnusedMember.Local
-    Target UpdatePackages => _ => _
+    Target UpdateNuGetPackages => _ => _
         .Requires(() => NukeeperToken)
         .Executes(() => Nukeeper(
             "repo "
@@ -24,7 +24,5 @@ sealed partial class Build
             + "--targetBranch develop "
             + "--maxpackageupdates 100 "
             + "--consolidate "
-            + @"--exclude (Microsoft\.Extensions\.DependencyInjection\.Abstractions)|(Unity3D\.SDK)|(Xamarin\.Forms) "
-            + "--exclude  "
-            + "--exclude "));
+            + @"--exclude (Microsoft\.Extensions\.DependencyInjection\.Abstractions)|(Unity3D\.SDK)|(Xamarin\.Forms)"));
 }

@@ -93,7 +93,7 @@
               "SonarBegin",
               "SonarEnd",
               "Test",
-              "UpdatePackages"
+              "UpdateNuGetPackages"
             ]
           }
         },
@@ -129,7 +129,7 @@
               "SonarBegin",
               "SonarEnd",
               "Test",
-              "UpdatePackages"
+              "UpdateNuGetPackages"
             ]
           }
         },
