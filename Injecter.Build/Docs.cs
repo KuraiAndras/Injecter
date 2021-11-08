@@ -1,6 +1,7 @@
 ﻿using Nuke.Common;
 using static Nuke.Common.Tools.DocFX.DocFXTasks;
 
+#pragma warning disable CA1822 // Mark members as static
 sealed partial class Build
 {
     Target CreateMetadata => _ => _
@@ -15,3 +16,4 @@ sealed partial class Build
     Target ServeDocs => _ => _
         .Executes(() => DocFX($"{DocFxJsonPath} --serve"));
 }
+#pragma warning restore CA1822 // Mark members as static
