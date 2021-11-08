@@ -12,22 +12,24 @@ namespace Injecter
         private readonly ConcurrentDictionary<Type, (FieldInfo[] fieldInfos, PropertyInfo[] propertyInfos, MethodInfo[] methodInfos)> _resolveDictionary = new();
 
         private readonly InjecterOptions _options;
+        private readonly IScopeStore _scopeStore;
         private readonly IServiceProvider _serviceProvider;
 
-        public Injecter(IServiceProvider serviceProvider, InjecterOptions options)
+        public Injecter(IServiceProvider serviceProvider, InjecterOptions options, IScopeStore scopeStore)
         {
             _serviceProvider = serviceProvider;
             _options = options;
+            _scopeStore = scopeStore;
         }
 
-        public IServiceScope? InjectIntoType(Type type, object instance, bool createScope = true)
+        public IServiceScope? InjectIntoType(Type type, object instance, bool createScope)
         {
             if (type is null) throw new ArgumentNullException(nameof(type));
             if (instance is null) throw new ArgumentNullException(nameof(instance));
 
             var (fieldInfos, propertyInfos, methodInfos) = GetMembers(type);
 
-            IServiceScope? serviceScope = createScope ? _serviceProvider.CreateScope() : null;
+            IServiceScope? serviceScope = createScope ? _scopeStore.CreateScope(instance) : null;
             var serviceProvider = createScope switch
             {
                 true => serviceScope!.ServiceProvider,
@@ -41,7 +43,7 @@ namespace Injecter
             return serviceScope;
         }
 
-        public IServiceScope? InjectIntoType<T>(T instance, bool createScope = true)
+        public IServiceScope? InjectIntoType<T>(T instance, bool createScope)
             where T : notnull
             => InjectIntoType(typeof(T), instance, createScope);
 

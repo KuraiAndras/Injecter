@@ -3,7 +3,7 @@
 IHostLifeTime implementation for unity. Usage:
 
 ```csharp
-IHost host = new HostBuilder()
+IHost host = Host.CreateDefaultBuilder()
     .ConfigureServices(/* */)
     .UseUnityLifetime()
     .Build();

@@ -1,16 +1,17 @@
-﻿<uwpSample:HelloControlBase
+﻿<UserControl
     x:Class="UwpSample.HelloControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uwpSample="using:UwpSample"
     xmlns:sampleLogic="using:SampleLogic"
+    xmlns:uwp="using:Injecter.Uwp"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    d:DataContext="{d:DesignInstance sampleLogic:ICounter}">
+    d:DataContext="{d:DesignInstance sampleLogic:ICounter}"
+    uwp:XamlInjecter.Inject="True">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -48,4 +49,4 @@
                 Text="Increment" />
         </Button>
     </Grid>
-</uwpSample:HelloControlBase>
+</UserControl>

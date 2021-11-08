@@ -18,7 +18,7 @@ namespace Injecter.Unity
 
             services.AddSingleton<IGameObjectFactory, DefaultGameObjectFactory>();
             services.AddSingleton<ISceneInjector, SceneInjector>();
-            services.AddSingleton<SceneInjectorOptions>();
+            services.AddSingleton(options);
 
             services.AddInjecter(injecterOptionsBuilder);
 

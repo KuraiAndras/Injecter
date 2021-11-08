@@ -40,9 +40,7 @@ public partial class App : Application
 
 5. Create the View you for the Counter
 
-6. Chose one of the bellow injection scenarios
-
-## Inject via Attached Property
+6. Inject via Attached Property
 
 You can inject into any framework element you create using the a set of provided Attached Properties. In XAML apply the XamlInjecter.Inject attached property to initialize the injection (The value of the property (True or False) does not matter):
 
@@ -92,42 +90,37 @@ public partial class HelloControl
     // ...
 }
 ```
-## Inject via Inheritance
 
-Change the XAML base declaration to:
-
-```xml
-<wpf:InjectedUserControl
-    x:Class="WpfSample.HelloControl"
-    ...
-    xmlns:wpf="clr-namespace:Injecter.Wpf;assembly=Injecter.Wpf"
-    ...
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DataContext="{d:DesignInstance sampleLogic:ICounter}">
-```
-
-Or use the generic overload of the base class which provides a ViewModel property auto injected:
-
-```xml
-<wpf:InjectedUserControl
-    x:TypeArguments="sampleLogic:ICounter"
-    x:Class="WpfSample.HelloControl"
-    ...
-    xmlns:wpf="clr-namespace:Injecter.Wpf;assembly=Injecter.Wpf"
-    ...
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DataContext="{d:DesignInstance sampleLogic:ICounter}">
-```
-
-By default when using inheritance a new IServiceScope will be used to inject into the the desired Framework Element. You can configure this behavior with the optional parameters on the constructor:
+If you want to get the IServiceScope associated with the control, you can get it via the IScopeStore interface
 
 ```csharp
 public partial class HelloControl
 {
-    public HelloControl() : base(DisposeBehaviour.OnWindowClose, true) => InitializeComponent();
+    [Inject] private readonly IScopeStore _store = default!;
+
+    public HelloControl()
+    {
+        InitializeComponent();
+        IServiceScope scope = _store.GetScope(this);
+    }
 }
 ```
 
-Inheritance supported types:
-- UserControl
-- Window
+If you want to do manual injection you can do that by using the IInjecter interface directly:
+```csharp
+public partial class HelloControl
+{
+    [Inject] private ICounter ViewModel { get; } = default!;
+
+    public HelloControl()
+    {
+        CompositionRoot.ServiceProvider
+            .GetRequiredService<IInjecter>()
+            .InjectIntoType(this, createScope: false);
+
+        DataContext = ViewModer;
+
+        InitializeComponent();
+    }
+}
+```

@@ -1,7 +1,12 @@
 {
     "name": "com.injecter.unity",
-    "version": "5.1.0",
+    "version": "6.0.0",
     "displayName": "Injecter.Unity",
+    "license": "MIT",
+    "licensesUrl": "https://github.com/KuraiAndras/Injecter/blob/master/LICENSE.md",
+    "changelogUrl": "https://github.com/KuraiAndras/Injecter/blob/develop/CHANGELOG.md",
+    "documentationUrl": "https://kuraiandras.github.io/Injecter/documentation/usage.html",
+    "unity": "2019.4",
     "author": {
         "name": "Kurai András",
         "email": "k.andras9642@gmail.com",

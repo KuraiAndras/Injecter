@@ -5,9 +5,9 @@ namespace Injecter.Unity.Tests.Arrange.ComplexSceneInjectedProperly
 {
     public abstract class ComplexBase : MonoBehaviour
     {
-        [Inject] private readonly ITestService1 _testService1 = default!;
+        [Inject] private readonly ITestService1 _testService1 = default;
 
-        [Inject] protected ITestService1 TestService1 { get; } = default!;
+        [Inject] protected ITestService1 TestService1 { get; } = default;
 
         public void AssertBaseInjected()
         {

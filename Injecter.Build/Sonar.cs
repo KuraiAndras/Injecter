@@ -23,7 +23,8 @@ sealed partial class Build
             .SetLogin(SonarToken)
             .SetServer(SonarHostUrl)
             .SetProcessArgumentConfigurator(a => a.Add($"/o:\"{SonarOrganization}\""))
-            .SetOpenCoverPaths("**/*.opencover.xml")));
+            .SetOpenCoverPaths("**/*.opencover.xml")
+            .SetCoverageExclusions("**/*Samples*/**")));
 
     Target SonarEnd => _ => _
         .DependsOn(SonarBegin)
@@ -32,6 +33,7 @@ sealed partial class Build
             .SetFramework("net5.0")
             .SetLogin(SonarToken)));
 
+    // ReSharper disable once UnusedMember.Local
     Target RunSonar => _ => _
         .DependsOn(SonarEnd)
         .Executes(() => { });

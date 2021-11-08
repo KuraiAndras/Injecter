@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Injecter
 {
@@ -8,6 +7,6 @@ namespace Injecter
         /// <summary>
         /// The root service provider used by framework implementations.
         /// </summary>
-        [MaybeNull] public static IServiceProvider? ServiceProvider { get; set; }
+        public static IServiceProvider? ServiceProvider { get; set; }
     }
 }

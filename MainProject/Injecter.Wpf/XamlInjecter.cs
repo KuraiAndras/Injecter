@@ -16,8 +16,6 @@ namespace Injecter.Wpf
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
 
-            if (CompositionRoot.ServiceProvider is null) return;
-
             CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d, false);
         }
 
@@ -30,84 +28,81 @@ namespace Injecter.Wpf
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
 
-            if (CompositionRoot.ServiceProvider is null) return;
-
-            var scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d);
+            CompositionRoot.ServiceProvider
+                .GetRequiredService<IInjecter>()
+                .InjectIntoType(d.GetType(), d, true);
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 
+            var owner = (FrameworkElement)d;
+
+            // ReSharper disable AccessToModifiedClosure
             switch (behavior)
             {
                 case DisposeBehaviour.OnWindowClose:
+                {
+                    void OnLoaded(object sender, EventArgs eventArgs)
                     {
-                        if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
+                        owner.Loaded -= OnLoaded;
+                        owner = null!;
 
-                        void OnLoaded(object sender, EventArgs eventArgs)
+                        var window = Window.GetWindow(d);
+
+                        void OnWindowClosed(object? _, EventArgs __)
                         {
-                            f.Loaded -= OnLoaded;
-                            f = null!;
+                            window.Closed -= OnWindowClosed;
+                            window = null;
 
-                            var window = Window.GetWindow(d);
-
-                            void OnWindowClosed(object _, EventArgs __)
-                            {
-                                window.Closed -= OnWindowClosed;
-                                window = null;
-
-                                scope!.Dispose();
-                                scope = null;
-
-                                if (d is IDisposable disposable) disposable.Dispose();
-                                d = null!;
-                            }
-
-                            window!.Closed += OnWindowClosed;
+                            CleanUp(ref owner);
                         }
 
-                        f.Loaded += OnLoaded;
-
-                        break;
+                        window!.Closed += OnWindowClosed;
                     }
+
+                    owner.Loaded += OnLoaded;
+
+                    break;
+                }
                 case DisposeBehaviour.OnDispatcherShutdown:
+                {
+                    void OnControlShutdown(object? sender, EventArgs __)
                     {
-                        void OnControlShutdown(object sender, EventArgs eventArgs)
-                        {
-                            Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
+                        Application.Current.Dispatcher.ShutdownFinished -= OnControlShutdown;
 
-                            scope!.Dispose();
-                            scope = null;
-
-                            if (d is IDisposable disposable) disposable.Dispose();
-                            d = null!;
-                        }
-
-                        Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
-
-                        break;
+                        CleanUp(ref owner);
                     }
+
+                    Application.Current.Dispatcher.ShutdownStarted += OnControlShutdown;
+
+                    break;
+                }
                 case DisposeBehaviour.OnUnloaded:
+                {
+                    void OnControlUnloaded(object? _, RoutedEventArgs __)
                     {
-                        if (d is not FrameworkElement f) throw new InvalidOperationException($"{d} is not of type {nameof(FrameworkElement)}");
+                        owner.Unloaded -= OnControlUnloaded;
 
-                        void OnControlUnloaded(object sender, RoutedEventArgs routedEventArgs)
-                        {
-                            f.Unloaded -= OnControlUnloaded;
-                            f = null!;
-
-                            scope!.Dispose();
-                            scope = null;
-
-                            if (d is IDisposable disposable) disposable.Dispose();
-                            d = null!;
-                        }
-
-                        f.Unloaded += OnControlUnloaded;
-
-                        break;
+                        CleanUp(ref owner);
                     }
+
+                    owner.Unloaded += OnControlUnloaded;
+
+                    break;
+                }
                 case DisposeBehaviour.Manual: break;
                 default: throw new ArgumentOutOfRangeException(behavior.ToString(), behavior, "Dispose behaviour not found");
             }
+            // ReSharper restore AccessToModifiedClosure
+        }
+
+        public static void CleanUp(ref FrameworkElement owner)
+        {
+            CompositionRoot.ServiceProvider
+                .GetRequiredService<IScopeStore>()
+                .DisposeScope(owner);
+
+            if (owner is IDisposable disposable) disposable.Dispose();
+            owner = null!;
         }
     }
 }

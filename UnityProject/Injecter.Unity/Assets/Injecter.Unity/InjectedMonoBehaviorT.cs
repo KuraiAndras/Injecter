@@ -1,18 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 
 namespace Injecter.Unity
 {
     public abstract class InjectedMonoBehavior<TViewModel> : InjectedMonoBehavior
     {
-        protected TViewModel ViewModel { get; private set; }
-
-        protected override void Awake()
+        protected InjectedMonoBehavior(bool createScopes) : base(createScopes)
         {
-            base.Awake();
-
-            ViewModel = Scope.ServiceProvider.GetRequiredService<TViewModel>();
         }
+
+        [Inject] protected TViewModel ViewModel { get; } = default;
 
         protected override void OnDestroy()
         {

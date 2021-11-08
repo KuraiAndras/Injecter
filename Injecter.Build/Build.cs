@@ -23,7 +23,7 @@ sealed partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter] readonly bool DeterministicSourcePaths = false;
+    [Parameter] readonly bool DeterministicSourcePaths;
 
     [Solution] readonly Solution Solution;
 
@@ -33,77 +33,33 @@ sealed partial class Build : NukeBuild
             .Where(p => p.Name.EndsWith(".Tests"))
             .ToImmutableArray());
 
-    Lazy<ImmutableArray<Project>> SampleProjects => new(() =>
-        Solution
-            .AllProjects
-            .Where(p => p.Path.ToString().Contains("Samples"))
-            .Except(TestProjects.Value)
-            .ToImmutableArray());
-
-    Lazy<ImmutableArray<Project>> PackageProjects => new(() =>
-        Solution
-            .AllProjects
-            .Except(TestProjects.Value)
-            .Except(SampleProjects.Value)
-            .ToImmutableArray());
-
     Target Restore => _ => _
         .Executes(() =>
             NuGetRestore(s => s.SetTargetPath(Solution.Path)));
 
-    Target BuildTests => _ => _
+    Target Compile => _ => _
         .DependsOn(Restore)
-        .Executes(() => BuildWithAppropriateToolChain(TestProjects.Value));
+        .Executes(() =>
+        {
+            var deterministicSourcePaths = $"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}";
 
-    Target BuildSamples => _ => _
-        .DependsOn(Restore)
-        .DependentFor(Test)
-        .Executes(() => BuildWithAppropriateToolChain(SampleProjects.Value));
-
-    Target BuildPackages => _ => _
-        .DependsOn(Restore)
-        .DependentFor(Test)
-        .Executes(() => BuildWithAppropriateToolChain(PackageProjects.Value));
+            MSBuild(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration.Release)
+                .SetWarningsAsErrors()
+                .SetVerbosity(MSBuildVerbosity.Minimal)
+                .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths)));
+        });
 
     Target Test => _ => _
-        .DependsOn(BuildTests)
+        .DependsOn(Compile)
         .Executes(() => TestProjects.Value
             .SelectMany(p =>
                 DotNetTest(s => s
                     .SetProjectFile(p)
-                    .SetNoBuild(true)
+                    .EnableNoBuild()
                     .SetConfiguration(Configuration.Release)
-                    .SetCollectCoverage(true)
+                    .EnableCollectCoverage()
                     .SetCoverletOutputFormat(CoverletOutputFormat.opencover)))
             .ToImmutableArray());
-
-    ImmutableArray<Output> BuildWithAppropriateToolChain(ImmutableArray<Project> projects)
-    {
-        var uwpProjects = projects
-            .Where(p => p.Name.Contains("UWP", StringComparison.InvariantCultureIgnoreCase))
-            .ToImmutableArray();
-
-        var buildUwp = uwpProjects
-            .SelectMany(p =>
-                MSBuild(s => s
-                    .SetProjectFile(p)
-                    .SetConfiguration(Configuration.Release)
-                    .SetWarningsAsErrors()
-                    .SetVerbosity(MSBuildVerbosity.Minimal)
-                    .SetProcessArgumentConfigurator(a => a.Add("/p:DeterministicSourcePaths=false"))));
-
-        var buildOthers = projects
-            .Except(uwpProjects)
-            .SelectMany(p =>
-                DotNetBuild(s => s
-                    .SetProjectFile(p)
-                    .SetConfiguration(Configuration.Release)
-                    .SetWarningsAsErrors()
-                    .SetProcessArgumentConfigurator(a => a.Add($"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}"))));
-
-        return Enumerable.Empty<Output>()
-            .Concat(buildOthers)
-            .Concat(buildUwp)
-            .ToImmutableArray();
-    }
 }

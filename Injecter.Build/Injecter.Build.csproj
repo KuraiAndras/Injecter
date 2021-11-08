@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,16 +10,18 @@
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..</NukeRootDirectory>
     <NukeScriptDirectory>..</NukeScriptDirectory>
+    <NukeTelemetryVersion>1</NukeTelemetryVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="5.0.2" />
+    <PackageReference Include="Nuke.Common" Version="5.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageDownload Include="docfx.console" Version="[2.56.6]" />
-    <PackageDownload Include="dotnet-sonarscanner" Version="[5.0.4]" />
-    <PackageDownload Include="NuGet.CommandLine" Version="[5.8.0]" />
+    <PackageDownload Include="docfx.console" Version="[2.58.9]" />
+    <PackageDownload Include="dotnet-sonarscanner" Version="[5.3.2]" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[5.11.0]" />
+    <PackageDownload Include="nukeeper" Version="[0.35.0]" />
   </ItemGroup>
 
 </Project>

@@ -6,13 +6,13 @@ using System.Windows;
 
 namespace WpfSample
 {
-    public partial class App : Application
+    public partial class App
     {
         private readonly IHost _host;
 
         public App()
         {
-            _host = new HostBuilder()
+            _host = Host.CreateDefaultBuilder()
                 .UseWpfLifetime()
                 .ConfigureServices(s => s.AddSharedLogic())
                 .Build();

@@ -2,9 +2,13 @@
   href: usage.md
 - name: Injecter.WPF
   href: injecter.wpf.md
+- name: Injecter.UWP
+  href: injecter.uwp.md
 - name: Injceter.Unity
   href: injecter.unity.md
-- name: Injecter.Hosting.Unity
-  href: injecter.hosting.unity.md
+- name: Injceter.Xamarin.Forms
+  href: injecter.Xamarin.Forms.md
 - name: Injecter.Hosting.Wpf
   href: injecter.hosting.wpf.md
+- name: Injecter.Hosting.Unity
+  href: injecter.hosting.unity.md

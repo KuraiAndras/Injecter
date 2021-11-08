@@ -11,9 +11,10 @@ namespace Injecter.Tests.Arrangers
 
         [Inject] public ISimpleService? SimpleService { get; } = default;
 
-        public bool IsServiceNotNull => !(_simpleService is null) && !(_simpleService2 is null);
+        public bool IsServiceNotNull => _simpleService is not null && _simpleService2 is not null;
 
         [Inject]
+        // ReSharper disable once UnusedMember.Local
         private void Construct(ISimpleService simpleService) => _simpleService2 = simpleService;
     }
 #pragma warning restore IDE0051 // Remove unused private members

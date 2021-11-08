@@ -1,1 +1,0 @@
-# Sample implementations for Injecter

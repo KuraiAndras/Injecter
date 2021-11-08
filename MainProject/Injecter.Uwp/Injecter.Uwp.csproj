@@ -126,18 +126,18 @@
     <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="InjectedPage.cs" />
-    <Compile Include="InjectedUserControl.cs" />
+    <Compile Include="DisposeBehaviour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XamlInjecter.cs" />
     <EmbeddedResource Include="Properties\Injecter.Uwp.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.11</Version>
+      <Version>6.2.13</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Nuget.Build.Tasks.Pack">
-      <Version>5.8.0</Version>
+      <Version>5.11.0</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>

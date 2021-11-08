@@ -6,6 +6,6 @@ namespace Injecter.Tests.Arrangers
     {
         [Inject] private readonly ISimpleService? _simpleService = default;
 
-        public bool IsServiceNotNull => !(BaseSimpleService is null) && !(_simpleService is null);
+        public bool IsServiceNotNull => BaseSimpleService is not null && _simpleService is not null;
     }
 }
