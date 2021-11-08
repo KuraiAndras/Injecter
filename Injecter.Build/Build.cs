@@ -1,7 +1,6 @@
 ﻿using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
@@ -23,8 +22,6 @@ sealed partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter] readonly bool DeterministicSourcePaths;
-
     [Solution] readonly Solution Solution;
 
     Lazy<ImmutableArray<Project>> TestProjects => new(() =>
@@ -40,16 +37,11 @@ sealed partial class Build : NukeBuild
     Target Compile => _ => _
         .DependsOn(Restore)
         .Executes(() =>
-        {
-            var deterministicSourcePaths = $"/p:DeterministicSourcePaths={DeterministicSourcePaths.ToString().ToLower()}";
-
             MSBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration.Release)
                 .SetWarningsAsErrors()
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .SetProcessArgumentConfigurator(a => a.Add(deterministicSourcePaths)));
-        });
+                .SetVerbosity(MSBuildVerbosity.Minimal)));
 
     Target Test => _ => _
         .DependsOn(Compile)

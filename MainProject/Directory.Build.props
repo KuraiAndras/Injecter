@@ -23,8 +23,4 @@
     <NoWarn>SA0001;CS1685</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
-
 </Project>

@@ -17,7 +17,6 @@ sealed partial class Build
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
-        .Requires(() => DeterministicSourcePaths)
         .Executes(() =>
             EnumerateFiles(Solution.Directory!, "*.nupkg", SearchOption.AllDirectories)
                 .Where(n => !n.EndsWith("symbols.nupkg"))
