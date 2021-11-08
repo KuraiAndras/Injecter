@@ -3,7 +3,7 @@ using System;
 
 namespace Injecter.Wpf.Tests
 {
-    public partial class ScopedHelloControl : IDisposable
+    public sealed partial class ScopedHelloControl : IDisposable
     {
         [Inject] private readonly ICounter _counter = default!;
 
