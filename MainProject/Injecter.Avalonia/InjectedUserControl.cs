@@ -8,9 +8,7 @@ namespace Injecter.Avalonia
     public abstract class InjectedUserControl : UserControl
     {
         protected InjectedUserControl() =>
-            Scope = CompositionRoot.ServiceProvider is not null
-                ? CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this, false)
-                : null;
+            Scope = CompositionRoot.ServiceProvider?.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this, false);
 
         protected IServiceScope? Scope { get; }
 
