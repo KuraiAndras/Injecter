@@ -1,6 +1,6 @@
 <Project>
     <ItemGroup>
-        <PackageReference Include="Unity3D.SDK" Version="2019.2.20.1" />
+        <PackageReference Include="Unity3D.SDK" Version="2019.4.0.1" />
     </ItemGroup>
 
     <ItemGroup>
