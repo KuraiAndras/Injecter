@@ -1,4 +1,5 @@
 <Project>
+  
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
@@ -6,9 +7,5 @@
     <Editorconfig>..\.editorconfig</Editorconfig>
     <NoWarn>CS1685</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
-  </ItemGroup>
 
 </Project>

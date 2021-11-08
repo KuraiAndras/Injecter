@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MainProject", "MainProject", "{603E04CF-A4E2-4C2A-A32E-292C7937950E}"
 	ProjectSection(SolutionItems) = preProject
 		MainProject\Directory.Build.props = MainProject\Directory.Build.props
+		MainProject\Directory.Packages.props = MainProject\Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnityProject", "UnityProject", "{1269CF99-44E2-43AD-B09C-119AC83970C1}"
@@ -33,6 +34,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{0CC35E76-EE92-4F84-890B-6B23C510A314}"
 	ProjectSection(SolutionItems) = preProject
 		Samples\Directory.Build.props = Samples\Directory.Build.props
+		Samples\Directory.Packages.props = Samples\Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfSample", "Samples\WpfSample\WpfSample.csproj", "{41BD8D98-C649-4DC3-BA1D-6BB70D7F8C19}"
@@ -47,6 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CD454132
 	ProjectSection(SolutionItems) = preProject
 		Tests\.editorconfig = Tests\.editorconfig
 		Tests\Directory.Build.props = Tests\Directory.Build.props
+		Tests\Directory.Packages.props = Tests\Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Tests", "Tests\Injecter.Tests\Injecter.Tests.csproj", "{744B4B66-3E0C-4AF1-8D11-92E5D73CEA00}"
@@ -56,6 +59,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxies", "Proxies", "{4879E9FF-F766-4EDD-BDE0-679EE469E45D}"
 	ProjectSection(SolutionItems) = preProject
 		UnityProject\Proxies\Directory.Build.props = UnityProject\Proxies\Directory.Build.props
+		UnityProject\Proxies\Directory.Packages.props = UnityProject\Proxies\Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Unity", "UnityProject\Proxies\Injecter.Unity\Injecter.Unity.csproj", "{78547BD7-F4DC-4830-92F1-0063C3462FD0}"

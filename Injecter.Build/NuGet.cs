@@ -11,8 +11,9 @@ sealed partial class Build
     [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json";
     [Parameter] readonly string NugetApiKey = string.Empty;
 
+    // ReSharper disable once UnusedMember.Local
     Target PushToNuGet => _ => _
-        .DependsOn(BuildPackages)
+        .DependsOn(Compile)
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))

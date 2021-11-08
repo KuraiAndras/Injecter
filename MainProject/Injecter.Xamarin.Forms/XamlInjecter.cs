@@ -51,46 +51,48 @@ namespace Injecter.Xamarin.Forms
             {
                 case DisposeBehaviour.OnDisappearing:
 
+                    // ReSharper disable AccessToModifiedClosure
                     switch (bindable)
                     {
                         case Page page:
+                        {
+                            void OnControlDisappearing(object _, EventArgs __)
                             {
-                                void OnControlDisappearing(object _, EventArgs __)
-                                {
-                                    page.Disappearing -= OnControlDisappearing;
+                                page.Disappearing -= OnControlDisappearing;
 
-                                    Cleanup(ref page);
-                                }
-
-                                page.Disappearing += OnControlDisappearing;
-                                break;
+                                Cleanup(ref page);
                             }
+
+                            page.Disappearing += OnControlDisappearing;
+                            break;
+                        }
                         case Cell cell:
+                        {
+                            void OnControlDisappearing(object _, EventArgs __)
                             {
-                                void OnControlDisappearing(object _, EventArgs __)
-                                {
-                                    cell.Disappearing -= OnControlDisappearing;
+                                cell.Disappearing -= OnControlDisappearing;
 
-                                    Cleanup(ref cell);
-                                }
-
-                                cell.Disappearing += OnControlDisappearing;
-                                break;
+                                Cleanup(ref cell);
                             }
+
+                            cell.Disappearing += OnControlDisappearing;
+                            break;
+                        }
                         case BaseShellItem baseShellItem:
+                        {
+                            void OnControlDisappearing(object _, EventArgs __)
                             {
-                                void OnControlDisappearing(object _, EventArgs __)
-                                {
-                                    baseShellItem.Disappearing -= OnControlDisappearing;
+                                baseShellItem.Disappearing -= OnControlDisappearing;
 
-                                    Cleanup(ref baseShellItem);
-                                }
-
-                                baseShellItem.Disappearing += OnControlDisappearing;
-                                break;
+                                Cleanup(ref baseShellItem);
                             }
+
+                            baseShellItem.Disappearing += OnControlDisappearing;
+                            break;
+                        }
                         default: throw new InvalidOperationException($"Bindable does not have event OnDisappearing. Type: {bindable.GetType().FullName}");
                     }
+                    // ReSharper restore AccessToModifiedClosure
 
                     break;
                 case DisposeBehaviour.Manual: break;
