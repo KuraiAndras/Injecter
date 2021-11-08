@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
+#pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable RCS1213 // Remove unused member declaration.
     internal sealed class DestroyDetector : MonoBehaviour
     {
         private IDisposable[] _disposables;
@@ -27,4 +29,6 @@ namespace Injecter.Unity
             }
         }
     }
+#pragma warning restore RCS1213 // Remove unused member declaration.
+#pragma warning restore IDE0051 // Remove unused private members
 }
