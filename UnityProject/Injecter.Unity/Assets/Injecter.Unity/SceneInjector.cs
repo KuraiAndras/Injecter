@@ -33,11 +33,8 @@ namespace Injecter.Unity
 
             var componentsToInject = gameObjectInstance
                 .GetComponentsInChildren(typeof(MonoBehaviour), true)
-                .Select(c =>
-                {
-                    if (c == null) throw new ComponentMissingException(gameObjectInstance.name);
-                    return (c.GetType(), (object)c, c.gameObject);
-                });
+                .Where(c => c != null)
+                .Select(c => (c.GetType(), (object)c, c.gameObject));
 
             var destroyDictionary = new Dictionary<GameObject, List<IDisposable>>();
 

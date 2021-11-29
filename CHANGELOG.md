@@ -1,3 +1,6 @@
+# 6.0.1
+- Don't throw when GameObject has a null component
+
 # 6.0.0
 
 - Removed Injecter.WPF inheritable classes
