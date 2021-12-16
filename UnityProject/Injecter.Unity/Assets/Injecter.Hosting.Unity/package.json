@@ -11,5 +11,8 @@
         "name": "Kurai András",
         "email": "k.andras9642@gmail.com",
         "url": "https://github.com/KuraiAndras/Injecter"
+    },
+    "dependencies": {
+        "com.injecter.unity": "6.0.1"
     }
 }

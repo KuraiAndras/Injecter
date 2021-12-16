@@ -14,4 +14,8 @@
     <Content Include="../../Injecter.Unity/Assets/Injecter.Hosting.Unity/*.asmdef" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Injecter.Unity\Injecter.Unity.csproj" />
+  </ItemGroup>
+
 </Project>
