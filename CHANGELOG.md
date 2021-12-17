@@ -1,3 +1,8 @@
+# 6.1.0
+- Improved generic host experience with unity
+- Extension methods to do registrations on scene load events
+- Updated dependencies
+
 # 6.0.1
 - Don't throw when GameObject has a null component
 
