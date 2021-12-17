@@ -138,7 +138,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Nuget.Build.Tasks.Pack">
-      <Version>5.11.0</Version>
+      <Version>6.0.0</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>

@@ -27,6 +27,14 @@ namespace Injecter.Unity
             if (_options.DontDestroyOnLoad) UnityEngine.Object.DontDestroyOnLoad(injectStarter);
         }
 
+        public void InitializeScene(bool createScopes, Scene scene, LoadSceneMode mode)
+        {
+            foreach (var rootGameObject in scene.GetRootGameObjects())
+            {
+                InjectIntoGameObject(rootGameObject, false);
+            }
+        }
+
         public GameObject InjectIntoGameObject(GameObject gameObjectInstance, bool createScopes)
         {
             if (gameObjectInstance == null) throw new ArgumentNullException(nameof(gameObjectInstance));
