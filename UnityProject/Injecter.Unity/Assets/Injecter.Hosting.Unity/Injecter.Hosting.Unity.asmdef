@@ -1,6 +1,8 @@
 {
     "name": "Injecter.Hosting.Unity",
-    "references": [],
+    "references": [
+        "Injecter.Unity"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -10,7 +12,11 @@
         "Microsoft.Extensions.Logging.Abstractions.dll",
         "Microsoft.Extensions.Options.dll",
         "Microsoft.Extensions.Hosting.dll",
-        "Microsoft.Extensions.DependencyInjection.Abstractions.dll"
+        "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "Microsoft.Extensions.Configuration.Abstractions.dll",
+        "Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+        "Microsoft.Extensions.Configuration.CommandLine.dll",
+        "Microsoft.Extensions.Configuration.Json.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
