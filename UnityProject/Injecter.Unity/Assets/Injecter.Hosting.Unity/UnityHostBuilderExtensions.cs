@@ -59,7 +59,7 @@ namespace Injecter.Hosting.Unity
                 builder.UseEnvironment("Development");
             }
 
-            builder.ConfigureAppConfiguration((_, configurationBuilder) =>
+            builder.ConfigureHostConfiguration((configurationBuilder) =>
             {
                 if (!ignoreCommandLineArgs) configurationBuilder.AddCommandLine(Environment.GetCommandLineArgs());
                 if (!ignoreEnvironmentVariables) configurationBuilder.AddEnvironmentVariables();

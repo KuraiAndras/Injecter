@@ -1,3 +1,6 @@
+# 6.1.1
+- Use `ConfigureHostConfiguration` instead of `ConfigureAppConfiguration`
+
 # 6.1.0
 - Improved generic host experience with unity
 - Extension methods to do registrations on scene load events
