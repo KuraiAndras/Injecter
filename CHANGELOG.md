@@ -1,3 +1,6 @@
+# 6.1.2
+- `UseUnity` requires all parameters specified
+
 # 6.1.1
 - Use `ConfigureHostConfiguration` instead of `ConfigureAppConfiguration`
 
