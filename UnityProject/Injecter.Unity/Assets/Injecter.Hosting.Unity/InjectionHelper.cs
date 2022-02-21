@@ -1,4 +1,5 @@
-﻿using Injecter.Unity;
+﻿#nullable enable
+using Injecter.Unity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using UnityEngine;
