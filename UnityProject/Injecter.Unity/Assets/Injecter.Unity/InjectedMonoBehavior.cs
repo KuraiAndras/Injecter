@@ -23,6 +23,13 @@ namespace Injecter.Unity
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this, _createScopes);
         }
 
-        protected virtual void OnDestroy() => Scope?.Dispose();
+        protected virtual void OnDestroy()
+        {
+            if (Scope is null) return;
+
+            Scope.ServiceProvider.GetRequiredService<IScopeStore>().DisposeScope(this);
+
+            Scope = null;
+        }
     }
 }

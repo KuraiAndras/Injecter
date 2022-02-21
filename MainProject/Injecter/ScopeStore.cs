@@ -11,19 +11,30 @@ namespace Injecter
 
         public ScopeStore(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public IServiceScope CreateScope(object owner)
+        public IServiceScope CreateScope<T>(T owner) where T : notnull
         {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+
             var scope = _serviceProvider.CreateScope();
             _scopes.Add(owner, scope);
 
             return scope;
         }
 
-        public IServiceScope GetScope(object owner) => _scopes[owner];
-
-        public void DisposeScope(object owner)
+        public IServiceScope? GetScope<T>(T owner) where T : notnull
         {
-            var scope = _scopes[owner];
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+
+            _scopes.TryGetValue(owner, out var scope);
+
+            return scope;
+        }
+
+        public void DisposeScope<T>(T owner) where T : notnull
+        {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+
+            if (!_scopes.TryGetValue(owner, out var scope)) return;
 
             scope.Dispose();
 
