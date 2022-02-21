@@ -28,4 +28,4 @@ jobs:
         env:
           NUKEEPER_TOKEN: ${{secrets.NUKEEPER_TOKEN}}
         run: |
-          ./build.ps1 UpdateNuGetPackages --nukeeper-token $env:NUKEEPER_TOKEN
+          ./build.ps1 UpdateNuGetPackages --is-ci --nukeeper-token $env:NUKEEPER_TOKEN

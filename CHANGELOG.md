@@ -1,3 +1,12 @@
+# 7.0.0
+- Add `MonoBehaviourInjected` and `MonoBehaviourScoped`
+- Renamed classes: \*MonoBehavior\* -> \*MonoBehavio**u**r\*
+- InjectedMonoBehavior now removes Scope from the store during `OnDestroy`
+- ScopeStore is now generic
+- Update dependencies
+- Update minimum Unity version to `2020.3`
+- Update to .NET 6 where not breaking
+
 # 6.1.2
 - `UseUnity` requires all parameters specified
 

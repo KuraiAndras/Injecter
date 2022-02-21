@@ -36,6 +36,7 @@ jobs:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
         run: |
           ./build.ps1 RunSonar `
+          --is-ci `
           --configuration Release `
           --sonar-host-url "https://sonarcloud.io" `
           --sonar-project-key "KuraiAndras_Injecter" `

@@ -1,4 +1,5 @@
-﻿namespace Injecter.Hosting.Unity
+﻿#nullable enable
+namespace Injecter.Hosting.Unity
 {
     public sealed class UnityLifeTimeOptions
     {

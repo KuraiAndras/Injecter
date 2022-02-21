@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿#nullable enable
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
