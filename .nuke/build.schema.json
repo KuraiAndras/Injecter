@@ -42,6 +42,10 @@
             "VSCode"
           ]
         },
+        "IsCi": {
+          "type": "boolean",
+          "description": "Are we running inside a CI job?"
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"

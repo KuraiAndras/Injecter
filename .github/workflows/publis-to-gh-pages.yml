@@ -21,7 +21,7 @@ jobs:
 
       - name: Build DocFX
         shell: pwsh
-        run: ./build.ps1 BuildDocs
+        run: ./build.ps1 BuildDocs --is-ci
 
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2.2.0
