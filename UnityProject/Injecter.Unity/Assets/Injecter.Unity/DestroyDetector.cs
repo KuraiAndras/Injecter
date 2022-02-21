@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
-#pragma warning disable IDE0051 // Remove unused private members
-#pragma warning disable RCS1213 // Remove unused member declaration.
     internal sealed class DestroyDetector : MonoBehaviour
     {
-        private IDisposable[] _disposables;
+        private IDisposable[]? _disposables;
 
         internal void RegisterDisposables(IDisposable[] disposables)
         {
@@ -17,7 +15,12 @@ namespace Injecter.Unity
             _disposables = disposables;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1213:Remove unused member declaration.", Justification = "UnityFunction")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "FalsePositive")]
         private void Awake() => hideFlags = HideFlags.HideInInspector;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1213:Remove unused member declaration.", Justification = "UnityFunction")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "FalsePositive")]
         private void OnDestroy() => DisposeAll();
 
         private void DisposeAll()
@@ -30,6 +33,4 @@ namespace Injecter.Unity
             }
         }
     }
-#pragma warning restore RCS1213 // Remove unused member declaration.
-#pragma warning restore IDE0051 // Remove unused private members
 }

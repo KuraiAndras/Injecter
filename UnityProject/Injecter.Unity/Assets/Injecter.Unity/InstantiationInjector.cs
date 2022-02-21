@@ -8,8 +8,8 @@ namespace Injecter.Unity
     {
         public static IServiceCollection AddSceneInjector(
             this IServiceCollection services,
-            Action<InjecterOptions> injecterOptionsBuilder = null,
-            Action<SceneInjectorOptions> sceneInjectorOptions = null)
+            Action<InjecterOptions>? injecterOptionsBuilder = null,
+            Action<SceneInjectorOptions>? sceneInjectorOptions = null)
         {
             if (services is null) throw new ArgumentNullException(nameof(services));
 
