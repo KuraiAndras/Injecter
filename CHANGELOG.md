@@ -1,4 +1,5 @@
 # 7.0.0
+- Add `MonoBehaviourInjected` and `MonoBehaviourScoped`
 - Renamed classes: \*MonoBehavior\* -> \*MonoBehavio**u**r\*
 - InjectedMonoBehavior now removes Scope from the store during `OnDestroy`
 - ScopeStore is now generic

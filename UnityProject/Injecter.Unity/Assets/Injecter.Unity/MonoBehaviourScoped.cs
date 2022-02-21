@@ -9,4 +9,12 @@ namespace Injecter.Unity
     {
         protected MonoBehaviourScoped() : base(true) { }
     }
+
+    /// <summary>
+    /// Inherit from this class to easily enable injection
+    /// </summary>
+    public abstract class MonoBehaviourInjected : InjectedMonoBehaviour
+    {
+        protected MonoBehaviourInjected() : base(true) { }
+    }
 }
