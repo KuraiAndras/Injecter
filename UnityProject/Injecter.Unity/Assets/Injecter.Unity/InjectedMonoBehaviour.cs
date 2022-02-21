@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
-    public abstract class InjectedMonoBehavior : MonoBehaviour
+    public abstract class InjectedMonoBehaviour : MonoBehaviour
     {
         private readonly bool _createScopes;
 
-        protected InjectedMonoBehavior(bool createScopes = false) => _createScopes = createScopes;
+        protected InjectedMonoBehaviour(bool createScopes = false) => _createScopes = createScopes;
 
         protected IServiceScope? Scope { get; private set; }
 
