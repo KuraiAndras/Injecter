@@ -3,9 +3,9 @@ using System;
 
 namespace Injecter.Unity
 {
-    public abstract class InjectedMonoBehavior<TViewModel> : InjectedMonoBehavior
+    public abstract class InjectedMonoBehaviour<TViewModel> : InjectedMonoBehaviour
     {
-        protected InjectedMonoBehavior(bool createScopes) : base(createScopes)
+        protected InjectedMonoBehaviour(bool createScopes) : base(createScopes)
         {
         }
 

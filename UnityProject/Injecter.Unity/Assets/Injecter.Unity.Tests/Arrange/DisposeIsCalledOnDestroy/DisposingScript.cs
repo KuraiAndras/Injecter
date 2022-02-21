@@ -4,6 +4,8 @@ namespace Injecter.Unity.Tests.Arrange.DisposeIsCalledOnDestroy
 {
     public sealed class DisposingScript : MonoBehaviour
     {
-        [Inject] private readonly ITestDisposable _testDisposable;
+        [Inject]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used for test")]
+        private readonly ITestDisposable _testDisposable;
     }
 }

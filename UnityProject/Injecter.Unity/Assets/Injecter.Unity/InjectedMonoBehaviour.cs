@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
-    public abstract class InjectedMonoBehavior : MonoBehaviour
+    public abstract class InjectedMonoBehaviour : MonoBehaviour
     {
         private readonly bool _createScopes;
 
-        protected InjectedMonoBehavior(bool createScopes = false) => _createScopes = createScopes;
+        protected InjectedMonoBehaviour(bool createScopes = false) => _createScopes = createScopes;
 
         protected IServiceScope? Scope { get; private set; }
 
@@ -23,6 +23,13 @@ namespace Injecter.Unity
             Scope = CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(GetType(), this, _createScopes);
         }
 
-        protected virtual void OnDestroy() => Scope?.Dispose();
+        protected virtual void OnDestroy()
+        {
+            if (Scope is null) return;
+
+            Scope.ServiceProvider.GetRequiredService<IScopeStore>().DisposeScope(this);
+
+            Scope = null;
+        }
     }
 }

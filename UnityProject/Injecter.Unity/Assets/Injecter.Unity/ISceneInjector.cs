@@ -25,7 +25,6 @@ namespace Injecter.Unity
         /// Sets up usages of the InjectAttribute
         /// </summary>
         /// <exception cref="System.ArgumentNullException"/>
-        /// <exception cref="ComponentMissingException"/>
         /// <param name="gameObjectInstance">GameObject instance to inject into</param>
         /// <param name="createScopes">Create new scopes</param>
         /// <returns>Original instance</returns>
