@@ -22,6 +22,9 @@ sealed partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+    [Parameter("Are we running inside a CI job?")]
+    readonly bool IsCi = false;
+
     [Solution] readonly Solution Solution;
 
     Lazy<ImmutableArray<Project>> TestProjects => new(() =>

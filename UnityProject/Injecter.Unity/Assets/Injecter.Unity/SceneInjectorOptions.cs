@@ -1,4 +1,5 @@
-﻿namespace Injecter.Unity
+﻿#nullable enable
+namespace Injecter.Unity
 {
     public sealed class SceneInjectorOptions
     {

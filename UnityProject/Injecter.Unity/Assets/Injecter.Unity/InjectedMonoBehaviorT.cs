@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 
 namespace Injecter.Unity
 {
@@ -8,7 +9,7 @@ namespace Injecter.Unity
         {
         }
 
-        [Inject] protected TViewModel ViewModel { get; } = default;
+        [Inject] protected TViewModel ViewModel { get; } = default!;
 
         protected override void OnDestroy()
         {

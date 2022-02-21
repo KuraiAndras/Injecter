@@ -3,7 +3,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.SonarScanner;
 using static Nuke.Common.Tools.SonarScanner.SonarScannerTasks;
 
-
 sealed partial class Build
 {
     [Parameter] readonly string SonarProjectKey = string.Empty;
@@ -13,6 +12,7 @@ sealed partial class Build
 
     Target SonarBegin => _ => _
         .Before(Restore)
+        .OnlyWhenDynamic(() => IsCi)
         .Requires(() => SonarProjectKey)
         .Requires(() => SonarToken)
         .Requires(() => SonarHostUrl)
@@ -27,6 +27,7 @@ sealed partial class Build
             .SetCoverageExclusions("**/*Samples*/**")));
 
     Target SonarEnd => _ => _
+        .OnlyWhenDynamic(() => IsCi)
         .DependsOn(SonarBegin)
         .DependsOn(Test)
         .Executes(() => SonarScannerEnd(s => s
@@ -35,6 +36,7 @@ sealed partial class Build
 
     // ReSharper disable once UnusedMember.Local
     Target RunSonar => _ => _
+        .OnlyWhenDynamic(() => IsCi)
         .DependsOn(SonarEnd)
         .Executes(() => { });
 }

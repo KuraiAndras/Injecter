@@ -25,5 +25,6 @@ jobs:
         shell: pwsh
         run: |
           ./build.ps1 PushToNuGet `
+          --is-ci `
           --nuget-api-key $env:NUGET_API_KEY `
-          --configuration Release `
+          --configuration Release

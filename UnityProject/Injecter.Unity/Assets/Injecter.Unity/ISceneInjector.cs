@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#nullable enable
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Injecter.Unity

@@ -1,3 +1,8 @@
+# 7.0.0
+- Update dependencies
+- Update minimum Unity version to `2020.3`
+- Update to .NET 6 where not breaking
+
 # 6.1.2
 - `UseUnity` requires all parameters specified
 
