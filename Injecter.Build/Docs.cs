@@ -5,6 +5,7 @@ using static Nuke.Common.Tools.DocFX.DocFXTasks;
 sealed partial class Build
 {
     Target CreateMetadata => _ => _
+        .DependsOn(Compile)
         .Executes(() => DocFX($"metadata {DocFxJsonPath}"));
 
     // ReSharper disable once UnusedMember.Local
@@ -14,6 +15,7 @@ sealed partial class Build
 
     // ReSharper disable once UnusedMember.Local
     Target ServeDocs => _ => _
+        .DependsOn(BuildDocs)
         .Executes(() => DocFX($"{DocFxJsonPath} --serve"));
 }
 #pragma warning restore CA1822 // Mark members as static
