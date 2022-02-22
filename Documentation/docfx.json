@@ -4,8 +4,8 @@
       "src": [
         {
           "files": [
-            "MainProject/**.cs",
-            "UnityProject/**/Assets/**.cs"
+            "MainProject/**.csproj",
+            "UnityProject/Proxies/**.csproj"
           ],
           "exclude": [
             "**/bin/**",
