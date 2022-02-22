@@ -1,6 +1,6 @@
 {
     "name": "com.injecter.hosting.unity",
-    "version": "7.0.1",
+    "version": "7.0.2",
     "displayName": "Injecter.Hosting.Unity",
     "license": "MIT",
     "licensesUrl": "https://github.com/KuraiAndras/Injecter/blob/master/LICENSE.md",
@@ -13,6 +13,6 @@
         "url": "https://github.com/KuraiAndras/Injecter"
     },
     "dependencies": {
-        "com.injecter.unity": "7.0.1"
+        "com.injecter.unity": "7.0.2"
     }
 }
