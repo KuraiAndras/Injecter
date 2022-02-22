@@ -5,6 +5,7 @@ using static Nuke.Common.Tools.DocFX.DocFXTasks;
 sealed partial class Build
 {
     Target CreateMetadata => _ => _
+        .DependsOn(Compile)
         .Executes(() => DocFX($"metadata {DocFxJsonPath}"));
 
     // ReSharper disable once UnusedMember.Local
