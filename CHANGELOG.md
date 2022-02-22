@@ -1,3 +1,6 @@
+# 7.0.2
+- Add missing meta file
+
 # 7.0.1
 - Fix `MonoBehaviourInjected` and `MonoBehaviourScoped` and separate them to different files
 
