@@ -15,6 +15,7 @@ sealed partial class Build
 
     // ReSharper disable once UnusedMember.Local
     Target ServeDocs => _ => _
+        .DependsOn(BuildDocs)
         .Executes(() => DocFX($"{DocFxJsonPath} --serve"));
 }
 #pragma warning restore CA1822 // Mark members as static
