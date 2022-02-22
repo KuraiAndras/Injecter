@@ -1,3 +1,6 @@
+# 7.0.1
+- Fix `MonoBehaviourInjected` and `MonoBehaviourScoped` and separate them to different files
+
 # 7.0.0
 - Add `MonoBehaviourInjected` and `MonoBehaviourScoped`
 - Renamed classes: \*MonoBehavior\* -> \*MonoBehavio**u**r\*
