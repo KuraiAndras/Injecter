@@ -1,3 +1,6 @@
+# 8.0.0
+- Unity lifetime clears scopes
+
 # 7.1.0
 - Add appsettings file generation template buttons
 
