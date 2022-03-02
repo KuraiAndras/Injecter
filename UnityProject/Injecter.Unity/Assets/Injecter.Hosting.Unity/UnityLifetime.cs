@@ -21,25 +21,30 @@ namespace Injecter.Hosting.Unity
     public sealed class UnityLifetime : IHostLifetime, IDisposable
     {
         private readonly ManualResetEvent _shutdownBlock = new ManualResetEvent(false);
+        private readonly IScopeStore _scopeStore;
+
         private CancellationTokenRegistration _applicationStartedRegistration;
         private CancellationTokenRegistration _applicationStoppingRegistration;
 
         public UnityLifetime(
+            IScopeStore scopeStore,
             IOptions<UnityLifeTimeOptions> options,
             IHostEnvironment environment,
             IHostApplicationLifetime applicationLifetime,
             IOptions<HostOptions> hostOptions)
-            : this(options, environment, applicationLifetime, hostOptions, NullLoggerFactory.Instance)
+            : this(scopeStore, options, environment, applicationLifetime, hostOptions, NullLoggerFactory.Instance)
         {
         }
 
         public UnityLifetime(
+            IScopeStore scopeStore,
             IOptions<UnityLifeTimeOptions> options,
             IHostEnvironment environment,
             IHostApplicationLifetime applicationLifetime,
             IOptions<HostOptions> hostOptions,
             ILoggerFactory loggerFactory)
         {
+            _scopeStore = scopeStore;
             Options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             Environment = environment ?? throw new ArgumentNullException(nameof(environment));
             ApplicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
@@ -103,7 +108,11 @@ namespace Injecter.Hosting.Unity
             System.Environment.ExitCode = 0;
         }
 
-        private void OnUnityQuitting() => ApplicationLifetime.StopApplication();
+        private void OnUnityQuitting()
+        {
+            _scopeStore.ClearAllScopes();
+            ApplicationLifetime.StopApplication();
+        }
 
 #if UNITY_EDITOR
         private void OnUnityPlayModeStateChanged(PlayModeStateChange state)

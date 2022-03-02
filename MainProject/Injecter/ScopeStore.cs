@@ -40,5 +40,15 @@ namespace Injecter
 
             _scopes.Remove(owner);
         }
+
+        public void ClearAllScopes()
+        {
+            foreach (var scope in _scopes)
+            {
+                scope.Value.Dispose();
+            }
+
+            _scopes.Clear();
+        }
     }
 }

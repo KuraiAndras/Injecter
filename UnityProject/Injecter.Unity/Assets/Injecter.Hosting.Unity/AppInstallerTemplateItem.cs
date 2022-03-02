@@ -54,6 +54,7 @@ public static class AppInstaller
             {
                 Log.CloseAndFlush();
 
+                host.Dispose();
                 host = null!;
 
                 Application.quitting -= OnQuitting;
@@ -137,6 +138,7 @@ public static class AppInstaller
             {
                 Log.CloseAndFlush();
 
+                host.Dispose();
                 host = null!;
 
                 Application.quitting -= OnQuitting;
