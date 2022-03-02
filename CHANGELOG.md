@@ -1,3 +1,6 @@
+# 7.1.0
+- Add appsettings file generation template buttons
+
 # 7.0.2
 - Add missing meta file
 
