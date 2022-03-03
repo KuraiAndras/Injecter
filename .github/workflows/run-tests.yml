@@ -28,6 +28,7 @@ jobs:
         uses: actions/setup-java@v3.0.0
         with:
           java-version: 17
+          distribution: microsoft
 
       - name: Test
         shell: pwsh
