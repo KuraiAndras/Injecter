@@ -1,3 +1,6 @@
+# 8.0.1
+- Move AppInstallerTemplateItem to editor folder
+  
 # 8.0.0
 - Unity lifetime clears scopes
 
