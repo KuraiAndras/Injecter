@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using UnityEditor;
 
-namespace Injecter.Hosting.Unity.Editor
+namespace Injecter.Unity.Editor
 {
     /// <summary>
     /// Buttons that create commonly used classes

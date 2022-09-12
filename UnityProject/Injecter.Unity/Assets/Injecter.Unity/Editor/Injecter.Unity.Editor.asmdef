@@ -1,7 +1,9 @@
 {
-    "name": "Injecter.Hosting.Unity.Editor",
+    "name": "Injecter.Unity.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "Injecter.Unity"
+    ],
     "includePlatforms": [
         "Editor"
     ],
