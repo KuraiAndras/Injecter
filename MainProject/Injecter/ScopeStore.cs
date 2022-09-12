@@ -11,7 +11,7 @@ namespace Injecter
 
         public ScopeStore(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public IServiceScope CreateScope<T>(T owner) where T : notnull
+        public IServiceScope CreateScope(object owner)
         {
             if (owner == null) throw new ArgumentNullException(nameof(owner));
 
@@ -21,7 +21,7 @@ namespace Injecter
             return scope;
         }
 
-        public IServiceScope? GetScope<T>(T owner) where T : notnull
+        public IServiceScope? GetScope(object owner)
         {
             if (owner == null) throw new ArgumentNullException(nameof(owner));
 
@@ -30,7 +30,7 @@ namespace Injecter
             return scope;
         }
 
-        public void DisposeScope<T>(T owner) where T : notnull
+        public void DisposeScope(object owner)
         {
             if (owner == null) throw new ArgumentNullException(nameof(owner));
 
