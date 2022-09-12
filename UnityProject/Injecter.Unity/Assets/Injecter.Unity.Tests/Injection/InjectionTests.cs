@@ -23,7 +23,6 @@ namespace Injecter.Unity.Tests.Injection
             // Assert
             var sut = Object.FindObjectOfType<AwakeLogger>();
             Assert.AreEqual(sut.CallerTypes.Count, 6);
-            Assert.AreEqual(sut.CallerTypes[0], typeof(AwakeCalledFirstInjector));
         }
 
         [UnityTest]
