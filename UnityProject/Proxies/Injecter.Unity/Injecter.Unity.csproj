@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="../../Injecter.Unity/Assets/Injecter.Unity/*.cs" />
+    <Compile Include="../../Injecter.Unity/Assets/Injecter.Unity/**/*.cs" />
+    <Compile Remove="../../Injecter.Unity/Assets/Injecter.Unity/Editor/**/*.cs"/>
     <Content Include="../../Injecter.Unity/Assets/Injecter.Unity/package.json" />
     <Content Include="../../Injecter.Unity/Assets/Injecter.Unity/*.asmdef" />
   </ItemGroup>
