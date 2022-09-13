@@ -9,6 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MainProject\Injecter\Injecter.csproj" />
   </ItemGroup>
 
 </Project>
