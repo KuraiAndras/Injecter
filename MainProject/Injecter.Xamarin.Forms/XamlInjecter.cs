@@ -22,7 +22,7 @@ namespace Injecter.Xamarin.Forms
         {
             if (DesignMode.IsDesignModeEnabled) return;
 
-            CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(bindable.GetType(), bindable, false);
+            CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(bindable, false);
         }
 
         public static readonly BindableProperty InjectScopedProperty =
@@ -43,7 +43,7 @@ namespace Injecter.Xamarin.Forms
 
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IInjecter>()
-                .InjectIntoType(bindable.GetType(), bindable, true);
+                .InjectIntoType(bindable, true);
 
             var behavior = (DisposeBehaviour?)newvalue;
 

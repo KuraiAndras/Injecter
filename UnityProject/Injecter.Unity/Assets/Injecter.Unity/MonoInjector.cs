@@ -21,7 +21,7 @@ namespace Injecter.Unity
                 var component = components[i];
                 if (component == null || component == this) continue;
 
-                injecter.InjectIntoType(component.GetType(), component, true);
+                injecter.InjectIntoType(component, true);
                 owners.Add(component);
             }
 

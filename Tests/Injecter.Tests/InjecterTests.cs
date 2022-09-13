@@ -82,12 +82,10 @@ namespace Injecter.Tests
             var (injecter, serviceProvider) = CreateInjecter(services => services.AddSingleton<ISimpleService, SimpleService>());
 
             // Act
-            void Act1() => injecter.InjectIntoType(null!, null!, false);
-            void Act2() => injecter.InjectIntoType(typeof(object), null!, false);
+            void Act() => injecter.InjectIntoType(null!, false);
 
             // Assert
-            Assert.Throws<ArgumentNullException>(Act1);
-            Assert.Throws<ArgumentNullException>(Act2);
+            Assert.Throws<ArgumentNullException>(Act);
             DisposeServices(serviceProvider);
         }
 

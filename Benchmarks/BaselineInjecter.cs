@@ -18,10 +18,11 @@ public sealed class BaselineInjecter : IInjecter
         _scopeStore = scopeStore;
     }
 
-    public IServiceScope? InjectIntoType(Type type, object instance, bool createScope)
+    public IServiceScope? InjectIntoType(object instance, bool createScope)
     {
-        if (type is null) throw new ArgumentNullException(nameof(type));
         if (instance is null) throw new ArgumentNullException(nameof(instance));
+
+        var type = instance.GetType();
 
         var (fieldInfos, propertyInfos, methodInfos) = GetMembers(type);
 
@@ -38,10 +39,6 @@ public sealed class BaselineInjecter : IInjecter
 
         return serviceScope;
     }
-
-    public IServiceScope? InjectIntoType<T>(T instance, bool createScope)
-        where T : notnull
-        => InjectIntoType(typeof(T), instance, createScope);
 
     private static void Inject(object instance, IServiceProvider serviceProvider, MemberInfo memberInfo)
     {

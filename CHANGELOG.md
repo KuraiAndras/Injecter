@@ -3,6 +3,8 @@
 - Rework `Injecter.Unity` now it uses `MonoInjector` and `MonoDisposer`
 - `IScopeStore` now accepts objects instead of generics
 - `Injecter` now returns null if the target type has no injectable members
+- `Injecter` injects faster and with less allocations
+- `IInjecter`'s generic overload is removed
 
 # 8.0.1
 - Move AppInstallerTemplateItem to editor folder
