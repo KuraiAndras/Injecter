@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Injecter
 {
     public sealed class Injecter : IInjecter
     {
-        private readonly ConcurrentDictionary<Type, InjectableMembers> _resolveDictionary = new();
+        private const BindingFlags InstanceBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+
+        private readonly ConcurrentDictionary<Type, IReadOnlyList<MemberInfo>> _resolveDictionary = new();
 
         private readonly InjecterOptions _options;
         private readonly IScopeStore _scopeStore;
@@ -25,8 +28,11 @@ namespace Injecter
             if (type is null) throw new ArgumentNullException(nameof(type));
             if (instance is null) throw new ArgumentNullException(nameof(instance));
 
-            var members = GetMembers(type);
-            if (!members.CanInject) return null;
+            var members = !_options.UseCaching
+                ? GetMembers(type)
+                : _resolveDictionary.GetOrAdd(type, t => GetMembers(t));
+
+            if (members.Count == 0) return null;
 
             IServiceScope? serviceScope = createScope ? _scopeStore.CreateScope(instance) : null;
             var serviceProvider = createScope switch
@@ -35,9 +41,10 @@ namespace Injecter
                 false => _serviceProvider,
             };
 
-            InjectMany(instance, serviceProvider, members.Fields);
-            InjectMany(instance, serviceProvider, members.Properties);
-            InjectMany(instance, serviceProvider, members.Methods);
+            for (var i = 0; i < members.Count; i++)
+            {
+                Inject(instance, serviceProvider, members[i]);
+            }
 
             return serviceScope;
         }
@@ -45,14 +52,6 @@ namespace Injecter
         public IServiceScope? InjectIntoType<T>(T instance, bool createScope)
             where T : notnull
             => InjectIntoType(typeof(T), instance, createScope);
-
-        private static void InjectMany(object instance, IServiceProvider serviceProvider, MemberInfo[] memberInfos)
-        {
-            for (var i = 0; i < memberInfos.Length; i++)
-            {
-                Inject(instance, serviceProvider, memberInfos[i]);
-            }
-        }
 
         private static void Inject(object instance, IServiceProvider serviceProvider, MemberInfo memberInfo)
         {
@@ -96,9 +95,39 @@ namespace Injecter
             }
         }
 
-        private InjectableMembers GetMembers(Type type) =>
-            !_options.UseCaching
-                ? InjectableMembers.Create(type)
-                : _resolveDictionary.GetOrAdd(type, t => InjectableMembers.Create(t));
+        private static IReadOnlyList<MemberInfo> GetMembers(Type targetType)
+        {
+            var allTypesInternal = targetType.GetAllTypes();
+
+            var infos = new List<MemberInfo>();
+
+            for (var i = 0; i < allTypesInternal.Count; i++)
+            {
+                var type = allTypesInternal[i];
+
+                var fields = type.GetFields(InstanceBindingFlags);
+                for (var j = 0; j < fields.Length; j++)
+                {
+                    var field = fields[j];
+                    if (field.GetCustomAttribute<InjectAttribute>() != null) infos.Add(field);
+                }
+
+                var properties = type.GetProperties(InstanceBindingFlags);
+                for (var j = 0; j < properties.Length; j++)
+                {
+                    var property = properties[j];
+                    if (property.GetCustomAttribute<InjectAttribute>() != null) infos.Add(property);
+                }
+
+                var methods = type.GetMethods(InstanceBindingFlags);
+                for (var j = 0; j < methods.Length; j++)
+                {
+                    var method = methods[j];
+                    if (method.GetCustomAttribute<InjectAttribute>() != null) infos.Add(method);
+                }
+            }
+
+            return infos;
+        }
     }
 }
