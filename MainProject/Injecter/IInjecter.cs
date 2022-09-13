@@ -6,7 +6,7 @@ namespace Injecter
     public interface IInjecter
     {
         /// <summary>
-        /// Injects services into members marked with <see cref="InjectAttribute"/>.
+        /// Injects services into members marked with <see cref="InjectAttribute"/>. If the type has no injections, the return is null
         /// </summary>
         /// <param name="type">Type of the object to inject into.</param>
         /// <param name="instance">The instance which receives injection.</param>

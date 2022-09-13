@@ -1,15 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Injecter
 {
     public sealed class Injecter : IInjecter
     {
-        private readonly ConcurrentDictionary<Type, (FieldInfo[] fieldInfos, PropertyInfo[] propertyInfos, MethodInfo[] methodInfos)> _resolveDictionary = new();
+        private readonly ConcurrentDictionary<Type, InjectableMembers> _resolveDictionary = new();
 
         private readonly InjecterOptions _options;
         private readonly IScopeStore _scopeStore;
@@ -27,7 +25,8 @@ namespace Injecter
             if (type is null) throw new ArgumentNullException(nameof(type));
             if (instance is null) throw new ArgumentNullException(nameof(instance));
 
-            var (fieldInfos, propertyInfos, methodInfos) = GetMembers(type);
+            var members = GetMembers(type);
+            if (!members.CanInject) return null;
 
             IServiceScope? serviceScope = createScope ? _scopeStore.CreateScope(instance) : null;
             var serviceProvider = createScope switch
@@ -36,9 +35,9 @@ namespace Injecter
                 false => _serviceProvider,
             };
 
-            fieldInfos.ForEach(f => Inject(instance, serviceProvider, f));
-            propertyInfos.ForEach(p => Inject(instance, serviceProvider, p));
-            methodInfos.ForEach(m => Inject(instance, serviceProvider, m));
+            InjectMany(instance, serviceProvider, members.Fields);
+            InjectMany(instance, serviceProvider, members.Properties);
+            InjectMany(instance, serviceProvider, members.Methods);
 
             return serviceScope;
         }
@@ -47,15 +46,21 @@ namespace Injecter
             where T : notnull
             => InjectIntoType(typeof(T), instance, createScope);
 
+        private static void InjectMany(object instance, IServiceProvider serviceProvider, MemberInfo[] memberInfos)
+        {
+            for (var i = 0; i < memberInfos.Length; i++)
+            {
+                Inject(instance, serviceProvider, memberInfos[i]);
+            }
+        }
+
         private static void Inject(object instance, IServiceProvider serviceProvider, MemberInfo memberInfo)
         {
-            static object GetService(IServiceProvider serviceProvider, Type memberTypeInternal) => serviceProvider.GetService(memberTypeInternal);
-
             switch (memberInfo)
             {
                 case FieldInfo field:
                     {
-                        field.SetValue(instance, GetService(serviceProvider, field.FieldType));
+                        field.SetValue(instance, serviceProvider.GetService(field.FieldType));
 
                         break;
                     }
@@ -63,12 +68,12 @@ namespace Injecter
                     {
                         if (property.CanWrite)
                         {
-                            property.SetValue(instance, GetService(serviceProvider, property.PropertyType));
+                            property.SetValue(instance, serviceProvider.GetService(property.PropertyType));
                         }
 
                         if (!property.IsAutoProperty()) break;
 
-                        property.GetAutoPropertyBackingField().SetValue(instance, GetService(serviceProvider, property.PropertyType));
+                        property.GetAutoPropertyBackingField().SetValue(instance, serviceProvider.GetService(property.PropertyType));
 
                         break;
                     }
@@ -80,7 +85,7 @@ namespace Injecter
                         var parameters = new object[methodParameters.Length];
                         for (var i = 0; i < methodParameters.Length; i++)
                         {
-                            parameters[i] = GetService(serviceProvider, methodParameters[i].ParameterType);
+                            parameters[i] = serviceProvider.GetService(methodParameters[i].ParameterType);
                         }
 
                         method.Invoke(instance, parameters);
@@ -91,40 +96,9 @@ namespace Injecter
             }
         }
 
-        private (FieldInfo[] fieldInfos, PropertyInfo[] propertyInfos, MethodInfo[] methodInfos) GetMembers(Type type)
-        {
-            static (FieldInfo[] fields, PropertyInfo[] properties, MethodInfo[] methods) GetMembersInternal(IReadOnlyCollection<Type> allTypesInternal)
-            {
-                const BindingFlags instanceBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-
-                var fieldsToInject = allTypesInternal
-                    .SelectMany(t => t.GetFields(instanceBindingFlags))
-                    .FilterMembersToArray();
-
-                var propertiesToInject = allTypesInternal
-                    .SelectMany(t => t.GetProperties(instanceBindingFlags))
-                    .FilterMembersToArray();
-
-                var methodsToInject = allTypesInternal
-                    .SelectMany(t => t.GetMethods(instanceBindingFlags))
-                    .FilterMembersToArray();
-
-                return (fieldsToInject, propertiesToInject, methodsToInject);
-            }
-
-            var allTypes = type
-                .GetAllTypes()
-                .ToList();
-
-            if (!_options.UseCaching) return GetMembersInternal(allTypes);
-
-            if (!_resolveDictionary.TryGetValue(type, out var members))
-            {
-                members = GetMembersInternal(allTypes);
-                _resolveDictionary.TryAdd(type, members);
-            }
-
-            return members;
-        }
+        private InjectableMembers GetMembers(Type type) =>
+            !_options.UseCaching
+                ? InjectableMembers.Create(type)
+                : _resolveDictionary.GetOrAdd(type, t => InjectableMembers.Create(t));
     }
 }

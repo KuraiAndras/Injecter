@@ -2,6 +2,7 @@
 - Remove `Injecter.Hosting.Unity`
 - Rework `Injecter.Unity` now it uses `MonoInjector` and `MonoDisposer`
 - `IScopeStore` now accepts objects instead of generics
+- `Injecter` now returns null if the target type has no injectable members
 
 # 8.0.1
 - Move AppInstallerTemplateItem to editor folder

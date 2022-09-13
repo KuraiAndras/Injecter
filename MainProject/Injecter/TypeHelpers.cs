@@ -29,20 +29,12 @@ namespace Injecter
             }
         }
 
-        internal static T[] FilterMembersToArray<T>(this IEnumerable<T> members)
+        internal static T[] GetInjectables<T>(this IEnumerable<T> members)
             where T : MemberInfo =>
             members
                 .Where(m => m.GetCustomAttributes<InjectAttribute>().Any())
                 .Distinct()
                 .ToArray();
-
-        internal static void ForEach<T>(this T[] source, Action<T> action)
-        {
-            foreach (var item in source)
-            {
-                action(item);
-            }
-        }
 
         private static IEnumerable<Type> GetParentTypes(this Type type)
         {
