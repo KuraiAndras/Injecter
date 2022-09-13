@@ -74,6 +74,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinSample", "XamarinSam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Injecter.Unity.Editor", "UnityProject\Proxies\Injecter.Unity.Editor\Injecter.Unity.Editor.csproj", "{6694D891-176C-4D30-A008-8B8E0833B8B1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -466,6 +468,26 @@ Global
 		{6694D891-176C-4D30-A008-8B8E0833B8B1}.Release|x64.Build.0 = Release|Any CPU
 		{6694D891-176C-4D30-A008-8B8E0833B8B1}.Release|x86.ActiveCfg = Release|Any CPU
 		{6694D891-176C-4D30-A008-8B8E0833B8B1}.Release|x86.Build.0 = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|ARM.Build.0 = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|ARM64.Build.0 = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|x64.Build.0 = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA3DA532-0F75-47B9-B8F4-D0B7D69DAFFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
