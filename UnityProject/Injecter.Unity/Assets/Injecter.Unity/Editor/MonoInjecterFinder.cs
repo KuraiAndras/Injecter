@@ -11,7 +11,7 @@ namespace Injecter.Unity.Editor
     {
         private static readonly Dictionary<Type, bool> _typeCache = new Dictionary<Type, bool>();
 
-        [MenuItem("Tools / Update prefabs and scenes")]
+        [MenuItem("Tools / Injecter / Ensure injection scripts on current scene and all prefabs")]
         public static void AddComponents()
         {
             var instances = Resources.FindObjectsOfTypeAll<MonoBehaviour>().Where(b =>
