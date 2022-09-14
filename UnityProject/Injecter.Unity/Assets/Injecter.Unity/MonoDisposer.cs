@@ -5,7 +5,6 @@ namespace Injecter.Unity
 {
     [DefaultExecutionOrder(int.MaxValue)]
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(MonoInjector))]
     public sealed class MonoDisposer : MonoBehaviour
     {
         private List<MonoBehaviour> _owners;
