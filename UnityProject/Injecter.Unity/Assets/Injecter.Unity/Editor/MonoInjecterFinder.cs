@@ -44,7 +44,7 @@ namespace Injecter.Unity.Editor
             }
         }
 
-        [MenuItem("Tools / Injecter / Ensure injection scripts in every scene (will load all scenes)")]
+        [MenuItem("Tools / Injecter / Ensure injection scripts in every scene")]
         public static void AddComponentsToEveryScene()
         {
             var dataPathFull = Path.GetFullPath(Application.dataPath);
@@ -54,17 +54,20 @@ namespace Injecter.Unity.Editor
                 .Select(s => $"Assets{s}")
                 .ToArray();
 
-            OfferSaveIfSceneIsDirty();
+            var originalScenePath = SceneManager.GetActiveScene().path;
+            EditorSceneManager.SaveOpenScenes();
 
             foreach (var scene in scenes)
             {
                 EditorSceneManager.OpenScene(scene);
                 AddComponentsToCurrentScene();
-                OfferSaveIfSceneIsDirty();
+                EditorSceneManager.SaveOpenScenes();
             }
+
+            EditorSceneManager.OpenScene(originalScenePath);
         }
 
-        [MenuItem("Tools / Injecter / Ensure injection scripts on everyting (will load all scenes)")]
+        [MenuItem("Tools / Injecter / Ensure injection scripts on everyting")]
         public static void AddComponentsToEverything()
         {
             AddComponentsToEveryPrefab();
@@ -96,14 +99,6 @@ namespace Injecter.Unity.Editor
                 var instance = instances[i];
                 EnsureComponent<MonoInjector>(instance, location);
                 EnsureComponent<MonoDisposer>(instance, location);
-            }
-        }
-
-        private static void OfferSaveIfSceneIsDirty()
-        {
-            if (SceneManager.GetActiveScene().isDirty)
-            {
-                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
             }
         }
 
