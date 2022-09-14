@@ -6,6 +6,7 @@ namespace Injecter.Unity
 {
     [DefaultExecutionOrder(int.MinValue)]
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(MonoDisposer))]
     public sealed class MonoInjector : MonoBehaviour
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1213:Remove unused member declaration.", Justification = "Unity method")]
