@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Injecter.Unity
 {
     [DefaultExecutionOrder(int.MinValue)]
+    [DisallowMultipleComponent]
     public sealed class MonoInjector : MonoBehaviour
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1213:Remove unused member declaration.", Justification = "Unity method")]
@@ -25,7 +26,7 @@ namespace Injecter.Unity
                 owners.Add(component);
             }
 
-            gameObject.AddComponent<MonoDisposer>().Initialize(owners, CompositionRoot.ServiceProvider.GetRequiredService<IScopeStore>());
+            gameObject.GetComponent<MonoDisposer>().Initialize(owners, CompositionRoot.ServiceProvider.GetRequiredService<IScopeStore>());
         }
     }
 }

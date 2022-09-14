@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Injecter.Unity
 {
     [DefaultExecutionOrder(int.MaxValue)]
+    [DisallowMultipleComponent]
     public sealed class MonoDisposer : MonoBehaviour
     {
         private List<MonoBehaviour> _owners;
