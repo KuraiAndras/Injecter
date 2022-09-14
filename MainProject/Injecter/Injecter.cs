@@ -8,8 +8,6 @@ namespace Injecter
 {
     public sealed class Injecter : IInjecter
     {
-        private const BindingFlags InstanceBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-
         private readonly ConcurrentDictionary<Type, IReadOnlyList<MemberInfo>> _resolveDictionary = new();
 
         private readonly InjecterOptions _options;
@@ -30,8 +28,8 @@ namespace Injecter
             var type = instance.GetType();
 
             var members = !_options.UseCaching
-                ? GetMembers(type)
-                : _resolveDictionary.GetOrAdd(type, t => GetMembers(t));
+                ? TypeHelpers.GetInjectableMembers(type)
+                : _resolveDictionary.GetOrAdd(type, t => TypeHelpers.GetInjectableMembers(t));
 
             if (members.Count == 0) return null;
 
@@ -90,41 +88,6 @@ namespace Injecter
                     }
                 default: throw new MemberAccessException($"Unknown member: {memberInfo}");
             }
-        }
-
-        private static IReadOnlyList<MemberInfo> GetMembers(Type targetType)
-        {
-            var allTypesInternal = targetType.GetAllTypes();
-
-            var infos = new List<MemberInfo>();
-
-            for (var i = 0; i < allTypesInternal.Count; i++)
-            {
-                var type = allTypesInternal[i];
-
-                var fields = type.GetFields(InstanceBindingFlags);
-                for (var j = 0; j < fields.Length; j++)
-                {
-                    var field = fields[j];
-                    if (field.GetCustomAttribute<InjectAttribute>() != null) infos.Add(field);
-                }
-
-                var properties = type.GetProperties(InstanceBindingFlags);
-                for (var j = 0; j < properties.Length; j++)
-                {
-                    var property = properties[j];
-                    if (property.GetCustomAttribute<InjectAttribute>() != null) infos.Add(property);
-                }
-
-                var methods = type.GetMethods(InstanceBindingFlags);
-                for (var j = 0; j < methods.Length; j++)
-                {
-                    var method = methods[j];
-                    if (method.GetCustomAttribute<InjectAttribute>() != null) infos.Add(method);
-                }
-            }
-
-            return infos;
         }
     }
 }

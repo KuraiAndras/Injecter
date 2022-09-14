@@ -4,8 +4,45 @@ using System.Reflection;
 
 namespace Injecter
 {
-    internal static class TypeHelpers
+    public static class TypeHelpers
     {
+        private const BindingFlags InstanceBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+
+        public static IReadOnlyList<MemberInfo> GetInjectableMembers(Type targetType)
+        {
+            var allTypesInternal = targetType.GetAllTypes();
+
+            var infos = new List<MemberInfo>();
+
+            for (var i = 0; i < allTypesInternal.Count; i++)
+            {
+                var type = allTypesInternal[i];
+
+                var fields = type.GetFields(InstanceBindingFlags);
+                for (var j = 0; j < fields.Length; j++)
+                {
+                    var field = fields[j];
+                    if (field.GetCustomAttribute<InjectAttribute>() != null) infos.Add(field);
+                }
+
+                var properties = type.GetProperties(InstanceBindingFlags);
+                for (var j = 0; j < properties.Length; j++)
+                {
+                    var property = properties[j];
+                    if (property.GetCustomAttribute<InjectAttribute>() != null) infos.Add(property);
+                }
+
+                var methods = type.GetMethods(InstanceBindingFlags);
+                for (var j = 0; j < methods.Length; j++)
+                {
+                    var method = methods[j];
+                    if (method.GetCustomAttribute<InjectAttribute>() != null) infos.Add(method);
+                }
+            }
+
+            return infos;
+        }
+
         internal static bool IsAutoProperty(this PropertyInfo property)
         {
             var fields = property.DeclaringType?.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
