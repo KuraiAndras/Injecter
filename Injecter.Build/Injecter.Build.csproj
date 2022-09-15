@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageDownload Include="docfx.console" Version="[2.59.3]" />
+    <PackageDownload Include="docfx.console" Version="[2.59.4]" />
     <PackageDownload Include="dotnet-sonarscanner" Version="[5.7.2]" />
     <PackageDownload Include="NuGet.CommandLine" Version="[6.2.1]" />
     <PackageDownload Include="nukeeper" Version="[0.35.0]" />
