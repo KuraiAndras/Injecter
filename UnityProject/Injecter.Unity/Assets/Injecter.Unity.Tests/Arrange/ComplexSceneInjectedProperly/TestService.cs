@@ -1,6 +1,6 @@
 ﻿namespace Injecter.Unity.Tests.Arrange.ComplexSceneInjectedProperly
 {
-    public interface ITestService1
+    public sealed class TestService
     {
     }
 }

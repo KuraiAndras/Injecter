@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8461980675581121245}
   - component: {fileID: 6255630231628848440}
+  - component: {fileID: -8407137341432623964}
+  - component: {fileID: 3502723382759561744}
   m_Layer: 0
   m_Name: InjectablePrefab2
   m_TagString: Untagged
@@ -41,5 +43,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c1d73d59fc5d3d479f436b9c0c52676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8407137341432623964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8461980675581121244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce3f43f610f2e0498d2f640bc419ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3502723382759561744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8461980675581121244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc01a413a57c8c42a6e4a9c9d9f8b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
