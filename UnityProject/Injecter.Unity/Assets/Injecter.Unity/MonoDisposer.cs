@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
+    /// <summary>
+    /// Will dispose all scopes created while injecting current <see cref="GameObject"/>. Has execution order of <see cref="int.MaxValue"/>
+    /// </summary>
     [DefaultExecutionOrder(int.MaxValue)]
     [DisallowMultipleComponent]
     public sealed class MonoDisposer : MonoBehaviour

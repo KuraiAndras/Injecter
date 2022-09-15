@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Injecter.Unity
 {
+    /// <summary>
+    /// Will inject all injectable components on the current <see cref="GameObject"/>. Has execution order of <see cref="int.MinValue"/>
+    /// </summary>
     [DefaultExecutionOrder(int.MinValue)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(MonoDisposer))]
