@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿#nullable enable    
 using UnityEditor;
 
 namespace Injecter.Unity.Editor
@@ -11,22 +11,19 @@ namespace Injecter.Unity.Editor
         /// <summary>
         /// Creates a basic AppInstaller.cs file in project root
         /// </summary>
-        [MenuItem("Assets/Create/Injecter/AppInstallerCompositionRoot", false, 2)]
+        [MenuItem("Assets / Create / Injecter / AppInstaller", false, 2)]
         private static void CreateAppInstaller() => ProjectWindowUtil.CreateAssetWithContent(
-            "AppInstallerCompositionRoot.cs",
+            "AppInstaller.cs",
 @"#nullable enable
-using System;
 using Injecter;
-using Injecter.Hosting.Unity;
-using Injecter.Unity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Sinks.Unity3D;
 using UnityEngine;
 
 public static class AppInstaller
 {
+    /// <summary>
+    /// Set this from test assembly to disable
+    /// </summary>
     public static bool Run { get; set; } = true;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
@@ -34,83 +31,48 @@ public static class AppInstaller
     {
         if (!Run) return;
 
-        var logger = new LoggerConfiguration()
-            .WriteTo.Unity3D()
-            .CreateLogger();
+        var serviceProvider = new ServiceCollection()
+            .Configure()
+            .BuildServiceProvider(true);
 
-        try
+        CompositionRoot.ServiceProvider = serviceProvider;
+
+        Application.quitting += OnQuitting;
+
+        async void OnQuitting()
         {
-            var host = new HostBuilder()
-                .ConfigureHost(logger)
-                .Build();
+            Application.quitting -= OnQuitting;
 
-            CompositionRoot.ServiceProvider = host.Services;
-
-            host.Start();
-
-            Application.quitting += OnQuitting;
-
-            void OnQuitting()
-            {
-                Log.CloseAndFlush();
-
-                host.Dispose();
-                host = null!;
-
-                Application.quitting -= OnQuitting;
-            }
-        }
-        catch (Exception e)
-        {
-            logger.Fatal(e, ""Host terminated unexpectedly"");
-            throw;
+            await serviceProvider.DisposeAsync().ConfigureAwait(false);
         }
     }
 
-    public static IHostBuilder ConfigureHost(this IHostBuilder builder, Serilog.ILogger logger)
+    public static IServiceCollection Configure(this IServiceCollection services)
     {
-          
-        return builder
-            .UseUnity(_ => { }, false, false, Array.Empty<TextAsset>())
-            .ConfigureServices(ConfigureServices)
-            .UseDefaultServiceProvider(o =>
-            {
-                o.ValidateOnBuild = true;
-                o.ValidateScopes = true;
-            })
-            .UseSerilog(logger);
-    }
+        services.AddInjecter(o => o.UseCaching = true);
+        // TODO: Add services
 
-    public static void ConfigureServices(HostBuilderContext builder, IServiceCollection services)
-    {
-        var assemblies = new[] { typeof(AppInstaller).Assembly };
-
-        services.AddSceneInjector(
-            injecterOptions => injecterOptions.UseCaching = true,
-            sceneInjectorOptions =>
-            {
-                sceneInjectorOptions.DontDestroyOnLoad = true;
-                sceneInjectorOptions.InjectionBehavior = SceneInjectorOptions.Behavior.CompositionRoot;
-            });
+        return services;
     }
 }
 ");
-        [MenuItem("Assets/Create/Injecter/AppInstallerFactory", false, 2)]
-    private static void CreateAppInstallerFactory() => ProjectWindowUtil.CreateAssetWithContent(
-           "AppInstallerFactory.cs",
+        [MenuItem("Assets / Create / Injecter / AppInstaller with Serilog", false, 2)]
+        private static void CreateAppInstallerWithSerilog() => ProjectWindowUtil.CreateAssetWithContent(
+           "AppInstaller.cs",
 @"#nullable enable
-using System;
 using Injecter;
-using Injecter.Hosting.Unity;
-using Injecter.Unity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.Unity3D;
+using System;
+using System.IO;
 using UnityEngine;
 
 public static class AppInstaller
 {
+    /// <summary>
+    /// Set this from test assembly to disable
+    /// </summary>
     public static bool Run { get; set; } = true;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
@@ -118,30 +80,28 @@ public static class AppInstaller
     {
         if (!Run) return;
 
+        var logFilePath = Path.Combine(Application.persistentDataPath, Application.productName + ""_application.log"");
+
         var logger = new LoggerConfiguration()
             .WriteTo.Unity3D()
+            .WriteTo.Async(a => a.File(logFilePath, fileSizeLimitBytes: 10 * 1024 * 1024, rollOnFileSizeLimit: true, retainedFileCountLimit: 10))
             .CreateLogger();
 
         try
         {
-            var host = new HostBuilder()
-                .ConfigureHost(logger)
-                .Build();
+            var serviceProvider = new ServiceCollection()
+                .Configure()
+                .BuildServiceProvider(true);
 
-            host.RegisterInjectionsOnSceneLoad();
-
-            host.Start();
+            CompositionRoot.ServiceProvider = serviceProvider;
 
             Application.quitting += OnQuitting;
 
-            void OnQuitting()
+            async void OnQuitting()
             {
-                Log.CloseAndFlush();
-
-                host.Dispose();
-                host = null!;
-
                 Application.quitting -= OnQuitting;
+
+                await serviceProvider.DisposeAsync().ConfigureAwait(false);
             }
         }
         catch (Exception e)
@@ -151,31 +111,14 @@ public static class AppInstaller
         }
     }
 
-    public static IHostBuilder ConfigureHost(this IHostBuilder builder, Serilog.ILogger logger)
+    public static IServiceCollection Configure(this IServiceCollection services, Serilog.ILogger logger)
     {
-          
-        return builder
-            .UseUnity(_ => { }, false, false, Array.Empty<TextAsset>())
-            .ConfigureServices(ConfigureServices)
-            .UseDefaultServiceProvider(o =>
-            {
-                o.ValidateOnBuild = true;
-                o.ValidateScopes = true;
-            })
-            .UseSerilog(logger);
-    }
+        services.AddInjecter(o => o.UseCaching = true);
+        services.AddLogging(b => b.AddSerilog(logger));
 
-    public static void ConfigureServices(HostBuilderContext builder, IServiceCollection services)
-    {
-        var assemblies = new[] { typeof(AppInstaller).Assembly };
+        // TODO: Add services
 
-        services.AddSceneInjector(
-            injecterOptions => injecterOptions.UseCaching = true,
-            sceneInjectorOptions =>
-            {
-                sceneInjectorOptions.DontDestroyOnLoad = true;
-                sceneInjectorOptions.InjectionBehavior = SceneInjectorOptions.Behavior.Factory;
-            });
+        return services;
     }
 }
 ");

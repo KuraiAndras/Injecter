@@ -5,6 +5,7 @@
 - `Injecter` now returns null if the target type has no injectable members
 - `Injecter` injects faster and with less allocations
 - `IInjecter`'s generic overload is removed
+- New `AppInstaller` templates
 
 # 8.0.1
 - Move AppInstallerTemplateItem to editor folder
