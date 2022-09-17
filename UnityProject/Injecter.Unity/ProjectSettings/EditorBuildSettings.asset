@@ -11,7 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Injecter.Unity.Tests/Scenes/DisposeIsCalledOnDestroy.unity
     guid: c9c78af640d9d4248820f48755b0a255
-  - enabled: 1
-    path: Assets/Injecter.Unity.Tests/Scenes/InjectorAwakeCalledFirst.unity
-    guid: 5b131de8acbeb2a4ca21d7e71f20c503
   m_configObjects: {}

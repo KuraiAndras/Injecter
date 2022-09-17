@@ -79,8 +79,6 @@ namespace Injecter.Hosting.Unity
             return builder;
         }
 
-        public static void RegisterInjectionsOnSceneLoad(this IHost host) => InjectionHelper.RegisterInjectionsOnSceneLoad(host.Services);
-
         private static MemoryStream ToStream(this string @string)
         {
             var stream = new MemoryStream();

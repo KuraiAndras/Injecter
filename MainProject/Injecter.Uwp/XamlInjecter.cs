@@ -21,7 +21,7 @@ namespace Injecter.Uwp
         {
             if (DesignMode.DesignMode2Enabled || DesignMode.DesignModeEnabled) return;
 
-            CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d, false);
+            CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d, false);
         }
 
         public static readonly DependencyProperty InjectScopedProperty = DependencyProperty.RegisterAttached(
@@ -39,7 +39,7 @@ namespace Injecter.Uwp
 
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IInjecter>()
-                .InjectIntoType(d.GetType(), d, true);
+                .InjectIntoType(d, true);
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 

@@ -5,114 +5,165 @@ Since version 3.0.1 you need to provide the following dlls yourself:
 - Microsoft.Extensions.DependencyInjection
 - Microsoft.Extensions.DependencyInjection.Abstractions
 
-## Initialize
-Create a class that inherits from InjectStarter:
-```c#
-// Customize script execution order, so Awake is called first in you scene
-// Usually -999 works nicely
-[DefaultExecutionOrder(-999)]
-public sealed class ExampleInjector : InjectStarter
+> [!NOTE]
+> The recommended way of installing NuGet packages is through the [UnityNuget](https://github.com/xoofx/UnityNuGet) project
+
+## Fundamentals
+
+The `Injecter.Unity` lets you set up the following flow:
+
+- A "composition root" is initialized part of the entry point of the application
+- Create a script which needs to be injected
+- Add `MonoInjector` to the `GameObject` hosting the script
+- `MonoInjector` runs at `Awake`, and it's execution order (`int.MinValue` - first) is run before your own component's `Awake`. Every injected script will have it's own `IServiceScope` derived from the root scope. This scope can be retrieved through the `IScopeStore`, and the owner of the scope is the script being injected
+- When the `GameObject` is destroyed, `MonoDisposer` will run during the `OnDestroy` method, with an execution order of `int.MaxValue` - last
+
+## Getting started
+
+### Install dependencies
+
+1. Install `Injecter` and `Microsoft.Extensions.DependencyInjection` through [UnityNuget](https://github.com/xoofx/UnityNuGet#unitynuget-).
+2. Install `Injecter.Unity` through [openupm](https://openupm.com/packages/com.injecter.unity/)
+```bash
+openupm add com.injecter.unity
+```
+
+### Setup root
+
+Either create manually, or through the `Assets / Injecter` editor menu, create your composition root.
+
+```csharp
+#nullable enable
+using Injecter;
+using Microsoft.Extensions.DependencyInjection;
+using UnityEngine;
+
+public static class AppInstaller
 {
-    // Override CreateServiceProvider to add service registrations
-    protected override IServiceProvider CreateServiceProvider()
+    /// <summary>
+    /// Set this from test assembly to disable
+    /// </summary>
+    public static bool Run { get; set; } = true;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+    public static void Install()
     {
-        IServiceCollection services = new ServiceCollection();
+        if (!Run) return;
 
-        // Mandatory to call AddSceneInjector, optionally configure options
-        services.AddSceneInjector(
-            injecterOptions => injecterOptions.UseCaching = true,
-            sceneInjectorOptions =>
-            {
-                sceneInjectorOptions.DontDestroyOnLoad = true;
-                sceneInjectorOptions.InjectionBehavior = SceneInjectorOptions.Behavior.Factory;
-            });
+        var serviceProvider = new ServiceCollection()
+            .Configure()
+            .BuildServiceProvider(true);
 
+        // Injected scripts will get the root service provider from this instance
+        CompositionRoot.ServiceProvider = serviceProvider;
 
-        // Use the usual IServiceCollection methods
-        services.AddTransient<IExampleService, ExampleService>();
+        Application.quitting += OnQuitting;
 
-        // Resolve scripts already in the scene with FindObjectOfType()
-        services.AddSingleton<MonoBehaviourService>(_ => GameObject.FindObjectOfType<MonoBehaviourService>());
+        /// <summary>
+        /// Will dispose of all services when quitting
+        /// </summary>
+        async void OnQuitting()
+        {
+            Application.quitting -= OnQuitting;
 
-        // Either:
+            await serviceProvider.DisposeAsync().ConfigureAwait(false);
+        }
+    }
 
-        // Return a built ServiceProvider
-        return services.BuildServiceProvider();
+    public static IServiceCollection Configure(this IServiceCollection services)
+    {
+        services.AddInjecter(o => o.UseCaching = true);
+        // TODO: Add services
+
+        return services;
     }
 }
 ```
 
-Add this script to any one GameObject in your scene.
+### Inject into `MonoBehaviours`
 
-## Usage in MonoBehavior
+Create a script which will receive injection
 
-Use the InjectAttribute to inject into a MonoBehavior:
-
-**When using the CompositionRoot Behavior option you need to inherit from InjectedMonoBehavior**
-
-```c#
-public class ExampleScript : MonoBehaviour
+```csharp
+[RequireComponent(typeof(MonoInjector))]
+public class MyScript : MonoBehaviour
 {
-    [Inject] private readonly IExampleService1 _exampleService1;
-    [Inject] private IExampleService2 ExampleService2 { get; }
+    [Inject] private readonly IMyService _service = default!;
+}
+```
 
-    private IExampleService3 _exampleService3;
+### Add `MonoInjector`
 
-    [Inject]
-    private void Construct(IExampleService3 exampleService3)
+If you decorate your script with `[RequireComponent(typeof(MonoInjector))]` then, when adding the script to a `GameObject` the editor will add the `MonoInjector` and the `MonoDisposer` script to your `GameObject`. If for some reason this does not happen (for example, when changing an already living script into one needing injection), either add the `MonoInjector` component manually, or use the editor tools included to add the missing components to scenes or prefabs (will search all instances) through the editor menu `Tools / Injecter / ...`
+
+## Manual injection
+
+When dynamically adding an injectable script to a `GameObject` you need to handle the injection and disposal manually.
+
+```csharp
+
+[Inject] private readonly IScopeStore _scopeStore = default!;
+
+var myObject = Instantiate(prefab);
+var myScript = myObject.AddComponent<MyScript>();
+
+injecter.InjectIntoType(myScript, true);
+var disposer = myObject.AddComponent<MonoInjector>();
+disposer.Initialize(myScript, _scopeStore);
+
+```
+
+> [!Warning]
+> When doing this manually, the later injected script's `Awake` method might run before the injection happens
+
+## Testing
+
+You can load tests and prefabs with controlled dependencies when running tests inside Unity. To do this create the following class in your test assembly:
+
+```csharp
+public static class InstallerStopper
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+    public static void DisableAppInstaller()
     {
-        _exampleService3 = exampleService3;
+        if (Environment.GetCommandLineArgs().Contains("-runTests")
+            || EditorWindow.HasOpenInstances<TestRunnerWindow>())
+        {
+            AppInstaller.Run = false;
+        }
     }
 }
 ```
 
-Supported injection methods for InjectAttribute: Field, Property, Method. Injection happens in this order. **Constructor injection does not work.**
+This will stop your `AppInstaller` from running when you execute tests. This will happen if either you have the test runner window open, or you are running Unity headless with the `-runTests` parameter (typically during CI).
 
-## Usage in Prefabs when using the Factory Behavior option
+> [!WARNING]
+> If you do this, then you must close the test runner window when entering play mode, otherwise the `AppInstaller` will not run
 
-Injecting into prefabs:
+In your tests set up the composition root manually
 
-```c#
-// Get a prefab that contains a script which needs injection.
-GameObject prefab = ;
-// IGameObjectInjector and ISceneInjector are services added by default to Services
-IGameObjectFactory gameObjectFactory = ;
-ISceneInjector sceneInjector = ;
+```csharp
+[UnityTest]
+public IEnumerator My_Test_Does_Stuff()
+{
+    CompositionRoot.ServiceProvider = new ServiceCollection()
+        .AddTransient<IService, MyTestService>()
+        .BuildServiceProvider();
 
-// Either:
+    // Do your tests, load scenes, prefabs, asserts etc...
 
-// Instantiate the usual way
-var instance = GameObject.Instantiate(prefab);
-// Inject into freshly created GameObject
-sceneInjector.InjectIntoGameObject(instance);
-
-// Or:
-
-// Use IGameObjectFactory which wraps GameObject.Instantiate(...) methods
-var instance = gameObjectFactory.Instantiate(prefab); // Prefab is created and injected
+    CompositionRoot.ServiceProvider.Dispose();
+    (CompositionRoot.ServiceProvider as IDisposable)?.Dispose();
+};
 ```
-You don't have to call InjectIntoGameObject on prefab children. When InjectIntoGameObject is called all the scripts on the game object and it's children which have the InjectAttribute gets injected.
 
-## Scopes, Disposables
+> [!NOTE]
+> You can also do the same in the test's `Setup` or `Teardown` stage
 
- - An IServiceScope is created for every script found in a GameObject.
- - Thus each MonoBehavior injected has it's own scope (Scoped lifetime services start from here).
- - A DestroyDetector script is added to every GameObject that receives injection. When the game object is destroyed, the DestroyDetector disposes of all the scopes that got created for that specific game object.
- - Thus if you create a prefab, destroy one of it's children then only the scopes associated with that child are disposed.
- - DestroyDetector is internal, and is hidden in the Inspector.
- - Destroying the game object holding the SceneInjector disposes of the IServiceProvider if it is disposable
- - When using the CompositionRoot behavior option the InjectedMonoBehavior handles disposing of the scope when destroyed and no DestroyDetector is created.
+## Migrating from `8.0.1` to `9.0.0`
 
-## Options
-
-You can customize some behavior of the SceneInjector by providing an action to configure the options when calling AddSceneInjector
-
-Current options:
-
-| Name | Description | Default value|
-|---|---|---|
-| Behavior | CompositionRoot: Use the static service provider with inherited MonoBehaviors. Factory: use the SceneInjector and IGameObjectFactory | Factory |
-| DontDestroyOnLoad | Calls GameObject.DontDestroyOnLoad(SceneInjector) during initialization. This prevents the game object from being destroyed | True |
-
-## Notes
-  - To see sample usage check out tests and test scenes
+1. Set up a composition root as described above.
+2. Remove inheriting from the old `MonoBehaviourInjected` and similar classes
+3. Optional - Decorate your injected scripts with `[RequireComponent(typeof(MonoInjector))]`
+4. In the editor press the `Tools / Injecter / Ensure injection scripts on everyting` button
+5. If a `GameObject` is missing the `MonoInjector` or `MonoDisposer` scripts, add them
