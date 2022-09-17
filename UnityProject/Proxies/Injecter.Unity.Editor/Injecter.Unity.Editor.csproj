@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+  
+    <ItemGroup>
+      <Compile Include="../../Injecter.Unity/Assets/Injecter.Unity/Editor/**/*.cs" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\MainProject\Injecter\Injecter.csproj" />
+      <ProjectReference Include="..\Injecter.Unity\Injecter.Unity.csproj" />
+    </ItemGroup>
+  
+  </Project>
+  

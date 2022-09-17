@@ -14,13 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="6.0.1" />
+    <PackageReference Include="Nuke.Common" Version="6.2.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageDownload Include="docfx.console" Version="[2.59.0]" />
-    <PackageDownload Include="dotnet-sonarscanner" Version="[5.5.3]" />
-    <PackageDownload Include="NuGet.CommandLine" Version="[6.0.0]" />
+    <PackageDownload Include="docfx.console" Version="[2.59.4]" />
+    <PackageDownload Include="dotnet-sonarscanner" Version="[5.7.2]" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[6.2.1]" />
     <PackageDownload Include="nukeeper" Version="[0.35.0]" />
   </ItemGroup>
 

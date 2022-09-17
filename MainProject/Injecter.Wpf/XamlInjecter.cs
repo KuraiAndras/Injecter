@@ -16,7 +16,7 @@ namespace Injecter.Wpf
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
 
-            CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d.GetType(), d, false);
+            CompositionRoot.ServiceProvider.GetRequiredService<IInjecter>().InjectIntoType(d, false);
         }
 
         public static readonly DependencyProperty InjectScopedProperty = DependencyProperty.RegisterAttached("InjectScoped", typeof(DisposeBehaviour?), typeof(XamlInjecter), new PropertyMetadata(null, DoInjectionScoped));
@@ -30,7 +30,7 @@ namespace Injecter.Wpf
 
             CompositionRoot.ServiceProvider
                 .GetRequiredService<IInjecter>()
-                .InjectIntoType(d.GetType(), d, true);
+                .InjectIntoType(d, true);
 
             var behavior = (DisposeBehaviour?)e.NewValue;
 

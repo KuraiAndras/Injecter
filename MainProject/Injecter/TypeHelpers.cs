@@ -1,64 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Injecter
 {
-    internal static class TypeHelpers
+    public static class TypeHelpers
     {
-        internal static bool IsAutoProperty(this PropertyInfo property) =>
-            property
-                .DeclaringType
-                ?.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Any(f => f.Name.Contains("<" + property.Name + ">"))
-            ?? false;
+        private const BindingFlags InstanceBindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
-        internal static FieldInfo GetAutoPropertyBackingField(this PropertyInfo property) =>
-            property.DeclaringType!
-                .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Single(f => f.Name.Contains("<" + property.Name + ">"));
-
-        internal static IEnumerable<Type> GetAllTypes(this Type type)
+        public static IReadOnlyList<MemberInfo> GetInjectableMembers(Type targetType)
         {
-            yield return type;
+            var allTypesInternal = targetType.GetAllTypes();
 
-            foreach (var parentType in type.GetParentTypes())
+            var infos = new List<MemberInfo>();
+
+            for (var i = 0; i < allTypesInternal.Count; i++)
             {
-                yield return parentType;
+                var type = allTypesInternal[i];
+
+                var fields = type.GetFields(InstanceBindingFlags);
+                for (var j = 0; j < fields.Length; j++)
+                {
+                    var field = fields[j];
+                    if (field.GetCustomAttribute<InjectAttribute>() != null) infos.Add(field);
+                }
+
+                var properties = type.GetProperties(InstanceBindingFlags);
+                for (var j = 0; j < properties.Length; j++)
+                {
+                    var property = properties[j];
+                    if (property.GetCustomAttribute<InjectAttribute>() != null) infos.Add(property);
+                }
+
+                var methods = type.GetMethods(InstanceBindingFlags);
+                for (var j = 0; j < methods.Length; j++)
+                {
+                    var method = methods[j];
+                    if (method.GetCustomAttribute<InjectAttribute>() != null) infos.Add(method);
+                }
             }
+
+            return infos;
         }
 
-        internal static T[] FilterMembersToArray<T>(this IEnumerable<T> members)
-            where T : MemberInfo =>
-            members
-                .Where(m => m.GetCustomAttributes<InjectAttribute>().Any())
-                .Distinct()
-                .ToArray();
-
-        internal static void ForEach<T>(this T[] source, Action<T> action)
+        internal static bool IsAutoProperty(this PropertyInfo property)
         {
-            foreach (var item in source)
+            var fields = property.DeclaringType?.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (fields != null)
             {
-                action(item);
+                for (var i = 0; i < fields.Length; i++)
+                {
+                    if (fields[i].Name.Contains("<" + property.Name + ">"))
+                    {
+                        return true;
+                    }
+                }
             }
+
+            return false;
         }
 
-        private static IEnumerable<Type> GetParentTypes(this Type type)
+        internal static FieldInfo GetAutoPropertyBackingField(this PropertyInfo property)
         {
-            if (type == typeof(object) || type.BaseType() == typeof(object))
+            var fields = property.DeclaringType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+
+            for (var i = 0; i < fields.Length; i++)
             {
-                yield break;
+                var field = fields[i];
+                if (field.Name.Contains("<" + property.Name + ">")) return field;
             }
 
-            yield return type.BaseType();
-
-            foreach (var ancestor in type.BaseType().GetParentTypes())
-            {
-                yield return ancestor;
-            }
+            throw new InvalidOperationException($"Could not find auto property backing filed: {property.Name} on type: {property.DeclaringType}");
         }
 
-        private static Type BaseType(this Type type) => type.GetTypeInfo().BaseType;
+        internal static IReadOnlyList<Type> GetAllTypes(this Type type)
+        {
+            var types = new List<Type>();
+
+            Type currentType = type;
+
+            while (true)
+            {
+                types.Add(currentType);
+
+                if (currentType.BaseType == typeof(object) || currentType.BaseType == null)
+                {
+                    break;
+                }
+
+                currentType = currentType.BaseType;
+            }
+
+            return types;
+        }
     }
 }
