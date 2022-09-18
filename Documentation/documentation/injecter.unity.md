@@ -98,23 +98,20 @@ If you decorate your script with `[RequireComponent(typeof(MonoInjector))]` then
 
 ## Manual injection
 
-When dynamically adding an injectable script to a `GameObject` you need to handle the injection and disposal manually.
+When dynamically adding an injectable script to a `GameObject`, you should **not** annotate the injected script with the `RequireComponent` attribute, and add the `MonoInjector` manually, like so:
 
 ```csharp
 
-[Inject] private readonly IScopeStore _scopeStore = default!;
+var myObject = new GameObject("MyObject");
+myObject.AddComponent<TestComponent>();
+myObject.AddComponent<MonoInjector>();
 
-var myObject = Instantiate(prefab);
-var myScript = myObject.AddComponent<MyScript>();
-
-injecter.InjectIntoType(myScript, true);
-var disposer = myObject.AddComponent<MonoInjector>();
-disposer.Initialize(myScript, _scopeStore);
+public class MyComponent : MonoBehaviour
+{
+    [Inject] private readonly MyService _service = default!;
+}
 
 ```
-
-> [!Warning]
-> When doing this manually, the later injected script's `Awake` method might run before the injection happens
 
 ## Testing
 
