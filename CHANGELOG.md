@@ -1,3 +1,6 @@
+# 9.0.1
+- Fix Serilog Template
+
 # 9.0.0
 - Remove `Injecter.Hosting.Unity`
 - Rework `Injecter.Unity` now it uses `MonoInjector` and `MonoDisposer`
