@@ -70,8 +70,6 @@ namespace Injecter.Unity.Editor
 
         public static void EnsureComponentSafe<T>(MonoBehaviour instance, GameObject holder, string location) where T : Component
         {
-            Debug.Log($"Adding script: {typeof(T).Name} to GameObjec: {holder.name} at {location}", holder);
-
             if (instance.TryGetComponent<T>(out _)) return;
 
             var component = Undo.AddComponent<T>(holder);
@@ -81,6 +79,10 @@ namespace Injecter.Unity.Editor
             if (PrefabUtility.IsAddedComponentOverride(component) && !PrefabUtility.IsAddedGameObjectOverride(holder))
             {
                 Undo.DestroyObjectImmediate(component);
+            }
+            else
+            {
+                Debug.Log($"Adding script: {typeof(T).Name} to GameObjec: {holder.name} at {location}", holder);
             }
         }
 
