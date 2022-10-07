@@ -25,38 +25,29 @@ namespace Injecter.Unity.Editor
 
         private static bool FilterInjectables(GameObject gameObject) => gameObject
             .GetComponents<MonoBehaviour>()
-            .Any(b =>
+            .Any(b => CanBeInjected(b));
+
+        private static bool CanBeInjected(MonoBehaviour component)
+        {
+            if (component == null) return false;
+
+            var type = component.GetType();
+
+            if (!_typeCache.TryGetValue(type, out var isInjectable))
             {
-                var type = b.GetType();
+                var members = TypeHelpers.GetInjectableMembers(type);
+                isInjectable = members.Count != 0;
+                _typeCache.Add(type, isInjectable);
+            }
 
-                if (!_typeCache.TryGetValue(type, out var isInjectable))
-                {
-                    var members = TypeHelpers.GetInjectableMembers(type);
-                    isInjectable = members.Count != 0;
-                    _typeCache.Add(type, isInjectable);
-                }
-
-                return isInjectable;
-            });
+            return isInjectable;
+        }
 
         private static void AddScriptsToGameObject(GameObject gameObject, string location)
         {
             var instances = gameObject
                 .GetComponentsInChildren<MonoBehaviour>(true)
-                .Where(b => b != null)
-                .Where(b =>
-                {
-                    var type = b.GetType();
-
-                    if (!_typeCache.TryGetValue(type, out var isInjectable))
-                    {
-                        var members = TypeHelpers.GetInjectableMembers(type);
-                        isInjectable = members.Count != 0;
-                        _typeCache.Add(type, isInjectable);
-                    }
-
-                    return isInjectable;
-                })
+                .Where(b => CanBeInjected(b))
                 .ToArray();
 
             for (var i = 0; i < instances.Length; i++)
