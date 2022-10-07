@@ -1,3 +1,6 @@
+# 9.0.2
+- Fix override handling when running the editor tool
+
 # 9.0.1
 - Fix Serilog Template
 
