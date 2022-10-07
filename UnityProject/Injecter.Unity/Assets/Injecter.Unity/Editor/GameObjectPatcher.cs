@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 
 namespace Injecter.Unity.Editor
 {
-    public delegate bool FilterGameObject(GameObject gameObject);
-    public delegate void PatchGameObject(GameObject gameObject, string location);
+    internal delegate bool FilterGameObject(GameObject gameObject);
+    internal delegate void PatchGameObject(GameObject gameObject, string location);
 
     internal static class GameObjectPatcher
     {
