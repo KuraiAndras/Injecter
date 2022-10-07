@@ -78,7 +78,7 @@ namespace Injecter.Unity.Editor
 
             if (component == null) return;
 
-            if (PrefabUtility.IsAddedComponentOverride(component))
+            if (PrefabUtility.IsAddedComponentOverride(component) && !PrefabUtility.IsAddedGameObjectOverride(holder))
             {
                 Undo.DestroyObjectImmediate(component);
             }
