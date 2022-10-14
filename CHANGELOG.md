@@ -1,3 +1,6 @@
+# 9.1.0
+- Add `MonoBheaviourInjected` again with new implementation. Extend docs accordingly
+
 # 9.0.2
 - Fix override handling when running the editor tool
 

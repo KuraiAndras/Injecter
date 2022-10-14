@@ -35,8 +35,16 @@ namespace Injecter.Unity.Editor
 
             if (!_typeCache.TryGetValue(type, out var isInjectable))
             {
-                var members = TypeHelpers.GetInjectableMembers(type);
-                isInjectable = members.Count != 0;
+                if (type.IsSubclassOf(typeof(MonoBehaviourInjected)))
+                {
+                    isInjectable = false;
+                }
+                else
+                {
+                    var members = TypeHelpers.GetInjectableMembers(type);
+                    isInjectable = members.Count != 0;
+                }
+
                 _typeCache.Add(type, isInjectable);
             }
 

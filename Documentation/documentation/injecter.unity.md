@@ -14,9 +14,13 @@ The `Injecter.Unity` lets you set up the following flow:
 
 - A "composition root" is initialized part of the entry point of the application
 - Create a script which needs to be injected
-- Add `MonoInjector` to the `GameObject` hosting the script
-- `MonoInjector` runs at `Awake`, and it's execution order (`int.MinValue` - first) is run before your own component's `Awake`. Every injected script will have it's own `IServiceScope` derived from the root scope. This scope can be retrieved through the `IScopeStore`, and the owner of the scope is the script being injected
-- When the `GameObject` is destroyed, `MonoDisposer` will run during the `OnDestroy` method, with an execution order of `int.MaxValue` - last
+- Choose an injection method:
+  - Either use the helper components
+    - Add `MonoInjector` to the `GameObject` hosting the script
+    - `MonoInjector` runs at `Awake`, and it's execution order (`int.MinValue` - first) is run before your own component's `Awake`. Every injected script will have it's own `IServiceScope` derived from the root scope. This scope can be retrieved through the `IScopeStore`, and the owner of the scope is the script being injected
+    - When the `GameObject` is destroyed, `MonoDisposer` will run during the `OnDestroy` method, with an execution order of `int.MaxValue` - last
+  - Or derive from `MonoBehaviourInjecter`
+    - The base class `Awake` method will do the injections, and the `OnDestroy` method will dispose of the scope
 
 ## Getting started
 
@@ -80,7 +84,9 @@ public static class AppInstaller
 }
 ```
 
-### Inject into `MonoBehaviours`
+### Inject using the helper components
+
+#### Inject into `MonoBehaviours`
 
 Create a script which will receive injection
 
@@ -92,16 +98,40 @@ public class MyScript : MonoBehaviour
 }
 ```
 
-### Add `MonoInjector`
+#### Add `MonoInjector`
 
 If you decorate your script with `[RequireComponent(typeof(MonoInjector))]` then, when adding the script to a `GameObject` the editor will add the `MonoInjector` and the `MonoDisposer` script to your `GameObject`. If for some reason this does not happen (for example, when changing an already living script into one needing injection), either add the `MonoInjector` component manually, or use the editor tools included to add the missing components to scenes or prefabs (will search all instances) through the editor menu `Tools / Injecter / ...`
+
+### Inject by inheriting from `MonoBehaviourInjected`
+
+Create a script which will receive injection
+
+```csharp
+public class MyScript : MonoBehaviourInjected
+{
+    [Inject] private readonly IMyService _service = default!;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // Custom logic goes here
+    }
+
+    protected override void OnDestroy()
+    {
+        // Custom cleanup logic goes herer
+
+        base.OnDestroy();
+    }
+}
+```
 
 ## Manual injection
 
 When dynamically adding an injectable script to a `GameObject`, you should **not** annotate the injected script with the `RequireComponent` attribute, and add the `MonoInjector` manually, like so:
 
 ```csharp
-
 var myObject = new GameObject("MyObject");
 myObject.AddComponent<TestComponent>();
 myObject.AddComponent<MonoInjector>();
@@ -110,7 +140,6 @@ public class MyComponent : MonoBehaviour
 {
     [Inject] private readonly MyService _service = default!;
 }
-
 ```
 
 ## Testing
@@ -157,7 +186,11 @@ public IEnumerator My_Test_Does_Stuff()
 > [!NOTE]
 > You can also do the same in the test's `Setup` or `Teardown` stage
 
-## Migrating from `8.0.1` to `9.0.0`
+## Migrating from `8.0.1` to `9.0.0` and above
+
+If you want to continue using the inheritance setup, then change all base classes to be `MonoBehaviourInjected`. The new base class will always create scopes.
+
+If you want to migrate to the component-based injection:
 
 1. Set up a composition root as described above.
 2. Remove inheriting from the old `MonoBehaviourInjected` and similar classes
