@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Injecter.WPF  </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Injecter.WPF  ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="injecterwpf-nuget">Injecter.WPF <a href="https://www.nuget.org/packages/Injecter.Wpf/"><img src="https://img.shields.io/nuget/v/Injecter.Wpf" alt="Nuget"></a></h1>
+
+<p>The WPF version of the library has helper classes that make it integrate into WPF seamlessly, offering multiple ways to consume the underlying library.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>In order to start using Injecter, you will need to set up you own DI container. You can use any container that is compatible with the Microsoft.Extensions.DependencyInjection.Abstractions package. In our example we will use the Microsoft.Extensions.DependencyInjection package.</p>
+<ol>
+<li><p>Create a new WPF application (.NET Framework, .NET Core and .NET 5+ are all supported)</p>
+</li>
+<li><p>Add the NuGet package Microsoft.Extensions.DependencyInjection</p>
+</li>
+<li><p>Create some services or view models you want to inject</p>
+</li>
+<li><p>Modify your App.xaml.cs to create the DI container at startup</p>
+</li>
+</ol>
+<pre><code class="lang-csharp">public partial class App : Application
+{
+    private readonly ServiceProvider _serviceProvider;
+
+    public App()
+    {
+        // Create the DI container
+        _serviceProvider = new ServiceCollection()
+            .AddInjecter() // Register Injecter
+            .AddSingleton&lt;ICounter, Counter&gt;() // Add your own services
+            .BuildServiceProvider();
+
+        // Set the ServiceProvider on the CompositionRoot
+        CompositionRoot.ServiceProvider = _serviceProvider;
+
+        // Dispose container when the application exits
+        Exit += OnExit;
+    }
+
+    private void OnExit(object o, ExitEventArgs args) =&gt; _serviceProvider.Dispose();
+}
+</code></pre>
+<ol start="5">
+<li><p>Create the View you for the Counter</p>
+</li>
+<li><p>Inject via Attached Property</p>
+</li>
+</ol>
+<p>You can inject into any framework element you create using the a set of provided Attached Properties. In XAML apply the XamlInjecter.Inject attached property to initialize the injection (The value of the property (True or False) does not matter):</p>
+<pre><code class="lang-xml">&lt;UserControl
+    x:Class=&quot;WpfSample.HelloControl&quot;
+    ...
+    xmlns:wpf=&quot;clr-namespace:Injecter.Wpf;assembly=Injecter.Wpf&quot;
+    ...
+    xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+    d:DataContext=&quot;{d:DesignInstance sampleLogic:ICounter}&quot;
+    ...
+    wpf:XamlInjecter.Inject=&quot;True&quot;&gt;
+</code></pre>
+<p>You can also create a new IServiceScope when injecting into the Framework Element. When doing this you must define a DisposeBehavior to use:</p>
+<pre><code class="lang-xml">&lt;UserControl
+    x:Class=&quot;WpfSample.HelloControl&quot;
+    ...
+    xmlns:wpf=&quot;clr-namespace:Injecter.Wpf;assembly=Injecter.Wpf&quot;
+    ...
+    xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+    d:DataContext=&quot;{d:DesignInstance sampleLogic:ICounter}&quot;
+    ...
+    wpf:XamlInjecter.InjectScoped=&quot;OnWindowClose&quot;&gt;
+
+</code></pre>
+<p>After this any marked injection target in the class will be injected</p>
+<pre><code class="lang-csharp">public partial class HelloControl
+{
+    [Inject] private ICounter ViewModel { get; } = default!;
+
+    public HelloControl() =&gt; InitializeComponent();
+
+    protected override void OnInitialized(EventArgs e)
+    {
+        base.OnInitialized(e);
+
+        DataContext = ViewModel;
+    }
+
+    // ...
+}
+</code></pre>
+<p>If you want to get the IServiceScope associated with the control, you can get it via the IScopeStore interface</p>
+<pre><code class="lang-csharp">public partial class HelloControl
+{
+    [Inject] private readonly IScopeStore _store = default!;
+
+    public HelloControl()
+    {
+        InitializeComponent();
+        IServiceScope scope = _store.GetScope(this);
+    }
+}
+</code></pre>
+<p>If you want to do manual injection you can do that by using the IInjecter interface directly:</p>
+<pre><code class="lang-csharp">public partial class HelloControl
+{
+    [Inject] private ICounter ViewModel { get; } = default!;
+
+    public HelloControl()
+    {
+        CompositionRoot.ServiceProvider
+            .GetRequiredService&lt;IInjecter&gt;()
+            .InjectIntoType(this, createScope: false);
+
+        DataContext = ViewModer;
+
+        InitializeComponent();
+    }
+}
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/KuraiAndras/Injecter/blob/master/Documentation/documentation/injecter.wpf.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

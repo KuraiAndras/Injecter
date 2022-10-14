@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Injecter.Unity  </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Injecter.Unity  ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="injecterunity-openupm">Injecter.Unity <a href="https://openupm.com/packages/com.injecter.unity/"><img src="https://img.shields.io/npm/v/com.injecter.unity?label=openupm&amp;registry_uri=https://package.openupm.com" alt="openupm"></a></h1>
+
+<p>Since version 3.0.1 you need to provide the following dlls yourself:</p>
+<ul>
+<li>Injecter</li>
+<li>Microsoft.Extensions.DependencyInjection</li>
+<li>Microsoft.Extensions.DependencyInjection.Abstractions</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The recommended way of installing NuGet packages is through the <a href="https://github.com/xoofx/UnityNuGet">UnityNuget</a> project</p>
+</div>
+<h2 id="fundamentals">Fundamentals</h2>
+<p>The <code>Injecter.Unity</code> lets you set up the following flow:</p>
+<ul>
+<li>A &quot;composition root&quot; is initialized part of the entry point of the application</li>
+<li>Create a script which needs to be injected</li>
+<li>Choose an injection method:
+<ul>
+<li>Either use the helper components
+<ul>
+<li>Add <code>MonoInjector</code> to the <code>GameObject</code> hosting the script</li>
+<li><code>MonoInjector</code> runs at <code>Awake</code>, and it's execution order (<code>int.MinValue</code> - first) is run before your own component's <code>Awake</code>. Every injected script will have it's own <code>IServiceScope</code> derived from the root scope. This scope can be retrieved through the <code>IScopeStore</code>, and the owner of the scope is the script being injected</li>
+<li>When the <code>GameObject</code> is destroyed, <code>MonoDisposer</code> will run during the <code>OnDestroy</code> method, with an execution order of <code>int.MaxValue</code> - last</li>
+</ul>
+</li>
+<li>Or derive from <code>MonoBehaviourInjecter</code>
+<ul>
+<li>The base class <code>Awake</code> method will do the injections, and the <code>OnDestroy</code> method will dispose of the scope</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="install-dependencies">Install dependencies</h3>
+<ol>
+<li>Install <code>Injecter</code> and <code>Microsoft.Extensions.DependencyInjection</code> through <a href="https://github.com/xoofx/UnityNuGet#unitynuget-">UnityNuget</a>.</li>
+<li>Install <code>Injecter.Unity</code> through <a href="https://openupm.com/packages/com.injecter.unity/">openupm</a></li>
+</ol>
+<pre><code class="lang-bash">openupm add com.injecter.unity
+</code></pre>
+<h3 id="setup-root">Setup root</h3>
+<p>Either create manually, or through the <code>Assets / Injecter</code> editor menu, create your composition root.</p>
+<pre><code class="lang-csharp">#nullable enable
+using Injecter;
+using Microsoft.Extensions.DependencyInjection;
+using UnityEngine;
+
+public static class AppInstaller
+{
+    /// &lt;summary&gt;
+    /// Set this from test assembly to disable
+    /// &lt;/summary&gt;
+    public static bool Run { get; set; } = true;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+    public static void Install()
+    {
+        if (!Run) return;
+
+        var serviceProvider = new ServiceCollection()
+            .Configure()
+            .BuildServiceProvider(true);
+
+        // Injected scripts will get the root service provider from this instance
+        CompositionRoot.ServiceProvider = serviceProvider;
+
+        Application.quitting += OnQuitting;
+
+        /// &lt;summary&gt;
+        /// Will dispose of all services when quitting
+        /// &lt;/summary&gt;
+        async void OnQuitting()
+        {
+            Application.quitting -= OnQuitting;
+
+            await serviceProvider.DisposeAsync().ConfigureAwait(false);
+        }
+    }
+
+    public static IServiceCollection Configure(this IServiceCollection services)
+    {
+        services.AddInjecter(o =&gt; o.UseCaching = true);
+        // TODO: Add services
+
+        return services;
+    }
+}
+</code></pre>
+<h3 id="inject-using-the-helper-components">Inject using the helper components</h3>
+<h4 id="inject-into-monobehaviours">Inject into <code>MonoBehaviours</code></h4>
+<p>Create a script which will receive injection</p>
+<pre><code class="lang-csharp">[RequireComponent(typeof(MonoInjector))]
+public class MyScript : MonoBehaviour
+{
+    [Inject] private readonly IMyService _service = default!;
+}
+</code></pre>
+<h4 id="add-monoinjector">Add <code>MonoInjector</code></h4>
+<p>If you decorate your script with <code>[RequireComponent(typeof(MonoInjector))]</code> then, when adding the script to a <code>GameObject</code> the editor will add the <code>MonoInjector</code> and the <code>MonoDisposer</code> script to your <code>GameObject</code>. If for some reason this does not happen (for example, when changing an already living script into one needing injection), either add the <code>MonoInjector</code> component manually, or use the editor tools included to add the missing components to scenes or prefabs (will search all instances) through the editor menu <code>Tools / Injecter / ...</code></p>
+<h3 id="inject-by-inheriting-from-monobehaviourinjected">Inject by inheriting from <code>MonoBehaviourInjected</code></h3>
+<p>Create a script which will receive injection</p>
+<pre><code class="lang-csharp">public class MyScript : MonoBehaviourInjected
+{
+    [Inject] private readonly IMyService _service = default!;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // Custom logic goes here
+    }
+
+    protected override void OnDestroy()
+    {
+        // Custom cleanup logic goes herer
+
+        base.OnDestroy();
+    }
+}
+</code></pre>
+<h2 id="manual-injection">Manual injection</h2>
+<p>When dynamically adding an injectable script to a <code>GameObject</code>, you should <strong>not</strong> annotate the injected script with the <code>RequireComponent</code> attribute, and add the <code>MonoInjector</code> manually, like so:</p>
+<pre><code class="lang-csharp">var myObject = new GameObject(&quot;MyObject&quot;);
+myObject.AddComponent&lt;TestComponent&gt;();
+myObject.AddComponent&lt;MonoInjector&gt;();
+
+public class MyComponent : MonoBehaviour
+{
+    [Inject] private readonly MyService _service = default!;
+}
+</code></pre>
+<h2 id="testing">Testing</h2>
+<p>You can load tests and prefabs with controlled dependencies when running tests inside Unity. To do this create the following class in your test assembly:</p>
+<pre><code class="lang-csharp">public static class InstallerStopper
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+    public static void DisableAppInstaller()
+    {
+        if (Environment.GetCommandLineArgs().Contains(&quot;-runTests&quot;)
+            || EditorWindow.HasOpenInstances&lt;TestRunnerWindow&gt;())
+        {
+            AppInstaller.Run = false;
+        }
+    }
+}
+</code></pre>
+<p>This will stop your <code>AppInstaller</code> from running when you execute tests. This will happen if either you have the test runner window open, or you are running Unity headless with the <code>-runTests</code> parameter (typically during CI).</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>If you do this, then you must close the test runner window when entering play mode, otherwise the <code>AppInstaller</code> will not run</p>
+</div>
+<p>In your tests set up the composition root manually</p>
+<pre><code class="lang-csharp">[UnityTest]
+public IEnumerator My_Test_Does_Stuff()
+{
+    CompositionRoot.ServiceProvider = new ServiceCollection()
+        .AddTransient&lt;IService, MyTestService&gt;()
+        .BuildServiceProvider();
+
+    // Do your tests, load scenes, prefabs, asserts etc...
+
+    CompositionRoot.ServiceProvider.Dispose();
+    (CompositionRoot.ServiceProvider as IDisposable)?.Dispose();
+};
+</code></pre>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can also do the same in the test's <code>Setup</code> or <code>Teardown</code> stage</p>
+</div>
+<h2 id="migrating-from-801-to-900-and-above">Migrating from <code>8.0.1</code> to <code>9.0.0</code> and above</h2>
+<p>If you want to continue using the inheritance setup, then change all base classes to be <code>MonoBehaviourInjected</code>. The new base class will always create scopes.</p>
+<p>If you want to migrate to the component-based injection:</p>
+<ol>
+<li>Set up a composition root as described above.</li>
+<li>Remove inheriting from the old <code>MonoBehaviourInjected</code> and similar classes</li>
+<li>Optional - Decorate your injected scripts with <code>[RequireComponent(typeof(MonoInjector))]</code></li>
+<li>In the editor press the <code>Tools / Injecter / Ensure injection scripts on everyting</code> button</li>
+<li>If a <code>GameObject</code> is missing the <code>MonoInjector</code> or <code>MonoDisposer</code> scripts, add them</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/KuraiAndras/Injecter/blob/master/Documentation/documentation/injecter.unity.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

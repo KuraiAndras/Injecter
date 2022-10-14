@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Usage </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Usage ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="usage">Usage</h1>
+
+<pre><code class="lang-c#">//Setup
+IServiceCollection services = ;// Get your IServiceCollection
+
+// Add injecter
+services.AddInjecter(options =&gt; options.UseCaching = true)
+
+// Usage
+IInjecter injecter = ;// Get a hold of an IInjecter instance
+MyUserControl contol = ;// Get some class you want to inject into
+
+// Call injecter with one of the api methods
+injecter.InjectIntoType(typeof(MyUserControl), control);
+IServiceScope scope = injecter.InjectIntoType&lt;MyUserControl&gt;(control);
+// You should dispose of the returned scope when the injection target is no longer in use.
+
+public class MyUserControl : UserControl
+{
+    [Inject] private readonly ISomeService _service = default!;
+
+    [Inject] private ISomeOtherService OtherService { get; } = default!
+
+    [Inject]
+    private void Construct(IAnotherService service1, IEvenAnotherService service2)
+    {
+        // Assign to fields.
+    }
+}
+
+</code></pre>
+<p>Since version 4.0.0 the IInjecter interface can be run without creating a new service scope</p>
+<pre><code class="lang-c#">IServiceScope? scope = injecter.InjectIntoType&lt;MyUserControl&gt;(control, false);
+</code></pre>
+<p>Supported injection methods for InjectAttribute: Field, Property, Method. Injection happens in this order.</p>
+<p>To make things easier when working with some actual framework a composition root is provided. This static class holds an instance for IServiceProvider and can be used to use this library easier.</p>
+<pre><code class="lang-c#">using System;
+
+namespace Injecter
+{
+    public static class CompositionRoot
+    {
+        public static IServiceProvider ServiceProvider { get; set; } = default;
+    }
+}
+</code></pre>
+<p>If you are using CompositionRoot it is advised to set the ServiceProvider property at the entry point of your application after service registration. One example from UWP:</p>
+<pre><code class="lang-c#">public sealed partial class App : Windows.UI.Xaml.Application
+{
+    private readonly IHost _host;
+
+    public App()
+    {
+        // Yay even compatible with Generic Host!!!
+        _host = new HostBuilder()
+            .ConfigureLogging(builder =&gt; builder.AdMyLogging())
+            .ConfigureServices(services =&gt; services.AddMyServices())
+            .Build();
+
+        // Set composition root
+        CompositionRoot.ServiceProvider = _host.Services;
+
+        _host.Start();
+
+        InitializeComponent();
+        Suspending += OnSuspending;
+    }
+}
+</code></pre>
+<p>Regular console application:</p>
+<pre><code class="lang-c#">
+public static void Main(string[] args)
+{
+    var serviceProvider = new ServiceCollection().AddMyServices().BuildServiceProvider();
+
+    // Set composition root
+    CompositionRoot.ServiceProvider = serviceProvider;
+}
+
+</code></pre>
+<p>Preferably you want to inject into instances before you start using them. For that purpose this project provides several other libraries.</p>
+<h2 id="default-services">Default services</h2>
+<table>
+<thead>
+<tr>
+<th>Service Type</th>
+<th>Implementation Type</th>
+<th>Lifetime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>InjecterOptions</td>
+<td>InjecterOptions</td>
+<td>Singleton</td>
+</tr>
+<tr>
+<td>IInjecter</td>
+<td>Injecter</td>
+<td>Singleton</td>
+</tr>
+<tr>
+<td>IScopeStore</td>
+<td>ScopeStore</td>
+<td>Singleton</td>
+</tr>
+</tbody>
+</table>
+<h2 id="options">Options</h2>
+<p>Options can be changed during runtime through .</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UseCaching</td>
+<td>During injection cache the fields, properties, methods needing injection</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/KuraiAndras/Injecter/blob/master/Documentation/documentation/usage.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
