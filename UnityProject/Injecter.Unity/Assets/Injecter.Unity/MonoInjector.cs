@@ -26,6 +26,8 @@ namespace Injecter.Unity
                 var component = components[i];
                 if (component == null || component == this) continue;
 
+                if (component.GetType().IsSubclassOf(typeof(MonoBehaviourInjected))) continue;
+
                 injecter.InjectIntoType(component, true);
                 owners.Add(component);
             }
